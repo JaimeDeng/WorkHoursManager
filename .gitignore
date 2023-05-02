@@ -20,4 +20,3 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 # application.properties有MySQL的設定 , 每個人設定不同 , 不上傳到Repo
-src/main/resources/application.properties
