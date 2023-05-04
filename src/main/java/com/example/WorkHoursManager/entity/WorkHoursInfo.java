@@ -3,7 +3,7 @@ package com.example.WorkHoursManager.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "work_hours_info")
+@Table(name = "workhoursinfo")
 public class WorkHoursInfo {
 	
 	@Id

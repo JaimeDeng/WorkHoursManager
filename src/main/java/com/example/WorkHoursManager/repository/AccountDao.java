@@ -9,5 +9,5 @@ import com.example.WorkHoursManager.entity.*;
 @Repository
 @Qualifier("accountDao")
 public interface AccountDao extends JpaRepository<Account, String> {
-
+	
 }
