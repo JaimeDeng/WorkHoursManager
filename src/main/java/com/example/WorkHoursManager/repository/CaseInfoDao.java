@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.WorkHoursManager.entity.*;
+import com.example.WorkHoursManager.entity.CaseInfo;
 
 @Repository
-@Qualifier("accountDao")
-public interface AccountDao extends JpaRepository<Account, String> {
+@Qualifier("caseInfoDao")
+public interface CaseInfoDao extends JpaRepository<CaseInfo, String> {
 	
-	List<Account> getAccountByAccount(String account);
-
+	List<CaseInfo> getCaseInfoByCaseNo(String caseNo);
+	
 }

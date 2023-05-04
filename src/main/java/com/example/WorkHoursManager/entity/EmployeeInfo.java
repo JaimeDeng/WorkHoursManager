@@ -1,4 +1,6 @@
 package com.example.WorkHoursManager.entity;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -29,14 +31,76 @@ public class EmployeeInfo {
 	
 	@Column(name = "phone")
 	private String phone;
+
+//------------------------------------------------supervisor----------------------------------------------
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "supervisor", referencedColumnName = "employee_id" , nullable=true , 
+    		insertable = false, updatable = false)
+    private EmployeeInfo supervisor;
+//----------------------------------------------------------------------------------------------------------
+
+//==============================================================
+	//WorkHoursInfo的employee_id外鍵關聯
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
+	private List<WorkHoursInfo> workHoursInfo;
 	
-	@Column(name = "supervisor")
-	private String supervisor;
+	//WorkDayInfo的employee_id外鍵關聯
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
+	private List<WorkDayInfo> workDayInfo;
+	
+	//WorkDayInfo的reviewer外鍵關聯
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reviewer")
+	private List<WorkDayInfo> workDayInfoReview;
+	
+	//CaseInfo的employee_id外鍵關聯
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
+	private List<CaseInfo> caseInfo;
+	
+	//Account的employee_id外鍵關聯
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
+	private Account account;
+	
+	//EmployeeInfo的employee_id自關聯
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "supervisor")
+	private EmployeeInfo employeeInfo;
 
 	
 	//Getter & Setter
+	
+	public void setWorkHoursInfo(List<WorkHoursInfo> workHoursInfo) {
+		this.workHoursInfo = workHoursInfo;
+	}
+
+	public List<WorkDayInfo> getWorkDayInfo() {
+		return workDayInfo;
+	}
+
+	public void setWorkDayInfo(List<WorkDayInfo> workDayInfo) {
+		this.workDayInfo = workDayInfo;
+	}
+
+	public List<CaseInfo> getCaseInfo() {
+		return caseInfo;
+	}
+
+	public void setCaseInfo(List<CaseInfo> caseInfo) {
+		this.caseInfo = caseInfo;
+	}
+
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
+	}
+	
 	public String getEmployeeId() {
 		return employeeId;
+	}
+
+	public List<WorkHoursInfo> getWorkHoursInfo() {
+		return workHoursInfo;
 	}
 
 	public void setEmployeeId(String employeeId) {
@@ -99,14 +163,20 @@ public class EmployeeInfo {
 		this.phone = phone;
 	}
 
-	public String getSupervisor() {
+	public EmployeeInfo getSupervisor() {
 		return supervisor;
 	}
 
-	public void setSupervisor(String supervisor) {
+	public void setSupervisor(EmployeeInfo supervisor) {
 		this.supervisor = supervisor;
 	}
-	
-	
+
+	public EmployeeInfo getEmployeeInfo() {
+		return employeeInfo;
+	}
+
+	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
+		this.employeeInfo = employeeInfo;
+	}
 	
 }
