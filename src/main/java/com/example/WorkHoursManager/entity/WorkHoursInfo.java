@@ -2,23 +2,45 @@ package com.example.WorkHoursManager.entity;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "work_hours_info")
 public class WorkHoursInfo {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "workInfoId")
+	@Column(name = "work_info_id")
 	private Integer workInfoId;
+
+//---------------------------------------------employeeId------------------------------------------------
+	//設置EmployeeInfo為employee_id外鍵關聯對象
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+	private EmployeeInfo employeeInfo;
+//----------------------------------------------------------------------------------------------------------
 	
-	@Column(name = "date")
-	private String date;
+//-------------------------------------------------date-------------------------------------------------
+	//設置WorkDayInfo為date外鍵關聯對象
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "date", referencedColumnName = "date" , nullable=true)
+	private WorkDayInfo workDayInfo;
+//-------------------------------------------------------------------------------------------------------
 	
 	@Column(name = "model")
 	private String model;
+
+//---------------------------------------------caseNo------------------------------------------------
+	//設置PerformanceReference為case_no外鍵關聯對象
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , 
+	insertable = false, updatable = false , nullable=true)
+	private PerformanceReference performanceReference;
 	
-	@Column(name = "case_no")
-	private String caseNo;
+	//設置CaseInfo為case_no外鍵關聯對象
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true)
+	private CaseInfo caseInfo; 
+	//----------------------------------------------------------------------------------------------------
 	
 	@Column(name = "start_time")
 	private String startTime;
@@ -34,6 +56,30 @@ public class WorkHoursInfo {
 
 	
 	//Getter & Setter
+	public PerformanceReference getErformanceReference() {
+		return performanceReference;
+	}
+
+	public void setErformanceReference(PerformanceReference erformanceReference) {
+		this.performanceReference = erformanceReference;
+	}
+	
+	public WorkDayInfo getWorkDayInfo() {
+		return workDayInfo;
+	}
+
+	public void setWorkDayInfo(WorkDayInfo workDayInfo) {
+		this.workDayInfo = workDayInfo;
+	}
+	
+	public EmployeeInfo getEmployeeInfo() {
+		return employeeInfo;
+	}
+
+	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
+		this.employeeInfo = employeeInfo;
+	}
+	
 	public Integer getWorkInfoId() {
 		return workInfoId;
 	}
@@ -42,28 +88,12 @@ public class WorkHoursInfo {
 		this.workInfoId = workInfoId;
 	}
 
-	public String getDate() {
-		return date;
-	}
-
-	public void setDate(String date) {
-		this.date = date;
-	}
-
 	public String getModel() {
 		return model;
 	}
 
 	public void setModel(String model) {
 		this.model = model;
-	}
-
-	public String getCaseNo() {
-		return caseNo;
-	}
-
-	public void setCaseNo(String caseNo) {
-		this.caseNo = caseNo;
 	}
 
 	public String getStartTime() {
@@ -96,6 +126,22 @@ public class WorkHoursInfo {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public PerformanceReference getPerformanceReference() {
+		return performanceReference;
+	}
+
+	public void setPerformanceReference(PerformanceReference performanceReference) {
+		this.performanceReference = performanceReference;
+	}
+
+	public CaseInfo getCaseInfo() {
+		return caseInfo;
+	}
+
+	public void setCaseInfo(CaseInfo caseInfo) {
+		this.caseInfo = caseInfo;
 	}
 	
 }

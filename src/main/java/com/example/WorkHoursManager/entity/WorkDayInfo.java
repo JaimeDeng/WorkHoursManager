@@ -1,17 +1,26 @@
 package com.example.WorkHoursManager.entity;
 
+import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.*;
+
 
 @Entity
 @Table(name = "work_day_info")
-public class WorkDayInfo {
+public class WorkDayInfo{
 
 	@Id
-	@Column(name = "date")
+	@Column(name ="date")
 	private String date;
-	
-	@Column(name = "employee_id")
-	private String employeeId;
+
+//---------------------------------------------employeeId------------------------------------------------
+	//設置EmployeeInfo為employee_id外鍵關聯對象
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="employee_id", referencedColumnName ="employee_id")
+	private EmployeeInfo employeeInfo;
+//-----------------------------------------------------------------------------------------------------------
 	
 	@Column(name = "info")
 	private String info;
@@ -21,9 +30,23 @@ public class WorkDayInfo {
 	
 	@Column(name = "approved")
 	private boolean approved;
+	
+//---------------------------------------------reviewer------------------------------------------------
+	//設置EmployeeInfo為reviewer外鍵關聯對象
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , insertable = false, updatable = false)
+	private EmployeeInfo reviewer;
+//-----------------------------------------------------------------------------------------------------------
+
+//==============================================================
+	//WorkHoursInfo的date外鍵關聯
+	@OneToMany(mappedBy = "workDayInfo")
+    private List<WorkHoursInfo> workHoursInfo;
 
 
 	//Getter & Setter
+	
+	//外鍵date實體WorkHoursInfo (有多個以List儲存)
 	public String getDate() {
 		return date;
 	}
@@ -32,12 +55,21 @@ public class WorkDayInfo {
 		this.date = date;
 	}
 
-	public String getEmployeeId() {
-		return employeeId;
+	public List<WorkHoursInfo> getWorkHoursInfo() {
+		return workHoursInfo;
 	}
 
-	public void setEmployeeId(String employeeId) {
-		this.employeeId = employeeId;
+	public void setWorkHoursInfo(List<WorkHoursInfo> workHoursInfo) {
+		this.workHoursInfo = workHoursInfo;
+	}
+
+	//外鍵employee_id實體EmployeeInfo
+	public EmployeeInfo getEmployeeInfo() {
+		return employeeInfo;
+	}
+
+	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
+		this.employeeInfo = employeeInfo;
 	}
 
 	public String getInfo() {

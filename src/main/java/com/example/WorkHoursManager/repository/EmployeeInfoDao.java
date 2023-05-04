@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.example.WorkHoursManager.entity.*;
 
 @Repository
-@Qualifier("accountDao")
-public interface AccountDao extends JpaRepository<Account, String> {
-	
-	List<Account> getAccountByAccount(String account);
+@Qualifier("employeeInfoDao")
+public interface EmployeeInfoDao extends JpaRepository<EmployeeInfo, String> {
 
+	List<EmployeeInfo> getEmployeeInfoByEmployeeId(String employeeId);
+	
 }
