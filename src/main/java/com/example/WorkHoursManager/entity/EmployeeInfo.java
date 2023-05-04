@@ -34,7 +34,8 @@ public class EmployeeInfo {
 
 //------------------------------------------------supervisor----------------------------------------------
 	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "supervisor", referencedColumnName = "employee_id")
+    @JoinColumn(name = "supervisor", referencedColumnName = "employee_id" , nullable=true , 
+    		insertable = false, updatable = false)
     private EmployeeInfo supervisor;
 //----------------------------------------------------------------------------------------------------------
 

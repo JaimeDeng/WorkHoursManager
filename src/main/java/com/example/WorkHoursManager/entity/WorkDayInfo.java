@@ -18,7 +18,8 @@ public class WorkDayInfo{
 //---------------------------------------------employeeId------------------------------------------------
 	//設置EmployeeInfo為employee_id外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="employee_id", referencedColumnName ="employee_id")
+	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , 	
+		insertable = false, updatable = false)
 	private EmployeeInfo employeeInfo;
 //-----------------------------------------------------------------------------------------------------------
 	
@@ -34,7 +35,8 @@ public class WorkDayInfo{
 //---------------------------------------------reviewer------------------------------------------------
 	//設置EmployeeInfo為reviewer外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , insertable = false, updatable = false)
+	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , 
+		insertable = false, updatable = false)
 	private EmployeeInfo reviewer;
 //-----------------------------------------------------------------------------------------------------------
 
@@ -94,6 +96,14 @@ public class WorkDayInfo{
 
 	public void setApproved(boolean approved) {
 		this.approved = approved;
+	}
+
+	public EmployeeInfo getReviewer() {
+		return reviewer;
+	}
+
+	public void setReviewer(EmployeeInfo reviewer) {
+		this.reviewer = reviewer;
 	}
 	
 }

@@ -57,5 +57,4 @@ public class PerformanceReference {
 		this.workHoursInfo = workHoursInfo;
 	}
 	
-	
 }

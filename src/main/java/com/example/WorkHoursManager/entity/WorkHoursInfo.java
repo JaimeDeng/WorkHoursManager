@@ -15,14 +15,16 @@ public class WorkHoursInfo {
 //---------------------------------------------employeeId------------------------------------------------
 	//設置EmployeeInfo為employee_id外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id", 
+	insertable = false, updatable = false)
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------------
 	
 //-------------------------------------------------date-------------------------------------------------
 	//設置WorkDayInfo為date外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "date", referencedColumnName = "date" , nullable=true)
+	@JoinColumn(name = "date", referencedColumnName = "date" , nullable=true , 
+		insertable = false, updatable = false)
 	private WorkDayInfo workDayInfo;
 //-------------------------------------------------------------------------------------------------------
 	
@@ -32,13 +34,14 @@ public class WorkHoursInfo {
 //---------------------------------------------caseNo------------------------------------------------
 	//設置PerformanceReference為case_no外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , 
-	insertable = false, updatable = false , nullable=true)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
+		insertable = false, updatable = false)
 	private PerformanceReference performanceReference;
 	
 	//設置CaseInfo為case_no外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
+		insertable = false, updatable = false)
 	private CaseInfo caseInfo; 
 	//----------------------------------------------------------------------------------------------------
 	

@@ -17,7 +17,8 @@ public class CaseInfo {
 
 //-------------------------------------------employeeId-------------------------------------------
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="employee_id", referencedColumnName ="employee_id")
+	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , 
+    		insertable = false, updatable = false)
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------
 	

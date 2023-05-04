@@ -11,7 +11,8 @@ public class Account {
 	private String account;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id" , 
+    		insertable = false, updatable = false)
 	private EmployeeInfo employeeInfo;
 	
 	@Column(name ="password")
@@ -44,6 +45,5 @@ public class Account {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 	
 }
