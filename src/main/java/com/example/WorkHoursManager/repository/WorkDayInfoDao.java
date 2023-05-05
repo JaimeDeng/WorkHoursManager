@@ -13,6 +13,6 @@ import com.example.WorkHoursManager.entity.*;
 @Qualifier("workDayInfoDao")
 public interface WorkDayInfoDao extends JpaRepository<WorkDayInfo, String> {
 	
-	List<WorkDayInfo>getWorkDayInfoByDate(String date);
+	WorkDayInfo getWorkDayInfoByDate(String date);
 	
 }

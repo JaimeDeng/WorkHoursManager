@@ -1,0 +1,150 @@
+package com.example.WorkHoursManager.services.employeeInfoService;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import com.example.WorkHoursManager.entity.EmployeeInfo;
+import com.example.WorkHoursManager.repository.EmployeeInfoDao;
+import com.example.WorkHoursManager.vo.employeeInfoVo.EmployeeInfoReq;
+import com.example.WorkHoursManager.vo.employeeInfoVo.EmployeeInfoResp;
+
+@Service
+@Transactional
+@Qualifier("employeeInfoService")
+public class EmployeeInfoServiceImpl implements EmployeeInfoService {
+	
+	@Autowired
+	EmployeeInfoDao employeeInfoDao;
+
+	@Override
+	public EmployeeInfoResp setEmployeeInfo(EmployeeInfoReq employeeInfoReq) {
+		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
+		EmployeeInfo employeeInfo = new EmployeeInfo();
+		if(!StringUtils.hasText(employeeInfoReq.getEmployeeId())) {
+			employeeInfoResp.message = "員工ID不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setEmployeeId(employeeInfoReq.getEmployeeId());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getDepartment())) {
+			employeeInfoResp.message = "員工部門不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setDepartment(employeeInfoReq.getDepartment());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getEmail())) {
+			employeeInfoResp.message = "員工信箱不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setEmail(employeeInfoReq.getEmail());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getGender())) {
+			employeeInfoResp.message = "員工性別不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setGender(employeeInfoReq.getGender());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getLevel())) {
+			employeeInfoResp.message = "員工職等不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setLevel(employeeInfoReq.getLevel());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getName())) {
+			employeeInfoResp.message = "員工姓名不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setName(employeeInfoReq.getName());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getPhone())) {
+			employeeInfoResp.message = "員工電話號碼不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setPhone(employeeInfoReq.getPhone());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getPosition())) {
+			employeeInfoResp.message = "員工職務不得空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setPosition(employeeInfoReq.getPosition());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getSupervisorId())) {
+			employeeInfoResp.message = "請輸入此員工的主管ID";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		EmployeeInfo supervisor = employeeInfoDao.getEmployeeInfoByEmployeeId
+				(employeeInfoReq.getSupervisorId());
+		if(supervisor == null) {
+			employeeInfoResp.message = "您設定主管的員工ID不存在";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setSupervisor(supervisor);
+		employeeInfoDao.save(employeeInfo);
+		employeeInfoResp.message = "員工資訊新增成功";
+		employeeInfoResp.success = true;
+			
+		return employeeInfoResp;
+	}
+
+	@Override
+	public EmployeeInfoResp getAllEmployeeInfo(EmployeeInfoReq employeeInfoReq) {
+		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
+		List<EmployeeInfo> employeeInfo = employeeInfoDao.findAll();
+		employeeInfoResp.setEmployeeInfoList(employeeInfo);
+		employeeInfoResp.message = "資料獲取成功";
+		employeeInfoResp.success = true;
+		return employeeInfoResp;
+	}
+	
+	@Override
+	public EmployeeInfoResp getEmployeeInfoById(EmployeeInfoReq employeeInfoReq) {
+		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
+		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeInfoReq.getEmployeeId());
+		if(employeeInfo == null) {
+			employeeInfoResp.message = "無此ID的員工";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfoResp.setEmployeeId(employeeInfo.getEmployeeId());
+		employeeInfoResp.setDepartment(employeeInfo.getDepartment());
+		employeeInfoResp.setEmail(employeeInfo.getEmail());
+		employeeInfoResp.setGender(employeeInfo.getGender());
+		employeeInfoResp.setLevel(employeeInfo.getLevel());
+		employeeInfoResp.setName(employeeInfo.getName());
+		employeeInfoResp.setPhone(employeeInfo.getPhone());
+		employeeInfoResp.setPosition(employeeInfo.getPosition());
+		employeeInfoResp.setSupervisor(employeeInfo.getSupervisor());
+		employeeInfoResp.message = "資料獲取成功";
+		employeeInfoResp.success = true;
+		return employeeInfoResp;
+	}
+
+	@Override
+	public EmployeeInfoResp editEmployeeInfo(EmployeeInfoReq employeeInfoReq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EmployeeInfoResp deleteEmployeeInfo(EmployeeInfoReq employeeInfoReq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

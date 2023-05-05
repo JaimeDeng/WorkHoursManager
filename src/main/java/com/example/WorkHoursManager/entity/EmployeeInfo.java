@@ -3,8 +3,14 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "employee_info")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
 public class EmployeeInfo {
 	
 	@Id
@@ -31,11 +37,12 @@ public class EmployeeInfo {
 	
 	@Column(name = "phone")
 	private String phone;
+	
 
 //------------------------------------------------supervisor----------------------------------------------
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "supervisor", referencedColumnName = "employee_id" , nullable=true , 
-    		insertable = false, updatable = false)
+    		insertable = true, updatable = true)
     private EmployeeInfo supervisor;
 //----------------------------------------------------------------------------------------------------------
 
@@ -48,10 +55,6 @@ public class EmployeeInfo {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkDayInfo> workDayInfo;
 	
-	//WorkDayInfo的reviewer外鍵關聯
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reviewer")
-	private List<WorkDayInfo> workDayInfoReview;
-	
 	//CaseInfo的employee_id外鍵關聯
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<CaseInfo> caseInfo;
@@ -61,8 +64,8 @@ public class EmployeeInfo {
 	private Account account;
 	
 	//EmployeeInfo的employee_id自關聯
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "supervisor")
-	private EmployeeInfo employeeInfo;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "supervisor")
+	private List<EmployeeInfo> subordinates;
 
 	
 	//Getter & Setter
@@ -171,12 +174,4 @@ public class EmployeeInfo {
 		this.supervisor = supervisor;
 	}
 
-	public EmployeeInfo getEmployeeInfo() {
-		return employeeInfo;
-	}
-
-	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
-		this.employeeInfo = employeeInfo;
-	}
-	
 }
