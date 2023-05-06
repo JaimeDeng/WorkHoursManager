@@ -40,27 +40,27 @@ public class EmployeeInfo {
 //----------------------------------------------------------------------------------------------------------
 
 //==============================================================
-	//WorkHoursInfo的employee_id外鍵關聯
+	//WorkHoursInfo的mployee_id外鍵關聯
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkHoursInfo> workHoursInfo;
 	
-	//WorkDayInfo的employee_id外鍵關聯
+	//WorkDayInfo��mployee_id憭��
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkDayInfo> workDayInfo;
 	
-	//WorkDayInfo的reviewer外鍵關聯
+	//WorkDayInfo��eviewer憭��
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reviewer")
 	private List<WorkDayInfo> workDayInfoReview;
 	
-	//CaseInfo的employee_id外鍵關聯
+	//CaseInfo��mployee_id憭��
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<CaseInfo> caseInfo;
 	
-	//Account的employee_id外鍵關聯
+	//Account��mployee_id憭��
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private Account account;
 	
-	//EmployeeInfo的employee_id自關聯
+	//EmployeeInfo��mployee_id���
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "supervisor")
 	private EmployeeInfo employeeInfo;
 

@@ -2,9 +2,13 @@ package com.example.WorkHoursManager.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 @Entity
-@Table(name = "workhoursinfo")
+@Table(name = "work_hours_info")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
 public class WorkHoursInfo {
 	
 	@Id
@@ -13,18 +17,19 @@ public class WorkHoursInfo {
 	private Integer workInfoId;
 
 //---------------------------------------------employeeId------------------------------------------------
-	//設置EmployeeInfo為employee_id外鍵關聯對象
+	//閮剔蔭EmployeeInfo�employee_id憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id", 
-	insertable = false, updatable = false)
+	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+	//insertable = false, updatable = false)
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------------
 	
 //-------------------------------------------------date-------------------------------------------------
-	//設置WorkDayInfo為date外鍵關聯對象
+	//閮剔蔭WorkDayInfo�date憭��撠情
+//	@JsonProperty("date")
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "date", referencedColumnName = "date" , nullable=true , 
-		insertable = false, updatable = false)
+	@JoinColumn(name = "date", referencedColumnName = "date")
+		//insertable = false, updatable = false)
 	private WorkDayInfo workDayInfo;
 //-------------------------------------------------------------------------------------------------------
 	
@@ -32,13 +37,15 @@ public class WorkHoursInfo {
 	private String model;
 
 //---------------------------------------------caseNo------------------------------------------------
-	//設置PerformanceReference為case_no外鍵關聯對象
+	//閮剔蔭PerformanceReference�case_no憭��撠情
+//	@JsonProperty("caseNo")
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
-		insertable = false, updatable = false)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true )
+		//insertable = false, updatable = false)
 	private PerformanceReference performanceReference;
 	
-	//設置CaseInfo為case_no外鍵關聯對象
+//	@JsonProperty("caseNo")
+	//閮剔蔭CaseInfo�case_no憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
 		insertable = false, updatable = false)
@@ -59,13 +66,6 @@ public class WorkHoursInfo {
 
 	
 	//Getter & Setter
-	public PerformanceReference getErformanceReference() {
-		return performanceReference;
-	}
-
-	public void setErformanceReference(PerformanceReference erformanceReference) {
-		this.performanceReference = erformanceReference;
-	}
 	
 	public WorkDayInfo getWorkDayInfo() {
 		return workDayInfo;
@@ -146,5 +146,4 @@ public class WorkHoursInfo {
 	public void setCaseInfo(CaseInfo caseInfo) {
 		this.caseInfo = caseInfo;
 	}
-	
 }

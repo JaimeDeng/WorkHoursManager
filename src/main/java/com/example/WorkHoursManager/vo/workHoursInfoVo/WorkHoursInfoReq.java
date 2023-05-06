@@ -1,28 +1,36 @@
 package com.example.WorkHoursManager.vo.workHoursInfoVo;
 
-import java.util.List;
-
 import com.example.WorkHoursManager.entity.WorkHoursInfo;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class WorkHoursInfoReq extends WorkHoursInfo {
 	
-	@JsonProperty("WorkHoursInfo")
-	private List<WorkHoursInfo>hoursInfos;
+	private String date;
+	private String employeeId;
+	private String caseNo;
 	
-	public List<WorkHoursInfo> getHoursInfos() {
-		return hoursInfos;
+	//Getters and Setters
+	
+	public String getDate() {
+		return date;
 	}
 
-	public void setHoursInfos(List<WorkHoursInfo> hoursInfos) {
-		this.hoursInfos = hoursInfos;
-	}	
-	
-	public WorkHoursInfoReq() {
+	public void setDate(String date) {
+		this.date = date;
 	}
 
-	public WorkHoursInfoReq(List<WorkHoursInfo> hoursInfos) {
-		super();
-		this.hoursInfos = hoursInfos;
+	public String getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(String employeeId) {
+		this.employeeId = employeeId;
+	}
+
+	public String getCaseNo() {
+		return caseNo;
+	}
+
+	public void setCaseNo(String caseNo) {
+		this.caseNo = caseNo;
 	}
 }

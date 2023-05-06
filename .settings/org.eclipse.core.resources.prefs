@@ -1,3 +1,7 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/example/WorkHoursManager/controller/WorkHoursManagerController.java=UTF-8
+encoding//src/main/java/com/example/WorkHoursManager/entity/EmployeeInfo.java=UTF-8
+encoding//src/main/java/com/example/WorkHoursManager/entity/WorkDayInfo.java=UTF-8
+encoding//src/main/java/com/example/WorkHoursManager/entity/WorkHoursInfo.java=UTF-8
 encoding//src/main/java/com/example/WorkHoursManager/services/workHoursService/imp/WorkHoursServiceImp.java=UTF-8
 encoding//src/main/resources/application.properties=UTF-8

@@ -1,10 +1,15 @@
 package com.example.WorkHoursManager.entity;
 
-import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 
 @Entity
@@ -33,7 +38,7 @@ public class WorkDayInfo{
 	private boolean approved;
 	
 //---------------------------------------------reviewer------------------------------------------------
-	//設置EmployeeInfo為reviewer外鍵關聯對象
+	//閮剔蔭EmployeeInfo�reviewer憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , 
 		insertable = false, updatable = false)
@@ -41,14 +46,14 @@ public class WorkDayInfo{
 //-----------------------------------------------------------------------------------------------------------
 
 //==============================================================
-	//WorkHoursInfo的date外鍵關聯
+	//WorkHoursInfo��ate憭��
 	@OneToMany(mappedBy = "workDayInfo")
     private List<WorkHoursInfo> workHoursInfo;
 
 
 	//Getter & Setter
 	
-	//外鍵date實體WorkHoursInfo (有多個以List儲存)
+	//憭date撖阡�orkHoursInfo (����誑List�摮�)
 	public String getDate() {
 		return date;
 	}
@@ -65,7 +70,7 @@ public class WorkDayInfo{
 		this.workHoursInfo = workHoursInfo;
 	}
 
-	//外鍵employee_id實體EmployeeInfo
+	//憭employee_id撖阡�mployeeInfo
 	public EmployeeInfo getEmployeeInfo() {
 		return employeeInfo;
 	}

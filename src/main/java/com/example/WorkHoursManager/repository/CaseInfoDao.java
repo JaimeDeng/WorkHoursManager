@@ -11,7 +11,5 @@ import com.example.WorkHoursManager.entity.CaseInfo;
 @Repository
 @Qualifier("caseInfoDao")
 public interface CaseInfoDao extends JpaRepository<CaseInfo, String> {
-	
-	List<CaseInfo> getCaseInfoByCaseNo(String caseNo);
-	
+	 CaseInfo getCaseInfoByCaseNo(String case_no);
 }

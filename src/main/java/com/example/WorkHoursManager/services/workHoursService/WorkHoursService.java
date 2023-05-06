@@ -9,5 +9,6 @@ import com.example.WorkHoursManager.vo.workHoursInfoVo.WorkHoursInfoResp;
 public interface WorkHoursService {
 	public List<WorkHoursInfo> getAllInfos();
 	public WorkHoursInfoResp addinfo(WorkHoursInfoReq workHoursInfoReq);
-	public String deleteInfo(int workInfoId);
+	public WorkHoursInfoResp deleteInfo(int workInfoId);
+	public WorkHoursInfoResp updateInfo(int workInfoId, WorkHoursInfoReq workHoursInfoReq);
 }
