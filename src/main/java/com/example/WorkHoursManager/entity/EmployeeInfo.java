@@ -3,8 +3,17 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "employee_info")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
 public class EmployeeInfo {
 	
 	@Id
@@ -31,11 +40,14 @@ public class EmployeeInfo {
 	
 	@Column(name = "phone")
 	private String phone;
+	
 
 //------------------------------------------------supervisor----------------------------------------------
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonProperty("supervisor")
+	@JsonInclude(JsonInclude.Include.ALWAYS)	//即使是NULL也顯示在RESP
     @JoinColumn(name = "supervisor", referencedColumnName = "employee_id" , nullable=true , 
-    		insertable = false, updatable = false)
+    		insertable = true, updatable = true)
     private EmployeeInfo supervisor;
 //----------------------------------------------------------------------------------------------------------
 
@@ -44,23 +56,19 @@ public class EmployeeInfo {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkHoursInfo> workHoursInfo;
 	
-	//WorkDayInfo��mployee_id憭��
+	//WorkDayInfo的employee_id外鍵關聯
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkDayInfo> workDayInfo;
 	
-	//WorkDayInfo��eviewer憭��
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reviewer")
-	private List<WorkDayInfo> workDayInfoReview;
-	
-	//CaseInfo��mployee_id憭��
+	//CaseInfo的employee_id外鍵關聯
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<CaseInfo> caseInfo;
 	
-	//Account��mployee_id憭��
+	//Account的employee_id外鍵關聯
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private Account account;
 	
-	//EmployeeInfo��mployee_id���
+	//EmployeeInfo的employee_id自關聯
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "supervisor")
 	private EmployeeInfo employeeInfo;
 
@@ -178,5 +186,5 @@ public class EmployeeInfo {
 	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
 		this.employeeInfo = employeeInfo;
 	}
-	
+
 }

@@ -1,4 +1,4 @@
-package com.example.WorkHoursManager.services.workHoursService.imp;
+package com.example.WorkHoursManager.services.workHoursService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -17,11 +18,11 @@ import com.example.WorkHoursManager.repository.CaseInfoDao;
 import com.example.WorkHoursManager.repository.EmployeeInfoDao;
 import com.example.WorkHoursManager.repository.WorkDayInfoDao;
 import com.example.WorkHoursManager.repository.WorkHoursInfoDao;
-import com.example.WorkHoursManager.services.workHoursService.WorkHoursService;
 import com.example.WorkHoursManager.vo.workHoursInfoVo.WorkHoursInfoReq;
 import com.example.WorkHoursManager.vo.workHoursInfoVo.WorkHoursInfoResp;
 
 @Service
+@Qualifier("workHoursService")
 public class WorkHoursServiceImp implements WorkHoursService {
 
 	@Autowired
@@ -48,9 +49,8 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		String caseNo=workHoursInfoReq.getCaseNo();
 		
 		//employeeInfo這些為null不知為何
-		EmployeeInfo employeeInfo=employeeInfoDao.getEmployeeInfoByEmployeeId(employeeId);
-		WorkDayInfo workDayInfo=workDayInfoDao.getWorkDayInfoByDate(date);
-		CaseInfo caseInfo=caseInfoDao.getCaseInfoByCaseNo(caseNo);
+		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeId);
+		CaseInfo caseInfo = caseInfoDao.getCaseInfoByCaseNo(caseNo);
 		
 		//判斷有無資料
 			if(!StringUtils.hasText(caseNo)){
@@ -80,7 +80,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			
 			newWorkHoursInfo.setEmployeeInfo(employeeInfo);
 			newWorkHoursInfo.setCaseInfo(caseInfo);
-			newWorkHoursInfo.setWorkDayInfo(workDayInfo);
+			newWorkHoursInfo.setDate(date);
 			newWorkHoursInfo.setDetail(workHoursInfoReq.getDetail());
 			newWorkHoursInfo.setEndTime(workHoursInfoReq.getEndTime());
 			newWorkHoursInfo.setStartTime(workHoursInfoReq.getStartTime());
@@ -141,7 +141,6 @@ public class WorkHoursServiceImp implements WorkHoursService {
 	    String date = workHoursInfoReq.getDate();
 	    String caseNo = workHoursInfoReq.getCaseNo();
 	    EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeId);
-	    WorkDayInfo workDayInfo = workDayInfoDao.getWorkDayInfoByDate(date);
 	    CaseInfo caseInfo = caseInfoDao.getCaseInfoByCaseNo(caseNo);
 
 	    // 判斷有無資料
@@ -150,7 +149,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 	    }
 
 	    workHoursInfo.setCaseInfo(caseInfo);
-	    workHoursInfo.setWorkDayInfo(workDayInfo);
+	    workHoursInfo.setDate(date);
 	    workHoursInfo.setDetail(workHoursInfoReq.getDetail());
 	    workHoursInfo.setEndTime(workHoursInfoReq.getEndTime());
 	    workHoursInfo.setStartTime(workHoursInfoReq.getStartTime());

@@ -9,5 +9,7 @@ import com.example.WorkHoursManager.entity.EmployeeInfo;
 @Repository
 @Qualifier("employeeInfoDao")
 public interface EmployeeInfoDao extends JpaRepository<EmployeeInfo, String> {
+	
 	EmployeeInfo getEmployeeInfoByEmployeeId(String employeeId);	
+
 }

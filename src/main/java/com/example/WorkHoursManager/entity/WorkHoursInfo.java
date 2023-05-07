@@ -11,8 +11,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 
 @Entity
@@ -26,38 +31,28 @@ public class WorkHoursInfo {
 	private Integer workInfoId;
 
 //---------------------------------------------employeeId------------------------------------------------
-	//閮剔蔭EmployeeInfo�employee_id憭��撠情
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
-	//insertable = false, updatable = false)
+	@ManyToOne
+	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id", 
+	insertable = true, updatable = true)
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------------
 	
-//-------------------------------------------------date-------------------------------------------------
-	//閮剔蔭WorkDayInfo�date憭��撠情
-//	@JsonProperty("date")
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "date", referencedColumnName = "date")
-		//insertable = false, updatable = false)
-	private WorkDayInfo workDayInfo;
-//-------------------------------------------------------------------------------------------------------
+	@Column(name ="date")
+	private String date;
 	
 	@Column(name = "model")
 	private String model;
 
 //---------------------------------------------caseNo------------------------------------------------
-	//閮剔蔭PerformanceReference�case_no憭��撠情
-//	@JsonProperty("caseNo")
+	//設置PerformanceReference為case_no的外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true )
-		//insertable = false, updatable = false)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true,
+			insertable = false, updatable = false)
 	private PerformanceReference performanceReference;
 	
-//	@JsonProperty("caseNo")
-	//閮剔蔭CaseInfo�case_no憭��撠情
+	//設置CaseInfo為case_no的外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
-		insertable = false, updatable = false)
+	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true)
 	private CaseInfo caseInfo; 
 	//----------------------------------------------------------------------------------------------------
 	
@@ -75,14 +70,6 @@ public class WorkHoursInfo {
 
 	
 	//Getter & Setter
-	
-	public WorkDayInfo getWorkDayInfo() {
-		return workDayInfo;
-	}
-
-	public void setWorkDayInfo(WorkDayInfo workDayInfo) {
-		this.workDayInfo = workDayInfo;
-	}
 	
 	public EmployeeInfo getEmployeeInfo() {
 		return employeeInfo;
@@ -155,4 +142,13 @@ public class WorkHoursInfo {
 	public void setCaseInfo(CaseInfo caseInfo) {
 		this.caseInfo = caseInfo;
 	}
+	
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+	
 }

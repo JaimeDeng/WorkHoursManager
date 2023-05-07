@@ -1,8 +1,9 @@
-package com.example.WorkHoursManager.services.cacsinfoSevice.imp;
+package com.example.WorkHoursManager.services.caseInfoService;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -10,11 +11,11 @@ import com.example.WorkHoursManager.entity.CaseInfo;
 import com.example.WorkHoursManager.entity.EmployeeInfo;
 import com.example.WorkHoursManager.repository.CaseInfoDao;
 import com.example.WorkHoursManager.repository.EmployeeInfoDao;
-import com.example.WorkHoursManager.services.caseInfoService.CaseInfoService;
 import com.example.WorkHoursManager.vo.caseInfoVo.CaseInfoReq;
 import com.example.WorkHoursManager.vo.caseInfoVo.CaseInfoResp;
 
 @Service
+@Qualifier("caseInfoService")
 public class CaseInfoServiceImp implements CaseInfoService{
 	
 	@Autowired

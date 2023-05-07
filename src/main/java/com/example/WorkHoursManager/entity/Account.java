@@ -2,17 +2,20 @@ package com.example.WorkHoursManager.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "account")
 public class Account {
 	
 	@Id
 	@Column(name ="account")
-	private String account;
+	private String accountId;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id" , 
-    		insertable = false, updatable = false)
+	@OneToOne(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
+	@JsonProperty("employeeId")
+	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id" ,
+    		insertable = true, updatable = true)
 	private EmployeeInfo employeeInfo;
 	
 	@Column(name ="password")
@@ -20,16 +23,15 @@ public class Account {
 
 	
 	//Getter & Setter
-	public String getAccount() {
-		return account;
+	public String getAccountId() {
+		return accountId;
 	}
 
-	public void setAccount(String account) {
-		this.account = account;
+	public void setAccountId(String account) {
+		this.accountId = account;
 	}
 
 	//外鍵employee_id實體EmployeeInfo
-	
 	public EmployeeInfo getEmployeeInfo() {
 		return employeeInfo;
 	}

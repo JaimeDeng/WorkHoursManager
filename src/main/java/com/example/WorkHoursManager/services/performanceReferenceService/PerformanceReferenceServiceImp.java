@@ -1,19 +1,20 @@
-package com.example.WorkHoursManager.services.performanceReferenceService.imp;
+package com.example.WorkHoursManager.services.performanceReferenceService;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.example.WorkHoursManager.entity.PerformanceReference;
 import com.example.WorkHoursManager.repository.PerformanceReferenceDao;
-import com.example.WorkHoursManager.services.performanceReferenceService.PerformanceReferenceService;
 import com.example.WorkHoursManager.vo.performanceReferenceVo.PerformanceReferenceReq;
 import com.example.WorkHoursManager.vo.performanceReferenceVo.PerformanceReferenceResp;
 
 @Service
+@Qualifier("performanceReferenceService")
 public class PerformanceReferenceServiceImp implements PerformanceReferenceService {
 
 	@Autowired

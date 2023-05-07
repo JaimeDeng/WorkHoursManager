@@ -12,6 +12,7 @@ import com.example.WorkHoursManager.entity.*;
 @Qualifier("accountDao")
 public interface AccountDao extends JpaRepository<Account, String> {
 	
-	List<Account> getAccountByAccount(String account);
-
+	Account getAccountByAccountId(String accountId);
+	Account getAccountByEmployeeInfo(EmployeeInfo employeeInfo);
+	
 }
