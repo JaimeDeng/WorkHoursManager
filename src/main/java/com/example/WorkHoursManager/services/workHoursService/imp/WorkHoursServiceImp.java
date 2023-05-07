@@ -81,7 +81,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			newWorkHoursInfo.setEmployeeInfo(employeeInfo);
 			newWorkHoursInfo.setCaseInfo(caseInfo);
 			newWorkHoursInfo.setWorkDayInfo(workDayInfo);
-			newWorkHoursInfo.setDetail(employeeId);
+			newWorkHoursInfo.setDetail(workHoursInfoReq.getDetail());
 			newWorkHoursInfo.setEndTime(workHoursInfoReq.getEndTime());
 			newWorkHoursInfo.setStartTime(workHoursInfoReq.getStartTime());
 			newWorkHoursInfo.setModel(workHoursInfoReq.getModel());

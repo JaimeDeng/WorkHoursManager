@@ -1,9 +1,11 @@
 package com.example.WorkHoursManager.vo.caseInfoVo;
 
 import com.example.WorkHoursManager.entity.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CaseInfoResp extends CaseInfo {
-
+	
 	public String message;
 	
 	public boolean success;
@@ -25,5 +27,15 @@ public class CaseInfoResp extends CaseInfo {
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}
-
+	
+	//Constructor
+	
+	public CaseInfoResp(String message, boolean success) {
+		super();
+		this.message = message;
+		this.success = success;
+	}
+	
+	public CaseInfoResp() {
+	}
 }

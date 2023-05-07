@@ -1,11 +1,12 @@
 package com.example.WorkHoursManager.vo.performanceReferenceVo;
 
 import com.example.WorkHoursManager.entity.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PerformanceReferenceResp extends PerformanceReference {
 
 	public String message;
-	
 	public boolean success;
 	
 	//Getter & Setter
@@ -26,4 +27,14 @@ public class PerformanceReferenceResp extends PerformanceReference {
 		this.success = success;
 	}
 
+	//Constructor
+	
+	public PerformanceReferenceResp(String message, boolean success) {
+		super();
+		this.message = message;
+		this.success = success;
+	}
+	
+	public PerformanceReferenceResp() {
+	}
 }
