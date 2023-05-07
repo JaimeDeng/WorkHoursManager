@@ -5,13 +5,13 @@ import java.util.List;
 import com.example.WorkHoursManager.entity.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class EmployeeInfoResp extends EmployeeInfo {
 	
 	public String message;
 	
 	public boolean success;
 	
-	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	List<EmployeeInfo>employeeInfoList;
 	
 	//Getter & Setter

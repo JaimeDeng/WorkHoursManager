@@ -2,6 +2,10 @@ package com.example.WorkHoursManager.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 
 @Entity
 @Table(name = "work_hours_info")
@@ -16,17 +20,12 @@ public class WorkHoursInfo {
 	//設置EmployeeInfo為employee_id外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id", 
-	insertable = false, updatable = false)
+	insertable = true, updatable = true)
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------------
 	
-//-------------------------------------------------date-------------------------------------------------
-	//設置WorkDayInfo為date外鍵關聯對象
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "date", referencedColumnName = "date" , nullable=true , 
-		insertable = false, updatable = false)
-	private WorkDayInfo workDayInfo;
-//-------------------------------------------------------------------------------------------------------
+	@Column(name ="date")
+	private String date;
 	
 	@Column(name = "model")
 	private String model;
@@ -41,7 +40,7 @@ public class WorkHoursInfo {
 	//設置CaseInfo為case_no外鍵關聯對象
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
-		insertable = false, updatable = false)
+		insertable = true, updatable = true)
 	private CaseInfo caseInfo; 
 	//----------------------------------------------------------------------------------------------------
 	
@@ -65,14 +64,6 @@ public class WorkHoursInfo {
 
 	public void setErformanceReference(PerformanceReference erformanceReference) {
 		this.performanceReference = erformanceReference;
-	}
-	
-	public WorkDayInfo getWorkDayInfo() {
-		return workDayInfo;
-	}
-
-	public void setWorkDayInfo(WorkDayInfo workDayInfo) {
-		this.workDayInfo = workDayInfo;
 	}
 	
 	public EmployeeInfo getEmployeeInfo() {
@@ -145,6 +136,14 @@ public class WorkHoursInfo {
 
 	public void setCaseInfo(CaseInfo caseInfo) {
 		this.caseInfo = caseInfo;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 	
 }

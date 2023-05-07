@@ -5,7 +5,10 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -41,6 +44,8 @@ public class EmployeeInfo {
 
 //------------------------------------------------supervisor----------------------------------------------
 	@ManyToOne(cascade = CascadeType.ALL)
+	@JsonProperty("supervisor")
+	@JsonInclude(JsonInclude.Include.ALWAYS)	//即使是NULL也顯示在RESP
     @JoinColumn(name = "supervisor", referencedColumnName = "employee_id" , nullable=true , 
     		insertable = true, updatable = true)
     private EmployeeInfo supervisor;

@@ -4,13 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.WorkHoursManager.entity.*;
 import com.example.WorkHoursManager.services.accountService.AccountService;
 import com.example.WorkHoursManager.services.employeeInfoService.EmployeeInfoService;
+import com.example.WorkHoursManager.services.workDayService.WorkDayInfoService;
 import com.example.WorkHoursManager.vo.accountVo.AccountReq;
 import com.example.WorkHoursManager.vo.accountVo.AccountResp;
 import com.example.WorkHoursManager.vo.employeeInfoVo.EmployeeInfoReq;
 import com.example.WorkHoursManager.vo.employeeInfoVo.EmployeeInfoResp;
+import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoReq;
+import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoResp;
 
 @RestController
 @CrossOrigin
@@ -19,12 +21,15 @@ public class WorkHoursManagerController {
 	//-----------------------Constructor Injection---------------------------
 	private final AccountService accountService;	
 	private final EmployeeInfoService employeeInfoService;
+	private final WorkDayInfoService workDayInfoService;
 	
 	@Autowired
-	public WorkHoursManagerController(@Qualifier("accountService") AccountService accountService,
-			@Qualifier("employeeInfoService")EmployeeInfoService employeeInfoService) {
+	public WorkHoursManagerController(@Qualifier("accountService") AccountService accountService ,
+			@Qualifier("employeeInfoService")EmployeeInfoService employeeInfoService , 
+			@Qualifier("workDayInfoService")WorkDayInfoService workDayInfoService) {
 				this.accountService = accountService;
 				this.employeeInfoService = employeeInfoService;
+				this.workDayInfoService = workDayInfoService;
 	}
 	//-----------------------Constructor Injection---------------------------
 	
@@ -86,6 +91,49 @@ public class WorkHoursManagerController {
 		employeeInfoResp = employeeInfoService.getEmployeeInfoById(employeeInfoReq);
 		return employeeInfoResp;
 	}
+	
+	@PostMapping("/editEmployeeInfo")
+	public EmployeeInfoResp editEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
+		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
+		employeeInfoResp = employeeInfoService.editEmployeeInfo(employeeInfoReq);
+		return employeeInfoResp;
+	}
+	
+	@PostMapping("/deleteEmployeeInfo")
+	public EmployeeInfoResp deleteEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
+		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
+		employeeInfoResp = employeeInfoService.deleteEmployeeInfo(employeeInfoReq);
+		return employeeInfoResp;
+	}
+	
+	//---------------------------------------WorkDayInfo API-------------------------------------------
+	
+	@PostMapping("/setWorkDayInfo")
+	public WorkDayInfoResp setWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.setWorkDayInfo(workDayInfoReq);
+		return workDayInfoResp;
+	}
 
+	@GetMapping("/getAllWorkDayInfo")
+	public WorkDayInfoResp getAllWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.getAllWorkDayInfo(workDayInfoReq);
+		return workDayInfoResp;
+	}
+	
+	@GetMapping("/getWorkDayInfoByDate")
+	public WorkDayInfoResp getWorkDayInfoByDate(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.getWorkDayInfoByDate(workDayInfoReq);
+		return workDayInfoResp;
+	}
+	
+	@GetMapping("/getWorkDayInfoByEmployeeId")
+	public WorkDayInfoResp getWorkDayInfoByEmployeeId(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.getWorkDayInfoByEmployeeId(workDayInfoReq);
+		return workDayInfoResp;
+	}
 
 }
