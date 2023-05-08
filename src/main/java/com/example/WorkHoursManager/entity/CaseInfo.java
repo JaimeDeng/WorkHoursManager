@@ -16,22 +16,17 @@ public class CaseInfo {
 	private String model;
 
 //-------------------------------------------employeeId-------------------------------------------
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , 
-    		insertable = false, updatable = false)
+    		insertable = true, updatable = false)
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------
 	
 	@Column(name = "duration")
-	private String duration;
+	private float duration;
 	
 	@Column(name = "date")
 	private String date;
-
-//=========================================================
-	//WorkHoursInfo的case_no外鍵關聯
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "caseInfo")
-	private List<WorkHoursInfo> workHoursInfo;
 	
 	//Getter & Setter
 	
@@ -59,11 +54,11 @@ public class CaseInfo {
 		this.model = model;
 	}
 
-	public String getDuration() {
+	public float getDuration() {
 		return duration;
 	}
 
-	public void setDuration(String duration) {
+	public void setDuration(float duration) {
 		this.duration = duration;
 	}
 
@@ -73,14 +68,6 @@ public class CaseInfo {
 
 	public void setDate(String date) {
 		this.date = date;
-	}
-
-	public List<WorkHoursInfo> getWorkHoursInfo() {
-		return workHoursInfo;
-	}
-
-	public void setWorkHoursInfo(List<WorkHoursInfo> workHoursInfo) {
-		this.workHoursInfo = workHoursInfo;
 	}
 	
 }

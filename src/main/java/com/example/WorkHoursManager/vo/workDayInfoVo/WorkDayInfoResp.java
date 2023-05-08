@@ -14,6 +14,7 @@ public class WorkDayInfoResp extends WorkDayInfo {
 	
 	public boolean success;
 	
+	@JsonInclude(JsonInclude.Include.ALWAYS)
 	private List<WorkDayInfo>workDayInfoList;
 	
 	//Getter & Setter

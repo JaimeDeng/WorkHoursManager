@@ -89,7 +89,7 @@ public class WorkHoursManagerController {
 		return accountResp;
 	}
 	
-	@PostMapping("/deleteAccount")
+	@DeleteMapping("/deleteAccount")
 	public AccountResp deleteAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.deleteAccount(accountReq);
@@ -133,7 +133,7 @@ public class WorkHoursManagerController {
 		return employeeInfoResp;
 	}
 	
-	@PostMapping("/deleteEmployeeInfo")
+	@DeleteMapping("/deleteEmployeeInfo")
 	public EmployeeInfoResp deleteEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.deleteEmployeeInfo(employeeInfoReq);
@@ -170,38 +170,43 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 	
+	@DeleteMapping("/deleteWorkDayInfo")
+	public WorkDayInfoResp deleteWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.deleteWorkDayInfo(workDayInfoReq);
+		return workDayInfoResp;
+	}
+	
 	//---------------------------------------WorkHoursInfo API-------------------------------------------
 	
 	//Read（読み取り）
-	@PostMapping("getAllWorkHoursInfo")
-	public List<WorkHoursInfo>getInfos(){
-		return workHoursService.getAllInfos();
+	@GetMapping("getAllWorkHoursInfo")
+	public WorkHoursInfoResp getAllWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq){
+		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
+		return workHoursInfoResp;
 	}
 	
 	//Create（生成）
 	@PostMapping("setWorkHoursInfo")
-	public WorkHoursInfoResp workHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
+	public WorkHoursInfoResp setWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
-		workHoursInfoResp= workHoursService.addinfo(workHoursInfoReq);
+		workHoursInfoResp= workHoursService.setWorkHoursInfo(workHoursInfoReq);
 		return workHoursInfoResp;
 	}
 	
 	//Delete（削除）
-	@DeleteMapping("/api/{id}")
-	public ResponseEntity<WorkHoursInfoResp> deleteInfo(@PathVariable("id") int workInfoId){
-	    WorkHoursInfoResp result = workHoursService.deleteInfo(workInfoId);
-	    if (result.isSuccess()) {
-	        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-	    } else {
-	        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-	    }
-    }
+	@DeleteMapping("/deleteWorkHoursInfo")
+	public WorkHoursInfoResp deleteWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
+		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		workHoursInfoResp = workHoursService.deleteWorkHoursInfo(workHoursInfoReq);
+		return workHoursInfoResp;
+	}
 	
 	//Update(更新)
 	@PutMapping("/api/{id}")
 	public ResponseEntity<WorkHoursInfoResp> updateInfo(@PathVariable("id") int workInfoId, 
 			@RequestBody WorkHoursInfoReq workHoursInfoReq) {
-	    WorkHoursInfoResp result = workHoursService.updateInfo(workInfoId, workHoursInfoReq);
+	    WorkHoursInfoResp result = workHoursService.editWorkHoursInfo(workHoursInfoReq);
 
 	    if (result.isSuccess()) {
 	        return new ResponseEntity<>(result, HttpStatus.OK);
@@ -212,50 +217,86 @@ public class WorkHoursManagerController {
 	
 	//---------------------------------------CaseInfo API-------------------------------------------
 	
-	//Read（読み取り）
-	@PostMapping("getAllCaseInfo")
-	public List<CaseInfo>getCaseInfos(){
-		return caseInfoService.getAllInfos();
+	//查詢所有caseInfo
+	@GetMapping("getAllCaseInfo")
+	public CaseInfoResp getAllCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		caseInfoResp = caseInfoService.getAllCaseInfo(caseInfoReq);
+		return caseInfoResp;
 	}
 	
-	//Create（生成）
+	//新增caseInfo
 	@PostMapping("setCaseInfo")
-	public CaseInfoResp caseInfo(@RequestBody CaseInfoReq caseInfoReq) {
-		return caseInfoService.addInfo(caseInfoReq);
+	public CaseInfoResp setCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		caseInfoResp = caseInfoService.setCaseInfo(caseInfoReq);
+		return caseInfoResp;
+	}
+	
+	//刪除caseInfo
+	@DeleteMapping("deleteCaseInfo")
+	public CaseInfoResp deleteCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		caseInfoResp = caseInfoService.deleteCaseInfo(caseInfoReq);
+		return caseInfoResp;
+	}
+	
+	//以caseNo查詢caseInfo
+	@GetMapping("getCaseInfoByCaseNo")
+	public CaseInfoResp getCaseInfoByCaseNo(@RequestBody CaseInfoReq caseInfoReq){
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		caseInfoResp = caseInfoService.getCaseInfoByCaseNo(caseInfoReq);
+		return caseInfoResp;
+	}
+	
+	//編輯caseInfo
+	@PutMapping("editCaseInfo")
+	public CaseInfoResp editCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		caseInfoResp = caseInfoService.editCaseInfo(caseInfoReq);
+		return caseInfoResp;
 	}
 		
 	//--------------------------------PerformanceReference API------------------------------------
-	//Read（読み取り）
-	@PostMapping("prallInfo")
-	public List<PerformanceReference>getPerformanceReferenceInfos(){
-		return performanceReferenceService.getAllInfos();
+	
+	//獲取全部PR資料
+	@GetMapping("getAllPerformanceReferences")
+	public PerformanceReferenceResp getAllPerformanceReferences(@RequestBody PerformanceReferenceReq performanceReferenceReq){
+		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
+		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences(performanceReferenceReq);
+		return performanceReferenceResp;
 	}
 	
-	//Create（生成）
-	@PostMapping("pradd")
+	//以caseNo獲取PR資料
+	@GetMapping("getPerformanceReferenceByCaseNo")
+	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(@RequestBody PerformanceReferenceReq performanceReferenceReq){
+		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
+		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences(performanceReferenceReq);
+		return performanceReferenceResp;
+	}
+	
+	//以caseNo刪除PR資料
+	@DeleteMapping("deletePerformanceReference")
+	public PerformanceReferenceResp deletePerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
+		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
+		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
+		return performanceReferenceResp;
+	}
+	
+	//新增PR資料(rating預設為null)
+	@PostMapping("setPerformanceReference")
 	public PerformanceReferenceResp setPerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
-		return performanceReferenceService.addInfo(performanceReferenceReq);
+		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
+		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
+		return performanceReferenceResp;
 	}
 	
-	//Delete（削除）
-//		@DeleteMapping("/pr/{id}")
-//		public ResponseEntity<PerformanceReferenceResp> deleteInfo(@PathVariable("id") String caseNo){
-//		    PerformanceReferenceResp result = performanceReferenceService.deleteInfo(caseNo);
-//		    if (result.isSuccess()) {
-//		        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-//		    } else {
-//		        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//		    }
-//	    }
-	
-	//Update(更新)
-//		@PutMapping("/pr/{id}")
-//		public ResponseEntity<PerformanceReferenceResp> updeteInfo(@PathVariable("id") String caseNo,@RequestBody PerformanceReferenceReq performanceReferenceReq){
-//		    PerformanceReferenceResp result = performanceReferenceService.updateInfo(caseNo, performanceReferenceReq);
-//		    if (result.isSuccess()) {
-//		        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-//		    } else {
-//		        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//		    }
-//	    }
+	//編輯PR資料(rating可以編輯)
+	@PutMapping("editPerformanceReference")
+	public PerformanceReferenceResp editPerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
+		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
+		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
+		return performanceReferenceResp;
+	}
+
 }

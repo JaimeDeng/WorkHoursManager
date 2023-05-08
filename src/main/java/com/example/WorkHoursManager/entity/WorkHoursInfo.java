@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "work_hours_info")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "workInfoId")
 public class WorkHoursInfo {
 	
 	@Id
@@ -32,6 +31,7 @@ public class WorkHoursInfo {
 
 //---------------------------------------------employeeId------------------------------------------------
 	@ManyToOne
+	@JsonProperty("employeeId")
 	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id", 
 	insertable = true, updatable = true)
 	private EmployeeInfo employeeInfo;
@@ -43,18 +43,8 @@ public class WorkHoursInfo {
 	@Column(name = "model")
 	private String model;
 
-//---------------------------------------------caseNo------------------------------------------------
-	//設置PerformanceReference為case_no的外鍵關聯對象
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true,
-			insertable = false, updatable = false)
-	private PerformanceReference performanceReference;
-	
-	//設置CaseInfo為case_no的外鍵關聯對象
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true)
-	private CaseInfo caseInfo; 
-	//----------------------------------------------------------------------------------------------------
+	@Column(name = "case_no")
+	private String caseNo;
 	
 	@Column(name = "start_time")
 	private String startTime;
@@ -126,23 +116,15 @@ public class WorkHoursInfo {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-	public PerformanceReference getPerformanceReference() {
-		return performanceReference;
-	}
-
-	public void setPerformanceReference(PerformanceReference performanceReference) {
-		this.performanceReference = performanceReference;
-	}
-
-	public CaseInfo getCaseInfo() {
-		return caseInfo;
-	}
-
-	public void setCaseInfo(CaseInfo caseInfo) {
-		this.caseInfo = caseInfo;
-	}
 	
+	public String getCaseNo() {
+		return caseNo;
+	}
+
+	public void setCaseNo(String caseNo) {
+		this.caseNo = caseNo;
+	}
+
 	public String getDate() {
 		return date;
 	}

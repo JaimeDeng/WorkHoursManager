@@ -5,6 +5,8 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -13,10 +15,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "employee_info")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "employeeId")
 public class EmployeeInfo {
 	
 	@Id
+	@JsonIdentityReference(alwaysAsId = true)
 	@Column(name = "employee_id")
 	private String employeeId;
 	
@@ -41,36 +44,30 @@ public class EmployeeInfo {
 	@Column(name = "phone")
 	private String phone;
 	
-
-//------------------------------------------------supervisor----------------------------------------------
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JsonProperty("supervisor")
-	@JsonInclude(JsonInclude.Include.ALWAYS)	//即使是NULL也顯示在RESP
-    @JoinColumn(name = "supervisor", referencedColumnName = "employee_id" , nullable=true , 
-    		insertable = true, updatable = true)
-    private EmployeeInfo supervisor;
-//----------------------------------------------------------------------------------------------------------
+	@Column(name = "supervisor")
+	private String supervisor;
 
 //==============================================================
 	//WorkHoursInfo的mployee_id外鍵關聯
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkHoursInfo> workHoursInfo;
 	
 	//WorkDayInfo的employee_id外鍵關聯
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<WorkDayInfo> workDayInfo;
 	
 	//CaseInfo的employee_id外鍵關聯
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private List<CaseInfo> caseInfo;
 	
-	//Account的employee_id外鍵關聯
+	//Account的employee_id外鍵關聯
+	@JsonManagedReference
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private Account account;
 	
-	//EmployeeInfo的employee_id自關聯
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "supervisor")
-	private EmployeeInfo employeeInfo;
 
 	
 	//Getter & Setter
@@ -171,20 +168,12 @@ public class EmployeeInfo {
 		this.phone = phone;
 	}
 
-	public EmployeeInfo getSupervisor() {
+	public String getSupervisor() {
 		return supervisor;
 	}
 
-	public void setSupervisor(EmployeeInfo supervisor) {
+	public void setSupervisor(String supervisor) {
 		this.supervisor = supervisor;
-	}
-
-	public EmployeeInfo getEmployeeInfo() {
-		return employeeInfo;
-	}
-
-	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
-		this.employeeInfo = employeeInfo;
 	}
 
 }

@@ -5,10 +5,11 @@ import java.util.List;
 import com.example.WorkHoursManager.entity.WorkHoursInfo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class WorkHoursInfoResp extends WorkHoursInfo {
 
-	private List<WorkHoursInfo>hoursInfos;
+	@JsonInclude(JsonInclude.Include.ALWAYS)
+	private List<WorkHoursInfo>workHoursInfoList;
 	
 	public String message;
 	
@@ -32,12 +33,12 @@ public class WorkHoursInfoResp extends WorkHoursInfo {
 		this.success = success;
 	}
 	
-	public List<WorkHoursInfo> getHoursInfos() {
-		return hoursInfos;
+	public List<WorkHoursInfo> getWorkHoursInfoList() {
+		return workHoursInfoList;
 	}
 
-	public void setHoursInfos(List<WorkHoursInfo> hoursInfos) {
-		this.hoursInfos = hoursInfos;
+	public void setWorkHoursInfoList(List<WorkHoursInfo> workHoursInfoList) {
+		this.workHoursInfoList = workHoursInfoList;
 	}
 
 	//Constructor
@@ -48,9 +49,9 @@ public class WorkHoursInfoResp extends WorkHoursInfo {
 		this.success = success;
 	}
 
-	public WorkHoursInfoResp(List<WorkHoursInfo> hoursInfos, String message, boolean success) {
+	public WorkHoursInfoResp(List<WorkHoursInfo> workHoursInfoList, String message, boolean success) {
 		super();
-		this.hoursInfos = hoursInfos;
+		this.workHoursInfoList = workHoursInfoList;
 		this.message = message;
 		this.success = success;
 	}

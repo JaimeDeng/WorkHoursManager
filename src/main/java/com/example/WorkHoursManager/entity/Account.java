@@ -2,6 +2,8 @@ package com.example.WorkHoursManager.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -14,6 +16,7 @@ public class Account {
 
 	@OneToOne(cascade = CascadeType.REFRESH , fetch = FetchType.EAGER)
 	@JsonProperty("employeeId")
+	@JsonBackReference
 	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id" ,
     		insertable = true, updatable = true)
 	private EmployeeInfo employeeInfo;

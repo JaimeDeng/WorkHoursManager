@@ -7,8 +7,11 @@ import com.example.WorkHoursManager.vo.performanceReferenceVo.PerformanceReferen
 import com.example.WorkHoursManager.vo.performanceReferenceVo.PerformanceReferenceResp;
 
 public interface PerformanceReferenceService {
-	public List<PerformanceReference> getAllInfos();
-	public PerformanceReferenceResp addInfo(PerformanceReferenceReq performanceReferenceReq);
-//	public PerformanceReferenceResp deleteInfo(String caseNo);
-//	public PerformanceReferenceResp updateInfo(String caseNo, PerformanceReferenceReq performanceReferenceReq);
+	
+	public PerformanceReferenceResp setPerformanceReference(PerformanceReferenceReq performanceReferenceReq);
+	public PerformanceReferenceResp getAllPerformanceReferences(PerformanceReferenceReq performanceReferenceReq);
+	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(PerformanceReferenceReq performanceReferenceReq);
+	public PerformanceReferenceResp editPerformanceReference(PerformanceReferenceReq performanceReferenceReq);
+	public PerformanceReferenceResp deletePerformanceReference(PerformanceReferenceReq performanceReferenceReq);
+	
 }

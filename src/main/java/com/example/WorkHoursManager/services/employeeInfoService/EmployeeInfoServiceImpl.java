@@ -83,24 +83,22 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		}
 		employeeInfo.setPosition(employeeInfoReq.getPosition());
 		
-		if(!StringUtils.hasText(employeeInfoReq.getSupervisorId())) {
-			employeeInfoResp.message = "請輸入此員工的主管ID";
-			employeeInfoResp.success = false;
-			return employeeInfoResp;
+		//有輸入主管ID才檢查
+		if(StringUtils.hasText(employeeInfoReq.getSupervisor())) {
+			EmployeeInfo supervisor = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeInfoReq.getSupervisor());
+			if(supervisor == null) {
+				employeeInfoResp.message = "您設定主管的員工ID不存在";
+				employeeInfoResp.success = false;
+				return employeeInfoResp;
+			}
+			if(employeeInfoReq.getSupervisor().equals(employeeInfo.getEmployeeId())) {
+				employeeInfoResp.message = "不可將主管ID設為自己";
+				employeeInfoResp.success = false;
+				return employeeInfoResp;
+			}
 		}
-		EmployeeInfo supervisor = employeeInfoDao.getEmployeeInfoByEmployeeId
-				(employeeInfoReq.getSupervisorId());
-		if(supervisor == null) {
-			employeeInfoResp.message = "您設定主管的員工ID不存在";
-			employeeInfoResp.success = false;
-			return employeeInfoResp;
-		}
-		if(supervisor.getEmployeeId().equals(employeeInfo.getEmployeeId())) {
-			employeeInfoResp.message = "不可將主管ID設為自己";
-			employeeInfoResp.success = false;
-			return employeeInfoResp;
-		}
-		employeeInfo.setSupervisor(supervisor);
+		employeeInfo.setSupervisor(employeeInfoReq.getSupervisor());
+		
 		employeeInfoDao.save(employeeInfo);
 		employeeInfoResp.message = "員工資訊新增成功";
 		employeeInfoResp.success = true;
@@ -214,24 +212,21 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		}
 		employeeInfo.setPosition(employeeInfoReq.getPosition());
 		
-		if(!StringUtils.hasText(employeeInfoReq.getSupervisorId())) {
-			employeeInfoResp.message = "請輸入此員工的主管ID";
-			employeeInfoResp.success = false;
-			return employeeInfoResp;
+		//有輸入主管ID才檢查
+		if(StringUtils.hasText(employeeInfoReq.getSupervisor())) {
+			EmployeeInfo supervisor = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeInfoReq.getSupervisor());
+			if(supervisor == null) {
+				employeeInfoResp.message = "您設定主管的員工ID不存在";
+				employeeInfoResp.success = false;
+				return employeeInfoResp;
+			}
+			if(employeeInfoReq.getSupervisor().equals(employeeInfo.getEmployeeId())) {
+				employeeInfoResp.message = "不可將主管ID設為自己";
+				employeeInfoResp.success = false;
+				return employeeInfoResp;
+			}
 		}
-		EmployeeInfo supervisor = employeeInfoDao.getEmployeeInfoByEmployeeId
-				(employeeInfoReq.getSupervisorId());
-		if(supervisor == null) {
-			employeeInfoResp.message = "您設定主管的員工ID不存在";
-			employeeInfoResp.success = false;
-			return employeeInfoResp;
-		}
-		if(supervisor.getEmployeeId().equals(employeeInfo.getEmployeeId())) {
-			employeeInfoResp.message = "不可將主管ID設為自己";
-			employeeInfoResp.success = false;
-			return employeeInfoResp;
-		}
-		employeeInfo.setSupervisor(supervisor);
+		employeeInfo.setSupervisor(employeeInfoReq.getSupervisor());
 		employeeInfoDao.save(employeeInfo);
 		employeeInfoResp.message = "員工資訊修改成功";
 		employeeInfoResp.success = true;

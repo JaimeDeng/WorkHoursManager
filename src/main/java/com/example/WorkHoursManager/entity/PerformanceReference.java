@@ -18,10 +18,6 @@ public class PerformanceReference {
 	@Column(name = "rating")
 	private String rating;
 
-//==============================================================
-	//WorkHoursInfo的case_no外鍵關聯
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "caseInfo")
-	private List<WorkHoursInfo> workHoursInfo;
 	
 	//Getter & Setter
 
@@ -47,14 +43,6 @@ public class PerformanceReference {
 
 	public void setRating(String rating) {
 		this.rating = rating;
-	}
-
-	public List<WorkHoursInfo> getWorkHoursInfo() {
-		return workHoursInfo;
-	}
-
-	public void setWorkHoursInfo(List<WorkHoursInfo> workHoursInfo) {
-		this.workHoursInfo = workHoursInfo;
 	}
 	
 }

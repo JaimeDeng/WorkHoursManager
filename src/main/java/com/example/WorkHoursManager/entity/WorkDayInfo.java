@@ -34,7 +34,7 @@ public class WorkDayInfo{
 
 //---------------------------------------------employeeId------------------------------------------------
 	//設置EmployeeInfo為employee_id外鍵關聯對象
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.REFRESH)
 	@JsonProperty("employeeId")
 	@JoinColumn(name="employee_id", referencedColumnName ="employee_id" , 	
 		insertable = true, updatable = true)
@@ -45,7 +45,7 @@ public class WorkDayInfo{
 	private String status;
 	
 	@Column(name = "working_hours")
-	private Integer workingHours;
+	private float workingHours;
 	
 	@Column(name = "approved")
 	private boolean approved;
@@ -92,11 +92,11 @@ public class WorkDayInfo{
 		this.workInfoId = workInfoId;
 	}
 
-	public Integer getWorkingHours() {
+	public float getWorkingHours() {
 		return workingHours;
 	}
 
-	public void setWorkingHours(Integer workingHours) {
+	public void setWorkingHours(float workingHours) {
 		this.workingHours = workingHours;
 	}
 
