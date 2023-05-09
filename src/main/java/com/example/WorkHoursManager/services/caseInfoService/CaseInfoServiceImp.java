@@ -1,6 +1,7 @@
 package com.example.WorkHoursManager.services.caseInfoService;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -58,14 +59,14 @@ public class CaseInfoServiceImp implements CaseInfoService{
 		if(!StringUtils.hasText(caseInfoReq.getCaseNo())){
 			return new CaseInfoResp("案件號碼不可為空",false);
 		}
-		if(caseInfoDao.getCaseInfoByCaseNo(caseInfoReq.getCaseNo()) != null) {
-			return new CaseInfoResp("此caseNo已有資料存在",false);
+		if(!StringUtils.hasText(caseInfoReq.getCaseNo())) {
+			return new CaseInfoResp("caseNo不可為空",false);
 		}
 		if(!StringUtils.hasText(caseInfoReq.getModel())){
 			return new CaseInfoResp("機型不可為空",false);
 		}
-		if(caseInfoReq.getDuration() < 0){
-			return new CaseInfoResp("完工時長不可小於0",false);
+		if(caseInfoReq.getDuration() < 0.5){
+			return new CaseInfoResp("完工時長不可低於半小時",false);
 		}
 		if(!StringUtils.hasText(caseInfoReq.getDate())){
 			return new CaseInfoResp("最後工作日不可為空",false);
@@ -86,17 +87,20 @@ public class CaseInfoServiceImp implements CaseInfoService{
 		return new CaseInfoResp("新增成功",true);
 	}
 
-	//以caseNo獲取caseInfo
+	//以caseInfoId獲取caseInfo
 	@Override
-	public CaseInfoResp getCaseInfoByCaseNo(CaseInfoReq caseInfoReq) {
+	public CaseInfoResp getCaseInfoById(CaseInfoReq caseInfoReq) {
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
-		if(!StringUtils.hasText(caseInfoReq.getCaseNo())){
-			return new CaseInfoResp("請輸入案件號碼",false);
+		if(caseInfoReq.getCaseInfoId() < 1){
+			return new CaseInfoResp("請輸入ID不得低於1",false);
 		}
-		CaseInfo caseInfo = caseInfoDao.getCaseInfoByCaseNo(caseInfoReq.getCaseNo());
-		if(caseInfo == null) {
+		Optional<CaseInfo>caseInfoOpt = caseInfoDao.findById(caseInfoReq.getCaseInfoId());
+		if(caseInfoOpt.isEmpty()) {
 			return new CaseInfoResp("無此案件號碼的caseInfo存在",false);
 		}
+		CaseInfo caseInfo = caseInfoOpt.get();
+
+		caseInfoResp.setCaseInfoId(caseInfo.getCaseInfoId());
 		caseInfoResp.setCaseNo(caseInfo.getCaseNo());
 		caseInfoResp.setDate(caseInfo.getDate());
 		caseInfoResp.setDuration(caseInfo.getDuration());
@@ -110,20 +114,22 @@ public class CaseInfoServiceImp implements CaseInfoService{
 	//編輯caseInfo
 	@Override
 	public CaseInfoResp editCaseInfo(CaseInfoReq caseInfoReq) {
-		CaseInfoResp caseInfoResp = new CaseInfoResp();
-		CaseInfo newCaseInfo = new CaseInfo();
-		if(!StringUtils.hasText(caseInfoReq.getCaseNo())){
-			return new CaseInfoResp("請輸入案件號碼",false);
+		if(caseInfoReq.getCaseInfoId() < 1){
+			return new CaseInfoResp("請輸入ID不得低於1",false);
 		}
-		CaseInfo caseInfo = caseInfoDao.getCaseInfoByCaseNo(caseInfoReq.getCaseNo());
-		if(caseInfo == null) {
+		Optional<CaseInfo>caseInfoOpt = caseInfoDao.findById(caseInfoReq.getCaseInfoId());
+		CaseInfo newCaseInfo = caseInfoOpt.get();
+		if(caseInfoOpt.isEmpty()) {
 			return new CaseInfoResp("無此案件號碼的caseInfo存在",false);
+		}
+		if(!StringUtils.hasText(caseInfoReq.getCaseNo())) {
+			return new CaseInfoResp("caseNo不可為空",false);
 		}
 		if(!StringUtils.hasText(caseInfoReq.getModel())){
 			return new CaseInfoResp("機型不可為空",false);
 		}
-		if(caseInfoReq.getDuration() < 0){
-			return new CaseInfoResp("完工時長不可小於0",false);
+		if(caseInfoReq.getDuration() < 0.5){
+			return new CaseInfoResp("完工時長不可低於半小時",false);
 		}
 		if(!StringUtils.hasText(caseInfoReq.getDate())){
 			return new CaseInfoResp("最後工作日不可為空",false);
@@ -135,7 +141,7 @@ public class CaseInfoServiceImp implements CaseInfoService{
 		if(employeeInfo == null) {
 			return new CaseInfoResp("此員工ID不存在",false);
 		}
-		
+
 		newCaseInfo.setCaseNo(caseInfoReq.getCaseNo());
 		newCaseInfo.setModel(caseInfoReq.getModel());
 		newCaseInfo.setDuration(caseInfoReq.getDuration());
@@ -149,11 +155,12 @@ public class CaseInfoServiceImp implements CaseInfoService{
 	@Override
 	public CaseInfoResp deleteCaseInfo(CaseInfoReq caseInfoReq) {
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
-		if(!StringUtils.hasText(caseInfoReq.getCaseNo())){
-			return new CaseInfoResp("請輸入案件號碼",false);
+		if(caseInfoReq.getCaseInfoId() < 1){
+			return new CaseInfoResp("請輸入ID不得低於1",false);
 		}
-		CaseInfo caseInfo = caseInfoDao.getCaseInfoByCaseNo(caseInfoReq.getCaseNo());
-		if(caseInfo == null) {
+		Optional<CaseInfo>caseInfoOpt = caseInfoDao.findById(caseInfoReq.getCaseInfoId());
+		CaseInfo caseInfo = caseInfoOpt.get();
+		if(caseInfoOpt.isEmpty()) {
 			return new CaseInfoResp("無此案件號碼的caseInfo存在",false);
 		}
 		caseInfoDao.delete(caseInfo);

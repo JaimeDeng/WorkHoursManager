@@ -1,4 +1,4 @@
-package com.example.WorkHoursManager.services.workDayService;
+package com.example.WorkHoursManager.services.workDayInfoService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

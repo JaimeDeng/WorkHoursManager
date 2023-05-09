@@ -26,7 +26,7 @@ import com.example.WorkHoursManager.services.accountService.AccountService;
 import com.example.WorkHoursManager.services.caseInfoService.CaseInfoService;
 import com.example.WorkHoursManager.services.employeeInfoService.EmployeeInfoService;
 import com.example.WorkHoursManager.services.performanceReferenceService.PerformanceReferenceService;
-import com.example.WorkHoursManager.services.workDayService.WorkDayInfoService;
+import com.example.WorkHoursManager.services.workDayInfoService.WorkDayInfoService;
 import com.example.WorkHoursManager.vo.accountVo.AccountReq;
 import com.example.WorkHoursManager.vo.accountVo.AccountResp;
 import com.example.WorkHoursManager.vo.caseInfoVo.CaseInfoReq;
@@ -68,6 +68,8 @@ public class WorkHoursManagerController {
 	//-----------------------Constructor Injection---------------------------
 	
 	//---------------------------------------Account API-------------------------------------------
+	
+	//新增帳號
 	@PostMapping("/setAccount")
 	public AccountResp setAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
@@ -75,6 +77,7 @@ public class WorkHoursManagerController {
 		return accountResp;
 	}
 	
+	//獲取全部帳號資訊
 	@GetMapping("/getAllAccount")
 	public AccountResp getAllAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
@@ -82,6 +85,7 @@ public class WorkHoursManagerController {
 		return accountResp;
 	}
 	
+	//以員工ID獲取帳號資訊
 	@GetMapping("/getAccountByEmployeeId")
 	public AccountResp getAccountByEmployeeId(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
@@ -89,6 +93,7 @@ public class WorkHoursManagerController {
 		return accountResp;
 	}
 	
+	//刪除指定帳號
 	@DeleteMapping("/deleteAccount")
 	public AccountResp deleteAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
@@ -96,7 +101,8 @@ public class WorkHoursManagerController {
 		return accountResp;
 	}
 	
-	@PostMapping("/changPassword")
+	//修改指定帳號的密碼
+	@PutMapping("/changPassword")
 	public AccountResp changPassword(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.changPassword(accountReq);
@@ -105,6 +111,7 @@ public class WorkHoursManagerController {
 	
 	//---------------------------------------EmployeeInfo API-------------------------------------------
 	
+	//新增員工資訊
 	@PostMapping("/setEmployeeInfo")
 	public EmployeeInfoResp setEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
@@ -112,6 +119,7 @@ public class WorkHoursManagerController {
 		return employeeInfoResp;
 	}
 	
+	//獲取全部員工資訊
 	@GetMapping("/getAllEmployeeInfo")
 	public EmployeeInfoResp getAllEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
@@ -119,6 +127,7 @@ public class WorkHoursManagerController {
 		return employeeInfoResp;
 	}
 	
+	//以員工ID獲取員工資訊
 	@GetMapping("/getEmployeeInfoById")
 	public EmployeeInfoResp getEmployeeInfoById(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
@@ -126,13 +135,15 @@ public class WorkHoursManagerController {
 		return employeeInfoResp;
 	}
 	
-	@PostMapping("/editEmployeeInfo")
+	//修改指定ID員工資訊
+	@PutMapping("/editEmployeeInfo")
 	public EmployeeInfoResp editEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.editEmployeeInfo(employeeInfoReq);
 		return employeeInfoResp;
 	}
 	
+	//刪除指定ID員工資訊
 	@DeleteMapping("/deleteEmployeeInfo")
 	public EmployeeInfoResp deleteEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
@@ -179,14 +190,14 @@ public class WorkHoursManagerController {
 	
 	//---------------------------------------WorkHoursInfo API-------------------------------------------
 	
-	//Read（読み取り）
+	//讀取所有工時表
 	@GetMapping("getAllWorkHoursInfo")
 	public WorkHoursInfoResp getAllWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq){
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
 		return workHoursInfoResp;
 	}
 	
-	//Create（生成）
+	//新增工時表
 	@PostMapping("setWorkHoursInfo")
 	public WorkHoursInfoResp setWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
@@ -194,7 +205,7 @@ public class WorkHoursManagerController {
 		return workHoursInfoResp;
 	}
 	
-	//Delete（削除）
+	//刪除工時表
 	@DeleteMapping("/deleteWorkHoursInfo")
 	public WorkHoursInfoResp deleteWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
@@ -202,18 +213,15 @@ public class WorkHoursManagerController {
 		return workHoursInfoResp;
 	}
 	
-	//Update(更新)
-	@PutMapping("/api/{id}")
-	public ResponseEntity<WorkHoursInfoResp> updateInfo(@PathVariable("id") int workInfoId, 
-			@RequestBody WorkHoursInfoReq workHoursInfoReq) {
-	    WorkHoursInfoResp result = workHoursService.editWorkHoursInfo(workHoursInfoReq);
-
-	    if (result.isSuccess()) {
-	        return new ResponseEntity<>(result, HttpStatus.OK);
-	    } else {
-	        return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-	    }
+	//編輯工時表
+	@PutMapping("/editWorkHoursInfo")
+	public WorkHoursInfoResp editWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
+		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		workHoursInfoResp = workHoursService.editWorkHoursInfo(workHoursInfoReq);
+		return workHoursInfoResp;
 	}
+	
+
 	
 	//---------------------------------------CaseInfo API-------------------------------------------
 	
@@ -242,10 +250,10 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo查詢caseInfo
-	@GetMapping("getCaseInfoByCaseNo")
+	@GetMapping("getCaseInfoById")
 	public CaseInfoResp getCaseInfoByCaseNo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
-		caseInfoResp = caseInfoService.getCaseInfoByCaseNo(caseInfoReq);
+		caseInfoResp = caseInfoService.getCaseInfoById(caseInfoReq);
 		return caseInfoResp;
 	}
 	

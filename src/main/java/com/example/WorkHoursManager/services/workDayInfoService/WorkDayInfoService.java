@@ -1,4 +1,4 @@
-package com.example.WorkHoursManager.services.workDayService;
+package com.example.WorkHoursManager.services.workDayInfoService;
 
 import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoReq;
 import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoResp;

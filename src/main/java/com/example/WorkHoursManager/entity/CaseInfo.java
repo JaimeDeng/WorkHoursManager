@@ -7,8 +7,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "case_info")
 public class CaseInfo {
-	
+
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "case_info_id")
+	private Integer caseInfoId;
+	
 	@Column(name = "case_no")
 	private String caseNo;
 	
@@ -29,6 +33,14 @@ public class CaseInfo {
 	private String date;
 	
 	//Getter & Setter
+	
+	public Integer getCaseInfoId() {
+		return caseInfoId;
+	}
+
+	public void setCaseInfoId(Integer caseInfoId) {
+		this.caseInfoId = caseInfoId;
+	}
 	
 	public EmployeeInfo getEmployeeInfo() {
 		return employeeInfo;

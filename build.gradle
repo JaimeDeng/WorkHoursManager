@@ -22,6 +22,9 @@ dependencies {
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	//Gson
 	implementation 'com.google.code.gson:gson:2.10.1'
+	//OpenAPI
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+	implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
 	
 }
 
