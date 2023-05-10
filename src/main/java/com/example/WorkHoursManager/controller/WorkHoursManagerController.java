@@ -63,7 +63,7 @@ public class WorkHoursManagerController {
 	//---------------------------------------Account API-------------------------------------------
 	
 	//新增帳號
-	@PostMapping("/setAccount")
+	@PostMapping(value = "/setAccount" , produces = "application/json;charset=UTF-8")
 	public AccountResp setAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.setAccount(accountReq);
@@ -71,7 +71,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//獲取全部帳號資訊
-	@GetMapping("/getAllAccount")
+	@GetMapping(value = "/getAllAccount" , produces = "application/json;charset=UTF-8")
 	public AccountResp getAllAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.getAllAccount(accountReq);
@@ -79,7 +79,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以員工ID獲取帳號資訊
-	@GetMapping("/getAccountByEmployeeId")
+	@GetMapping(value = "/getAccountByEmployeeId" , produces = "application/json;charset=UTF-8")
 	public AccountResp getAccountByEmployeeId(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.getAccountByEmployeeId(accountReq);
@@ -87,7 +87,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除指定帳號
-	@DeleteMapping("/deleteAccount")
+	@DeleteMapping(value = "/deleteAccount" , produces = "application/json;charset=UTF-8")
 	public AccountResp deleteAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.deleteAccount(accountReq);
@@ -95,7 +95,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//修改指定帳號的密碼
-	@PutMapping("/changPassword")
+	@PutMapping(value = "/changPassword" , produces = "application/json;charset=UTF-8")
 	public AccountResp changPassword(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.changPassword(accountReq);
@@ -105,7 +105,7 @@ public class WorkHoursManagerController {
 	//---------------------------------------EmployeeInfo API-------------------------------------------
 	
 	//新增員工資訊
-	@PostMapping("/setEmployeeInfo")
+	@PostMapping(value = "/setEmployeeInfo" , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp setEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.setEmployeeInfo(employeeInfoReq);
@@ -113,7 +113,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//獲取全部員工資訊
-	@GetMapping("/getAllEmployeeInfo")
+	@GetMapping(value = "/getAllEmployeeInfo" , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp getAllEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.getAllEmployeeInfo(employeeInfoReq);
@@ -121,7 +121,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以員工ID獲取員工資訊
-	@GetMapping("/getEmployeeInfoById")
+	@GetMapping(value = "/getEmployeeInfoById" , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp getEmployeeInfoById(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.getEmployeeInfoById(employeeInfoReq);
@@ -129,7 +129,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//修改指定ID員工資訊
-	@PutMapping("/editEmployeeInfo")
+	@PutMapping(value = "/editEmployeeInfo"  , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp editEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.editEmployeeInfo(employeeInfoReq);
@@ -137,7 +137,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除指定ID員工資訊
-	@DeleteMapping("/deleteEmployeeInfo")
+	@DeleteMapping(value = "/deleteEmployeeInfo" , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp deleteEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.deleteEmployeeInfo(employeeInfoReq);
@@ -146,35 +146,35 @@ public class WorkHoursManagerController {
 	
 	//---------------------------------------WorkDayInfo API-------------------------------------------
 	
-	@PostMapping("/setWorkDayInfo")
+	@PostMapping(value = "/setWorkDayInfo" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp setWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.setWorkDayInfo(workDayInfoReq);
 		return workDayInfoResp;
 	}
 
-	@GetMapping("/getAllWorkDayInfo")
+	@GetMapping(value = "/getAllWorkDayInfo" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getAllWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.getAllWorkDayInfo(workDayInfoReq);
 		return workDayInfoResp;
 	}
 	
-	@GetMapping("/getWorkDayInfoByDate")
+	@GetMapping(value = "/getWorkDayInfoByDate" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getWorkDayInfoByDate(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.getWorkDayInfoByDate(workDayInfoReq);
 		return workDayInfoResp;
 	}
 	
-	@GetMapping("/getWorkDayInfoByEmployeeId")
+	@GetMapping(value = "/getWorkDayInfoByEmployeeId" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getWorkDayInfoByEmployeeId(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.getWorkDayInfoByEmployeeId(workDayInfoReq);
 		return workDayInfoResp;
 	}
 	
-	@DeleteMapping("/deleteWorkDayInfo")
+	@DeleteMapping(value = "/deleteWorkDayInfo" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp deleteWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.deleteWorkDayInfo(workDayInfoReq);
@@ -184,7 +184,7 @@ public class WorkHoursManagerController {
 	//---------------------------------------WorkHoursInfo API-------------------------------------------
 	
 	//讀取所有工時表
-	@GetMapping("getAllWorkHoursInfo")
+	@GetMapping(value= "getAllWorkHoursInfo" , produces = "application/json;charset=UTF-8")
 	public WorkHoursInfoResp getAllWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq){
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
 		workHoursInfoResp= workHoursService.getAllWorkHoursInfo(workHoursInfoReq);
@@ -192,7 +192,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//新增工時表
-	@PostMapping("setWorkHoursInfo")
+	@PostMapping(value= "setWorkHoursInfo" , produces = "application/json;charset=UTF-8")
 	public WorkHoursInfoResp setWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
 		workHoursInfoResp= workHoursService.setWorkHoursInfo(workHoursInfoReq);
@@ -200,7 +200,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除工時表
-	@DeleteMapping("/deleteWorkHoursInfo")
+	@DeleteMapping(value = "/deleteWorkHoursInfo" , produces = "application/json;charset=UTF-8")
 	public WorkHoursInfoResp deleteWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
 		workHoursInfoResp = workHoursService.deleteWorkHoursInfo(workHoursInfoReq);
@@ -208,7 +208,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//編輯工時表
-	@PutMapping("/editWorkHoursInfo")
+	@PutMapping(value= "/editWorkHoursInfo" , produces = "application/json;charset=UTF-8")
 	public WorkHoursInfoResp editWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
 		workHoursInfoResp = workHoursService.editWorkHoursInfo(workHoursInfoReq);
@@ -220,7 +220,7 @@ public class WorkHoursManagerController {
 	//---------------------------------------CaseInfo API-------------------------------------------
 	
 	//查詢所有caseInfo
-	@GetMapping("getAllCaseInfo")
+	@GetMapping(value = "getAllCaseInfo" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp getAllCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.getAllCaseInfo(caseInfoReq);
@@ -228,7 +228,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//新增caseInfo
-	@PostMapping("setCaseInfo")
+	@PostMapping(value = "setCaseInfo" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp setCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.setCaseInfo(caseInfoReq);
@@ -236,7 +236,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除caseInfo
-	@DeleteMapping("deleteCaseInfo")
+	@DeleteMapping(value = "deleteCaseInfo" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp deleteCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.deleteCaseInfo(caseInfoReq);
@@ -244,7 +244,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo查詢caseInfo
-	@GetMapping("getCaseInfoById")
+	@GetMapping(value = "getCaseInfoById" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp getCaseInfoByCaseNo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.getCaseInfoById(caseInfoReq);
@@ -252,7 +252,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//編輯caseInfo
-	@PutMapping("editCaseInfo")
+	@PutMapping(value = "editCaseInfo" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp editCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.editCaseInfo(caseInfoReq);
@@ -262,7 +262,7 @@ public class WorkHoursManagerController {
 	//--------------------------------PerformanceReference API------------------------------------
 	
 	//獲取全部PR資料
-	@GetMapping("getAllPerformanceReferences")
+	@GetMapping(value = "getAllPerformanceReferences" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp getAllPerformanceReferences(@RequestBody PerformanceReferenceReq performanceReferenceReq){
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences(performanceReferenceReq);
@@ -270,7 +270,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo獲取PR資料
-	@GetMapping("getPerformanceReferenceByCaseNo")
+	@GetMapping(value = "getPerformanceReferenceByCaseNo" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(@RequestBody PerformanceReferenceReq performanceReferenceReq){
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences(performanceReferenceReq);
@@ -278,7 +278,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo刪除PR資料
-	@DeleteMapping("deletePerformanceReference")
+	@DeleteMapping(value = "deletePerformanceReference" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp deletePerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
@@ -286,7 +286,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//新增PR資料(rating預設為null)
-	@PostMapping("setPerformanceReference")
+	@PostMapping(value= "setPerformanceReference" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp setPerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
@@ -294,7 +294,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//編輯PR資料(rating可以編輯)
-	@PutMapping("editPerformanceReference")
+	@PutMapping(value= "editPerformanceReference" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp editPerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
