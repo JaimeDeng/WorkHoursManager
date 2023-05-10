@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "workhoursinfo")
+@Table(name = "work_hours_info")
 public class WorkHoursInfo {
 	
 	@Id
@@ -13,7 +13,7 @@ public class WorkHoursInfo {
 	private Integer workInfoId;
 
 //---------------------------------------------employeeId------------------------------------------------
-	//設置EmployeeInfo為employee_id外鍵關聯對象
+	//閮剔蔭EmployeeInfo�employee_id憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "employee_id", referencedColumnName = "employee_id", 
 	insertable = false, updatable = false)
@@ -21,7 +21,7 @@ public class WorkHoursInfo {
 //----------------------------------------------------------------------------------------------------------
 	
 //-------------------------------------------------date-------------------------------------------------
-	//設置WorkDayInfo為date外鍵關聯對象
+	//閮剔蔭WorkDayInfo�date憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "date", referencedColumnName = "date" , nullable=true , 
 		insertable = false, updatable = false)
@@ -32,13 +32,13 @@ public class WorkHoursInfo {
 	private String model;
 
 //---------------------------------------------caseNo------------------------------------------------
-	//設置PerformanceReference為case_no外鍵關聯對象
+	//閮剔蔭PerformanceReference�case_no憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
 		insertable = false, updatable = false)
 	private PerformanceReference performanceReference;
 	
-	//設置CaseInfo為case_no外鍵關聯對象
+	//閮剔蔭CaseInfo�case_no憭��撠情
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "case_no", referencedColumnName = "case_no" , nullable=true ,
 		insertable = false, updatable = false)
@@ -59,12 +59,13 @@ public class WorkHoursInfo {
 
 	
 	//Getter & Setter
-	public PerformanceReference getErformanceReference() {
+	
+	public PerformanceReference getPerformanceReference() {
 		return performanceReference;
 	}
 
-	public void setErformanceReference(PerformanceReference erformanceReference) {
-		this.performanceReference = erformanceReference;
+	public void setPerformanceReference(PerformanceReference performanceReference) {
+		this.performanceReference = performanceReference;
 	}
 	
 	public WorkDayInfo getWorkDayInfo() {
@@ -129,14 +130,6 @@ public class WorkHoursInfo {
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	public PerformanceReference getPerformanceReference() {
-		return performanceReference;
-	}
-
-	public void setPerformanceReference(PerformanceReference performanceReference) {
-		this.performanceReference = performanceReference;
 	}
 
 	public CaseInfo getCaseInfo() {

@@ -15,6 +15,6 @@ import com.example.WorkHoursManager.entity.*;
 @Qualifier("workHoursInfoDao")
 public interface WorkHoursInfoDao extends JpaRepository<WorkHoursInfo, Integer> {
 
-	List<WorkHoursInfo> findByDate(String date);
+	List<WorkHoursInfo> findByWorkDayInfo(String date);
 	List<WorkHoursInfo> findByStartTimeAndEndTime(String startTimeString, String endTimeString);
 }

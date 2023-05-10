@@ -40,10 +40,10 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		}
 		List<WorkHoursInfo>existInfoList=new ArrayList<WorkHoursInfo>();
 		for(WorkHoursInfo info:WorkHoursInfo) {
-			if(!StringUtils.hasText(info.getCaseNo())){
+			if(!StringUtils.hasText(info.getPerformanceReference().getCaseNo())){
 				return new WorkHoursInfoResp("案件號碼不可為空",false);
 			}
-			if(!StringUtils.hasText(info.getDate())){
+			if(!StringUtils.hasText(info.getPerformanceReference().getCaseNo())){
 				return new WorkHoursInfoResp("日期不可為空",false);
 			}
 			if(!StringUtils.hasText(info.getDetail())){
@@ -65,7 +65,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				existInfoList.add(info);
 			}
 			
-			List<WorkHoursInfo> sameDateInfos = workHoursInfoDao.findByDate(info.getDate());
+			List<WorkHoursInfo> sameDateInfos = workHoursInfoDao.findByWorkDayInfo(info.getPerformanceReference().getCaseNo());
 	        if(!CollectionUtils.isEmpty(sameDateInfos)) {	        
 	        	List<WorkHoursInfo> sameTimeInfos = workHoursInfoDao.findByStartTimeAndEndTime(info.getStartTime(),info.getEndTime());
 	        		if(!CollectionUtils.isEmpty(sameTimeInfos)){
