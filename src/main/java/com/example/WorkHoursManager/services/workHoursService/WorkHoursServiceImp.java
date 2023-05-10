@@ -74,6 +74,8 @@ public class WorkHoursServiceImp implements WorkHoursService {
 	public WorkHoursInfoResp getAllWorkHoursInfo(){
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
 		workHoursInfoResp.setWorkHoursInfoList(workHoursInfoDao.findAll());
+		workHoursInfoResp.message = "資料獲取成功";
+		workHoursInfoResp.success = true;
 		return workHoursInfoResp;
 	}
 	

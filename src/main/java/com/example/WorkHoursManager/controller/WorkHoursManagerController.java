@@ -87,7 +87,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除指定帳號
-	@DeleteMapping(value = "/deleteAccount" , produces = "application/json;charset=UTF-8")
+	@PostMapping(value = "/deleteAccount" , produces = "application/json;charset=UTF-8")
 	public AccountResp deleteAccount(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.deleteAccount(accountReq);
@@ -137,7 +137,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除指定ID員工資訊
-	@DeleteMapping(value = "/deleteEmployeeInfo" , produces = "application/json;charset=UTF-8")
+	@PostMapping(value = "/deleteEmployeeInfo" , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp deleteEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.deleteEmployeeInfo(employeeInfoReq);
@@ -146,6 +146,7 @@ public class WorkHoursManagerController {
 	
 	//---------------------------------------WorkDayInfo API-------------------------------------------
 	
+	//新增日報表
 	@PostMapping(value = "/setWorkDayInfo" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp setWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
@@ -153,6 +154,7 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 
+	//獲取所有日報表
 	@GetMapping(value = "/getAllWorkDayInfo" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getAllWorkDayInfo() {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
@@ -160,6 +162,7 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 	
+	//獲取指定日期日報表
 	@PutMapping(value = "/getWorkDayInfoByDate" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getWorkDayInfoByDate(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
@@ -167,6 +170,7 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 	
+	//獲取指定員工日報表
 	@GetMapping(value = "/getWorkDayInfoByEmployeeId" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getWorkDayInfoByEmployeeId(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
@@ -174,7 +178,8 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 	
-	@DeleteMapping(value = "/deleteWorkDayInfo" , produces = "application/json;charset=UTF-8")
+	//刪除指定ID日報表
+	@PostMapping(value = "/deleteWorkDayInfo" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp deleteWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.deleteWorkDayInfo(workDayInfoReq);
@@ -200,7 +205,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除工時表
-	@DeleteMapping(value = "/deleteWorkHoursInfo" , produces = "application/json;charset=UTF-8")
+	@PostMapping(value = "/deleteWorkHoursInfo" , produces = "application/json;charset=UTF-8")
 	public WorkHoursInfoResp deleteWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
 		workHoursInfoResp = workHoursService.deleteWorkHoursInfo(workHoursInfoReq);
@@ -236,7 +241,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//刪除caseInfo
-	@DeleteMapping(value = "deleteCaseInfo" , produces = "application/json;charset=UTF-8")
+	@PostMapping(value = "deleteCaseInfo" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp deleteCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.deleteCaseInfo(caseInfoReq);
@@ -278,7 +283,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo刪除PR資料
-	@DeleteMapping(value = "deletePerformanceReference" , produces = "application/json;charset=UTF-8")
+	@PostMapping(value = "deletePerformanceReference" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp deletePerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
