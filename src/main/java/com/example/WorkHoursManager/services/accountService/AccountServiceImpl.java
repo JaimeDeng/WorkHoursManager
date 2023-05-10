@@ -1,7 +1,6 @@
 package com.example.WorkHoursManager.services.accountService;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.transaction.Transactional;
 

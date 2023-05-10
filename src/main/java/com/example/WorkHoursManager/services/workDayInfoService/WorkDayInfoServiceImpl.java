@@ -13,7 +13,6 @@ import com.example.WorkHoursManager.entity.EmployeeInfo;
 import com.example.WorkHoursManager.entity.WorkDayInfo;
 import com.example.WorkHoursManager.repository.EmployeeInfoDao;
 import com.example.WorkHoursManager.repository.WorkDayInfoDao;
-import com.example.WorkHoursManager.repository.WorkHoursInfoDao;
 import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoReq;
 import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoResp;
 
@@ -23,18 +22,13 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 	
 	//-----------------------Constructor Injection---------------------------
 	private final EmployeeInfoDao employeeInfoDao;
-
 	private final WorkDayInfoDao workDayInfoDao;
-	
-	private final WorkHoursInfoDao workHoursInfoDao;
 	
 	@Autowired
 	public WorkDayInfoServiceImpl(@Qualifier("employeeInfoDao")EmployeeInfoDao employeeInfoDao , 
-			@Qualifier("workDayInfoDao")WorkDayInfoDao workDayInfoDao , 
-			@Qualifier("workHoursInfoDao")WorkHoursInfoDao workHoursInfoDao) {
+			@Qualifier("workDayInfoDao")WorkDayInfoDao workDayInfoDao) {
 				this.employeeInfoDao = employeeInfoDao;
 				this.workDayInfoDao = workDayInfoDao;
-				this.workHoursInfoDao = workHoursInfoDao;
 	}
 	//-----------------------Constructor Injection---------------------------
 

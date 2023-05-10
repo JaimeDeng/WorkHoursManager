@@ -1,8 +1,5 @@
 package com.example.WorkHoursManager.services.caseInfoService;
 
-import java.util.List;
-
-import com.example.WorkHoursManager.entity.CaseInfo;
 import com.example.WorkHoursManager.vo.caseInfoVo.CaseInfoReq;
 import com.example.WorkHoursManager.vo.caseInfoVo.CaseInfoResp;
 

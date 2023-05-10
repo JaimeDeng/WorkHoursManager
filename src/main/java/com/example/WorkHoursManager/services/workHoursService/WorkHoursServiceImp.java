@@ -191,6 +191,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			CaseInfoReq caseInfoReq = new CaseInfoReq();
 			List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByCaseNo(caseNoReq);
 			if(existsCaseInfoList.size() == 0){
+				System.out.println("沒有此caseNo , 直接存新的");
 				//完全沒有此caseNo的資料存在就直接存
 				caseInfoReq.setCaseNo(caseNoReq);
 				caseInfoReq.setDate(dateReq);
@@ -203,6 +204,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				}
 			}else{
 				//已有該caseNo存在就檢查有屬於無此員工的
+				System.out.println("有此caseNo");
 				boolean thisEmployeeHasThisCaseNoInfo = false;
 				for(CaseInfo existsCaseInfo : existsCaseInfoList) {
 					if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
@@ -619,6 +621,40 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			return new WorkHoursInfoResp("開始時間不得在結束時間之後",false);
 		}
 		
+		//判斷是否為同一日期
+		List<WorkHoursInfo> workHoursInfoList = workHoursInfoDao.getWorkHoursInfoByEmployeeInfo(employeeInfo);
+		//將同一個日期的workHoursInfo抓出來為一個新的List
+		List<WorkHoursInfo> sameDateWorkHoursInfoList = new ArrayList<>();
+		for (WorkHoursInfo info : workHoursInfoList) {
+			if(info.getDate().equals(newWorkHoursInfo.getDate()) && info.getWorkInfoId() != newWorkHoursInfo.getWorkInfoId()) {
+				sameDateWorkHoursInfoList.add(info);
+			}
+		}
+		System.out.println("同一員工的單有" + workHoursInfoList.size() + "筆");
+		System.out.println("同一天的單有" + sameDateWorkHoursInfoList.size() + "筆");
+		for(WorkHoursInfo sameDateWorkHoursInfo : sameDateWorkHoursInfoList) {
+			//取得每個同日期工時表的開始與結束時間的分鐘數
+			LocalTime sameDateWorkHoursInfoStartTime = LocalTime.parse(sameDateWorkHoursInfo.getStartTime());
+			int sameDateWorkHoursInfoStartTimeMinutes = sameDateWorkHoursInfoStartTime.getHour() * 60 + sameDateWorkHoursInfoStartTime.getMinute();
+			
+			LocalTime sameDateWorkHoursInfoEndTime = LocalTime.parse(sameDateWorkHoursInfo.getEndTime());
+			int sameDateWorkHoursInfoEndTimeMinutes = sameDateWorkHoursInfoEndTime.getHour() * 60 + sameDateWorkHoursInfoEndTime.getMinute();
+			
+			//檢查時間有無重疊
+			if(newStartTimeMinutes > sameDateWorkHoursInfoStartTimeMinutes
+					&& newStartTimeMinutes < sameDateWorkHoursInfoEndTimeMinutes
+					||	newEndTimeMinutes > sameDateWorkHoursInfoStartTimeMinutes
+					&& newEndTimeMinutes < sameDateWorkHoursInfoEndTimeMinutes
+					||	newStartTimeMinutes == sameDateWorkHoursInfoStartTimeMinutes
+					&&newEndTimeMinutes == sameDateWorkHoursInfoEndTimeMinutes
+					||	newStartTimeMinutes < sameDateWorkHoursInfoStartTimeMinutes
+					&&newEndTimeMinutes == sameDateWorkHoursInfoEndTimeMinutes
+					||	newStartTimeMinutes == sameDateWorkHoursInfoStartTimeMinutes
+					&&	newEndTimeMinutes > sameDateWorkHoursInfoEndTimeMinutes) {
+				return new WorkHoursInfoResp("新增失敗 , 新增表單與既有表單時間重疊",false);
+			}
+		}
+		
 		newWorkHoursInfo.setWorkInfoId(newWorkHoursInfo.getWorkInfoId());
 		newWorkHoursInfo.setEmployeeInfo(employeeInfo);
 		newWorkHoursInfo.setCaseNo(caseNoReq);
@@ -662,7 +698,6 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					workDayInfoReq.setWorkingHours(workDayInfo.getWorkingHours());
 					
 					//該日的所有工時資料來檢查status
-					List<WorkHoursInfo>workHoursInfoList = workHoursInfoDao.getWorkHoursInfoByEmployeeInfo(employeeInfo);
 					boolean attendance = false;
 				    for(WorkHoursInfo existsWorkHoursInfo : workHoursInfoList) {
 				    	if(existsWorkHoursInfo.getDate().equals(workDayInfo.getDate())){
@@ -694,7 +729,6 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					}
 					
 					//該日的所有工時資料來檢查status
-					List<WorkHoursInfo>workHoursInfoList = workHoursInfoDao.getWorkHoursInfoByEmployeeInfo(employeeInfo);
 					boolean attendance = false;
 				    for(WorkHoursInfo existsWorkHoursInfo : workHoursInfoList) {
 				    	if(existsWorkHoursInfo.getDate().equals(workDayInfo.getDate())){
@@ -715,7 +749,6 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		}
 		
 		//連動更新PR
-		PerformanceReference performanceReference = performanceReferenceDao.getPerformanceReferenceByCaseNo(caseNoReq);
 		PerformanceReferenceReq performanceReferenceReq = new PerformanceReferenceReq();
 		performanceReferenceReq.setCaseNo(caseNoReq);
 		performanceReferenceReq.setModel(modelReq);
