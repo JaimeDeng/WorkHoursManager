@@ -187,6 +187,7 @@ public class WorkHoursManagerController {
 	@GetMapping("getAllWorkHoursInfo")
 	public WorkHoursInfoResp getAllWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq){
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
+		workHoursInfoResp= workHoursService.getAllWorkHoursInfo(workHoursInfoReq);
 		return workHoursInfoResp;
 	}
 	

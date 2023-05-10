@@ -73,6 +73,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 	@Override
 	public WorkHoursInfoResp getAllWorkHoursInfo(WorkHoursInfoReq workHoursInfoReq){
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		workHoursInfoResp.setWorkHoursInfoList(workHoursInfoDao.findAll());
 		return workHoursInfoResp;
 	}
 	

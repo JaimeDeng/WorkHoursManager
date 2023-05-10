@@ -2,6 +2,8 @@ package com.example.WorkHoursManager.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "case_info")
 public class CaseInfo {
@@ -24,6 +26,7 @@ public class CaseInfo {
 	private EmployeeInfo employeeInfo;
 //----------------------------------------------------------------------------------------------------
 	
+	@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 	@Column(name = "duration")
 	private float duration;
 	
