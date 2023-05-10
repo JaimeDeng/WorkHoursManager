@@ -108,10 +108,9 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
 	//--------------------------------------獲取全部員工資訊------------------------------------------
 	@Override
-	public EmployeeInfoResp getAllEmployeeInfo(EmployeeInfoReq employeeInfoReq) {
+	public EmployeeInfoResp getAllEmployeeInfo() {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
-		List<EmployeeInfo> employeeInfo = employeeInfoDao.findAll();
-		employeeInfoResp.setEmployeeInfoList(employeeInfo);
+		employeeInfoResp.setEmployeeInfoList(employeeInfoDao.findAll());
 		employeeInfoResp.message = "資料獲取成功";
 		employeeInfoResp.success = true;
 		return employeeInfoResp;

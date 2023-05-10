@@ -72,14 +72,14 @@ public class WorkHoursManagerController {
 	
 	//獲取全部帳號資訊
 	@GetMapping(value = "/getAllAccount" , produces = "application/json;charset=UTF-8")
-	public AccountResp getAllAccount(@RequestBody AccountReq accountReq) {
+	public AccountResp getAllAccount() {
 		AccountResp accountResp = new AccountResp();
-		accountResp = accountService.getAllAccount(accountReq);
+		accountResp = accountService.getAllAccount();
 		return accountResp;
 	}
 	
 	//以員工ID獲取帳號資訊
-	@GetMapping(value = "/getAccountByEmployeeId" , produces = "application/json;charset=UTF-8")
+	@PutMapping(value = "/getAccountByEmployeeId" , produces = "application/json;charset=UTF-8")
 	public AccountResp getAccountByEmployeeId(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		accountResp = accountService.getAccountByEmployeeId(accountReq);
@@ -114,14 +114,14 @@ public class WorkHoursManagerController {
 	
 	//獲取全部員工資訊
 	@GetMapping(value = "/getAllEmployeeInfo" , produces = "application/json;charset=UTF-8")
-	public EmployeeInfoResp getAllEmployeeInfo(@RequestBody EmployeeInfoReq employeeInfoReq) {
+	public EmployeeInfoResp getAllEmployeeInfo() {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
-		employeeInfoResp = employeeInfoService.getAllEmployeeInfo(employeeInfoReq);
+		employeeInfoResp = employeeInfoService.getAllEmployeeInfo();
 		return employeeInfoResp;
 	}
 	
 	//以員工ID獲取員工資訊
-	@GetMapping(value = "/getEmployeeInfoById" , produces = "application/json;charset=UTF-8")
+	@PutMapping(value = "/getEmployeeInfoById" , produces = "application/json;charset=UTF-8")
 	public EmployeeInfoResp getEmployeeInfoById(@RequestBody EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
 		employeeInfoResp = employeeInfoService.getEmployeeInfoById(employeeInfoReq);
@@ -154,13 +154,13 @@ public class WorkHoursManagerController {
 	}
 
 	@GetMapping(value = "/getAllWorkDayInfo" , produces = "application/json;charset=UTF-8")
-	public WorkDayInfoResp getAllWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
+	public WorkDayInfoResp getAllWorkDayInfo() {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
-		workDayInfoResp = workDayInfoService.getAllWorkDayInfo(workDayInfoReq);
+		workDayInfoResp = workDayInfoService.getAllWorkDayInfo();
 		return workDayInfoResp;
 	}
 	
-	@GetMapping(value = "/getWorkDayInfoByDate" , produces = "application/json;charset=UTF-8")
+	@PutMapping(value = "/getWorkDayInfoByDate" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getWorkDayInfoByDate(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.getWorkDayInfoByDate(workDayInfoReq);
@@ -185,9 +185,9 @@ public class WorkHoursManagerController {
 	
 	//讀取所有工時表
 	@GetMapping(value= "getAllWorkHoursInfo" , produces = "application/json;charset=UTF-8")
-	public WorkHoursInfoResp getAllWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq){
+	public WorkHoursInfoResp getAllWorkHoursInfo(){
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
-		workHoursInfoResp= workHoursService.getAllWorkHoursInfo(workHoursInfoReq);
+		workHoursInfoResp= workHoursService.getAllWorkHoursInfo();
 		return workHoursInfoResp;
 	}
 	
@@ -221,9 +221,9 @@ public class WorkHoursManagerController {
 	
 	//查詢所有caseInfo
 	@GetMapping(value = "getAllCaseInfo" , produces = "application/json;charset=UTF-8")
-	public CaseInfoResp getAllCaseInfo(@RequestBody CaseInfoReq caseInfoReq){
+	public CaseInfoResp getAllCaseInfo(){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
-		caseInfoResp = caseInfoService.getAllCaseInfo(caseInfoReq);
+		caseInfoResp = caseInfoService.getAllCaseInfo();
 		return caseInfoResp;
 	}
 	
@@ -244,7 +244,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo查詢caseInfo
-	@GetMapping(value = "getCaseInfoById" , produces = "application/json;charset=UTF-8")
+	@PutMapping(value = "getCaseInfoById" , produces = "application/json;charset=UTF-8")
 	public CaseInfoResp getCaseInfoByCaseNo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.getCaseInfoById(caseInfoReq);
@@ -263,17 +263,17 @@ public class WorkHoursManagerController {
 	
 	//獲取全部PR資料
 	@GetMapping(value = "getAllPerformanceReferences" , produces = "application/json;charset=UTF-8")
-	public PerformanceReferenceResp getAllPerformanceReferences(@RequestBody PerformanceReferenceReq performanceReferenceReq){
+	public PerformanceReferenceResp getAllPerformanceReferences(){
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
-		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences(performanceReferenceReq);
+		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences();
 		return performanceReferenceResp;
 	}
 	
 	//以caseNo獲取PR資料
-	@GetMapping(value = "getPerformanceReferenceByCaseNo" , produces = "application/json;charset=UTF-8")
+	@PutMapping(value = "getPerformanceReferenceByCaseNo" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(@RequestBody PerformanceReferenceReq performanceReferenceReq){
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
-		performanceReferenceResp = performanceReferenceService.getAllPerformanceReferences(performanceReferenceReq);
+		performanceReferenceResp = performanceReferenceService.getPerformanceReferenceByCaseNo(performanceReferenceReq);
 		return performanceReferenceResp;
 	}
 	

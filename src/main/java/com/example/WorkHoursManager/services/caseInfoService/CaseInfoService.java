@@ -5,7 +5,7 @@ import com.example.WorkHoursManager.vo.caseInfoVo.CaseInfoResp;
 
 public interface CaseInfoService {
 	
-	public CaseInfoResp getAllCaseInfo(CaseInfoReq caseInfoReq);
+	public CaseInfoResp getAllCaseInfo();
 	public CaseInfoResp getCaseInfoById(CaseInfoReq caseInfoReq);
 	public CaseInfoResp setCaseInfo(CaseInfoReq caseInfoReq);
 	public CaseInfoResp editCaseInfo(CaseInfoReq caseInfoReq);

@@ -33,7 +33,7 @@ public class CaseInfoServiceImp implements CaseInfoService{
 	
 	//讀取全部caseInfo
 	@Override
-	public CaseInfoResp getAllCaseInfo(CaseInfoReq caseInfoReq) {
+	public CaseInfoResp getAllCaseInfo() {
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		List<CaseInfo>caseInfoList = caseInfoDao.findAll();
 		if(caseInfoList.size() == 0) {

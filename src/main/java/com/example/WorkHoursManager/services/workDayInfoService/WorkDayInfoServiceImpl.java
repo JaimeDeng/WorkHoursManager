@@ -152,7 +152,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 	}
 
 	@Override
-	public WorkDayInfoResp getAllWorkDayInfo(WorkDayInfoReq workDayInfoReq) {
+	public WorkDayInfoResp getAllWorkDayInfo() {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		List<WorkDayInfo>workDayInfoList = workDayInfoDao.findAll();
 		workDayInfoResp.setWorkDayInfoList(workDayInfoList);

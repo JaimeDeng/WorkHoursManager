@@ -21,7 +21,7 @@ public class PerformanceReferenceServiceImp implements PerformanceReferenceServi
 	
 	//讀取全部PR
 	@Override
-	public PerformanceReferenceResp getAllPerformanceReferences(PerformanceReferenceReq performanceReferenceReq) {
+	public PerformanceReferenceResp getAllPerformanceReferences() {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		List<PerformanceReference> performanceReferenceList = performanceReferenceDao.findAll();
 		if(performanceReferenceList.size() == 0) {

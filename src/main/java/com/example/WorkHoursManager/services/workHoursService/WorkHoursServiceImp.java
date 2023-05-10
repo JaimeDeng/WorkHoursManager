@@ -71,7 +71,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 
 	//讀取全部工時表
 	@Override
-	public WorkHoursInfoResp getAllWorkHoursInfo(WorkHoursInfoReq workHoursInfoReq){
+	public WorkHoursInfoResp getAllWorkHoursInfo(){
 		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
 		workHoursInfoResp.setWorkHoursInfoList(workHoursInfoDao.findAll());
 		return workHoursInfoResp;
@@ -201,7 +201,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				caseInfoReq.setDuration(durationHours);
 				caseInfoService.setCaseInfo(caseInfoReq);
 				if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-					return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+					return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 				}
 			}else{
 				//已有該caseNo存在就檢查有屬於無此員工的
@@ -232,7 +232,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 						caseInfoReq.setDuration(existsCaseInfo.getDuration() + durationHours);	//時間疊加			
 						caseInfoService.editCaseInfo(caseInfoReq);
 						if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-							return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+							return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 						}
 					}
 				}
@@ -245,7 +245,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					caseInfoReq.setDuration(durationHours);
 					caseInfoService.setCaseInfo(caseInfoReq);
 					if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-						return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+						return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 					}
 				}			
 			}
@@ -344,7 +344,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				caseInfoReq.setDuration(durationHours);
 				caseInfoService.setCaseInfo(caseInfoReq);
 				if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-					return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+					return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 				}
 			}else{
 				//已有該caseNo存在就檢查有屬於無此員工的
@@ -366,7 +366,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								caseInfoReq.setDate(existsCaseInfo.getDate());	//輸入日期較舊 , 日期維持
 							}
 						} catch (ParseException e) {
-							return new WorkHoursInfoResp("日期格式錯誤",true);
+							return new WorkHoursInfoResp("日期格式錯誤",false);
 						}
 						caseInfoReq.setCaseNo(caseNoReq);
 						caseInfoReq.setDate(dateReq);
@@ -375,7 +375,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 						caseInfoReq.setDuration(existsCaseInfo.getDuration() + durationHours);	//時間疊加		
 						caseInfoService.editCaseInfo(caseInfoReq);
 						if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-							return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+							return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 						}
 					}
 				}
@@ -388,7 +388,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					caseInfoReq.setDuration(durationHours);
 					caseInfoService.setCaseInfo(caseInfoReq);
 					if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-						return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+						return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 					}
 				}			
 			}
@@ -618,7 +618,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		//把小時轉成分鐘加上分鐘數
 		int newEndTimeMinutes = newEndTime.getHour() * 60 + newEndTime.getMinute();
 		
-		if(startTimeMinutes > endTimeMinutes) {
+		if(newStartTimeMinutes > newEndTimeMinutes) {
 			return new WorkHoursInfoResp("開始時間不得在結束時間之後",false);
 		}
 		
@@ -797,7 +797,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			caseInfoReqInEdit.setDuration(newDurationHours);
 			caseInfoService.setCaseInfo(caseInfoReqInEdit);
 			if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-				return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+				return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 			}
 			System.out.println("新增新的案件資訊完成");
 			return new WorkHoursInfoResp("資料修改成功",true);
@@ -857,7 +857,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 							}
 						}
 						if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-							return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+							return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 						}
 						return new WorkHoursInfoResp("資料修改成功",true);
 					}
@@ -899,7 +899,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								caseInfoReqInEdit.setDuration(newDurationHours);
 								caseInfoService.setCaseInfo(caseInfoReqInEdit);
 								if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-									return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+									return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 								}
 								return new WorkHoursInfoResp("資料修改成功",true);
 							}else{
@@ -919,7 +919,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 										caseInfoReqInEdit.setDuration(existsCaseInfoInEdit.getDuration() + newDurationHours);	//時間疊加		
 										caseInfoService.editCaseInfo(caseInfoReqInEdit);
 										if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-											return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+											return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 										}
 										return new WorkHoursInfoResp("資料修改成功",true);
 									}
@@ -933,7 +933,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 									caseInfoReqInEdit.setDuration(newDurationHours);
 									caseInfoService.setCaseInfo(caseInfoReqInEdit);
 									if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-										return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+										return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 									}
 									return new WorkHoursInfoResp("資料修改成功",true);
 								}			
@@ -953,7 +953,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								caseInfoReqInEdit.setDuration(newDurationHours);
 								caseInfoService.setCaseInfo(caseInfoReqInEdit);
 								if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-									return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+									return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 								}
 							}else{
 								//已有該caseNo存在就檢查有屬於無此員工的
@@ -987,7 +987,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 									caseInfoReqInEdit.setDuration(newDurationHours);
 									caseInfoService.setCaseInfo(caseInfoReqInEdit);
 									if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-										return new WorkHoursInfoResp("CaseInfo新增失敗",true);
+										return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 									}
 								}
 							}

@@ -86,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
 
 	//-----------------------獲取全部帳號-----------------------
 	@Override
-	public AccountResp getAllAccount(AccountReq accountReq) {
+	public AccountResp getAllAccount() {
 		AccountResp accountResp = new AccountResp();
 		List<Account > accounts = accountDao.findAll();
 		accountResp.setAccounts(accounts);
