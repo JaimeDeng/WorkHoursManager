@@ -125,7 +125,7 @@ public class PerformanceReferenceServiceImp implements PerformanceReferenceServi
 			performanceReferenceResp.message = "請輸入caseNo";
 			performanceReferenceResp.success = false;
 		}
-		
+
 		PerformanceReference existsPerformanceReference = performanceReferenceDao.
 				getPerformanceReferenceByCaseNo(performanceReferenceReq.getCaseNo());
 		if(existsPerformanceReference == null) {

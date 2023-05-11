@@ -286,7 +286,7 @@ public class WorkHoursManagerController {
 	@PostMapping(value = "deletePerformanceReference" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp deletePerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
-		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
+		performanceReferenceResp = performanceReferenceService.deletePerformanceReference(performanceReferenceReq);
 		return performanceReferenceResp;
 	}
 	
@@ -302,7 +302,7 @@ public class WorkHoursManagerController {
 	@PutMapping(value= "editPerformanceReference" , produces = "application/json;charset=UTF-8")
 	public PerformanceReferenceResp editPerformanceReference(@RequestBody PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
-		performanceReferenceResp = performanceReferenceService.setPerformanceReference(performanceReferenceReq);
+		performanceReferenceResp = performanceReferenceService.editPerformanceReference(performanceReferenceReq);
 		return performanceReferenceResp;
 	}
 
