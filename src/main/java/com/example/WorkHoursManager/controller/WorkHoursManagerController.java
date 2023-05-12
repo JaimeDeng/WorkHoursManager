@@ -220,8 +220,6 @@ public class WorkHoursManagerController {
 		return workHoursInfoResp;
 	}
 	
-
-	
 	//---------------------------------------CaseInfo API-------------------------------------------
 	
 	//查詢所有caseInfo
