@@ -34,6 +34,12 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		}
 		employeeInfo.setEmployeeId(employeeInfoReq.getEmployeeId());
 		
+		if(employeeInfoDao.getEmployeeInfoByEmployeeId(employeeInfoReq.getEmployeeId()) != null) {
+			employeeInfoResp.message = "已有此員工ID的員工存在";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+
 		if(!StringUtils.hasText(employeeInfoReq.getDepartment())) {
 			employeeInfoResp.message = "員工部門不得空白";
 			employeeInfoResp.success = false;
@@ -116,6 +122,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		return employeeInfoResp;
 	}
 	
+	//--------------------------------------獲取指定ID員工資訊------------------------------------------
 	@Override
 	public EmployeeInfoResp getEmployeeInfoById(EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
@@ -145,7 +152,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		return employeeInfoResp;
 	}
 
-	//--------------------------------------獲取指定ID員工資訊------------------------------------------
+	//--------------------------------------修改員工資訊------------------------------------------
 	@Override
 	public EmployeeInfoResp editEmployeeInfo(EmployeeInfoReq employeeInfoReq) {
 		EmployeeInfoResp employeeInfoResp = new EmployeeInfoResp();
