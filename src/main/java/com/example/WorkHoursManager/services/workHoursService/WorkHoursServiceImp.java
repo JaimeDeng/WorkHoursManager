@@ -79,6 +79,29 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		return workHoursInfoResp;
 	}
 	
+	//獲取指定ID員工工時表
+	@Override
+	public WorkHoursInfoResp getWorkHoursInfoByEmployeeId(WorkHoursInfoReq workHoursInfoReq) {
+		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		String employeeIdReq = workHoursInfoReq.getEmployeeId();
+		if(!StringUtils.hasText(employeeIdReq)) {
+			workHoursInfoResp.message = "請輸入員工ID";
+			workHoursInfoResp.success = false;
+			return workHoursInfoResp;
+		}
+		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeIdReq);
+		if(employeeInfo == null) {
+			workHoursInfoResp.message = "查無此員工ID存在";
+			workHoursInfoResp.success = false;
+			return workHoursInfoResp;
+		}
+		List<WorkHoursInfo>workHoursInfoList = workHoursInfoDao.getWorkHoursInfoByEmployeeInfo(employeeInfo);
+		workHoursInfoResp.setWorkHoursInfoList(workHoursInfoList);
+		workHoursInfoResp.message = "資料獲取成功";
+		workHoursInfoResp.success = true;
+		return workHoursInfoResp;
+	}
+	
 	//創建工時表
 	@Override
 	public WorkHoursInfoResp setWorkHoursInfo(WorkHoursInfoReq workHoursInfoReq) {
@@ -107,12 +130,12 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		if(!StringUtils.hasText(dateReq)){
 			return new WorkHoursInfoResp("日期不可為空",false);
 		}
-		if(dateReq.length() != 8) {
-			return new WorkHoursInfoResp("日期格式為yyyyMMdd 8位數字",false);
+		if(dateReq.length() != 10) {
+			return new WorkHoursInfoResp("日期格式為yyyy-MM-dd 8位數字及橫槓",false);
 		}
 		
 		//檢驗日期格式
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);	//設定日期檢驗模式為嚴格 , 不可有寬鬆模式容忍2月30這樣的狀況
         try {
             Date date = dateFormat.parse(dateReq);
@@ -226,7 +249,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								caseInfoReq.setDate(existsCaseInfo.getDate());	//輸入日期較舊 , 日期維持
 							}
 						} catch (ParseException e) {
-							return new WorkHoursInfoResp("日期格式錯誤",true);
+							return new WorkHoursInfoResp("日期格式錯誤",false);
 						}
 						caseInfoReq.setCaseNo(caseNoReq);
 						caseInfoReq.setEmployeeId(employeeIdReq);
@@ -501,7 +524,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					System.out.println(workInfoId + "進到日期判斷囉");
 					existsCaseInfo.setDuration(existsCaseInfo.getDuration() - durationHours);
 					//抓出此caseNo剩下的工時表的所有日期 , 來比對最後日期
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 					List<WorkHoursInfo>workHoursInfoListInEdit = workHoursInfoDao.getWorkHoursInfoByEmployeeInfo(employeeInfo);
 					List<Date>dateList = new ArrayList<>();
 					Date existsDate;
@@ -1009,6 +1032,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		System.out.println("跑到最底囉");
 		return new WorkHoursInfoResp("資料修改成功",true);
 	}
+
 	
 	//如果案件號碼改了 要抓原案件的表 原案件的表減掉修改的工時表時長 = 0就整個砍掉
 	//若滿足上面也表示這工時表就是生成案件表的初表 , 所以更改的內容 = 新增新的案件表

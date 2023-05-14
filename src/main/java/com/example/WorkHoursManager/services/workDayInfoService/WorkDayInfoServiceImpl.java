@@ -66,7 +66,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		}
 		
 		//檢驗日期格式
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);	//設定日期檢驗模式為嚴格 , 不可有寬鬆模式容忍2月30這樣的狀況
         try {
             Date date = dateFormat.parse(dateReq);
@@ -242,7 +242,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		}
 		
 		//檢驗日期格式
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);	//設定日期檢驗模式為嚴格 , 不可有寬鬆模式容忍2月30這樣的狀況
         try {
             Date date = dateFormat.parse(dateReq);

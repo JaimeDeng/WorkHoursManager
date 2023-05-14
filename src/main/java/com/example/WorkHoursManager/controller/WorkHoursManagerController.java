@@ -171,7 +171,7 @@ public class WorkHoursManagerController {
 	}
 	
 	//獲取指定員工日報表
-	@GetMapping(value = "/getWorkDayInfoByEmployeeId" , produces = "application/json;charset=UTF-8")
+	@PutMapping(value = "/getWorkDayInfoByEmployeeId" , produces = "application/json;charset=UTF-8")
 	public WorkDayInfoResp getWorkDayInfoByEmployeeId(@RequestBody WorkDayInfoReq workDayInfoReq) {
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		workDayInfoResp = workDayInfoService.getWorkDayInfoByEmployeeId(workDayInfoReq);
@@ -193,6 +193,14 @@ public class WorkHoursManagerController {
 	public WorkHoursInfoResp getAllWorkHoursInfo(){
 		WorkHoursInfoResp workHoursInfoResp=new WorkHoursInfoResp();
 		workHoursInfoResp= workHoursService.getAllWorkHoursInfo();
+		return workHoursInfoResp;
+	}
+	
+	//讀取指定員工工時表
+	@PutMapping(value= "/getWorkHoursInfoByEmployeeId" , produces = "application/json;charset=UTF-8")
+	public WorkHoursInfoResp getWorkHoursInfoByEmployeeId(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
+		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		workHoursInfoResp = workHoursService.getWorkHoursInfoByEmployeeId(workHoursInfoReq);
 		return workHoursInfoResp;
 	}
 	
