@@ -186,6 +186,14 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 	
+	//修改指定ID日報表
+	@PostMapping(value = "/editWorkDayInfo" , produces = "application/json;charset=UTF-8")
+	public WorkDayInfoResp editWorkDayInfo(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.editWorkDayInfo(workDayInfoReq);
+		return workDayInfoResp;
+	}
+	
 	//---------------------------------------WorkHoursInfo API-------------------------------------------
 	
 	//讀取所有工時表

@@ -3,6 +3,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -58,7 +59,7 @@ public class EmployeeInfo {
 	private List<CaseInfo> caseInfo;
 	
 	//Account的employee_id外鍵關聯
-	@JsonManagedReference
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL, mappedBy = "employeeInfo")
 	private Account account;
 	
