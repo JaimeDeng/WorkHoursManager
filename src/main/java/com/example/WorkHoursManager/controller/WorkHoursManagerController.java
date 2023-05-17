@@ -212,6 +212,14 @@ public class WorkHoursManagerController {
 		return workHoursInfoResp;
 	}
 	
+	//讀取指定工時表ID的工時表
+	@PutMapping(value= "/getWorkHoursInfoById" , produces = "application/json;charset=UTF-8")
+	public WorkHoursInfoResp getWorkHoursInfoById(@RequestBody WorkHoursInfoReq workHoursInfoReq) {
+		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		workHoursInfoResp = workHoursService.getWorkHoursInfoById(workHoursInfoReq);
+		return workHoursInfoResp;
+	}
+	
 	//新增工時表
 	@PostMapping(value= "setWorkHoursInfo" , produces = "application/json;charset=UTF-8")
 	public WorkHoursInfoResp setWorkHoursInfo(@RequestBody WorkHoursInfoReq workHoursInfoReq) {

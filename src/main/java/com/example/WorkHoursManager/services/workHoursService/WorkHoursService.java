@@ -9,4 +9,5 @@ public interface WorkHoursService {
 	public WorkHoursInfoResp deleteWorkHoursInfo(WorkHoursInfoReq workHoursInfoReq);
 	public WorkHoursInfoResp getAllWorkHoursInfo();
 	public WorkHoursInfoResp getWorkHoursInfoByEmployeeId(WorkHoursInfoReq workHoursInfoReq);
+	public WorkHoursInfoResp getWorkHoursInfoById(WorkHoursInfoReq workHoursInfoReq);
 }

@@ -79,6 +79,36 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		return workHoursInfoResp;
 	}
 	
+	//獲取指定工時表ID的工時表
+	@Override
+	public WorkHoursInfoResp getWorkHoursInfoById(WorkHoursInfoReq workHoursInfoReq) {
+		WorkHoursInfoResp workHoursInfoResp = new WorkHoursInfoResp();
+		Integer workInfoIdReq = workHoursInfoReq.getWorkInfoId();
+		if(workInfoIdReq == null) {
+			workHoursInfoResp.message = "請輸入工時表ID";
+			workHoursInfoResp.success = false;
+			return workHoursInfoResp;
+		}
+
+		Optional<WorkHoursInfo> workHoursInfo = workHoursInfoDao.findById(workInfoIdReq);
+		if(workHoursInfo.isEmpty()) {
+			workHoursInfoResp.message = "無此ID的工時表存在";
+			workHoursInfoResp.success = false;
+			return workHoursInfoResp;
+		}
+		workHoursInfoResp.setCaseNo(workHoursInfo.get().getCaseNo());
+		workHoursInfoResp.setDate(workHoursInfo.get().getDate());
+		workHoursInfoResp.setDetail(workHoursInfo.get().getDetail());
+		workHoursInfoResp.setModel(workHoursInfo.get().getModel());
+		workHoursInfoResp.setStatus(workHoursInfo.get().getStatus());
+		workHoursInfoResp.setStartTime(workHoursInfo.get().getStartTime());
+		workHoursInfoResp.setEndTime(workHoursInfo.get().getEndTime());
+		workHoursInfoResp.setEmployeeInfo(workHoursInfo.get().getEmployeeInfo());
+		workHoursInfoResp.message = "資料獲取成功";
+		workHoursInfoResp.success = true;
+		return workHoursInfoResp;
+	}
+	
 	//獲取指定ID員工工時表
 	@Override
 	public WorkHoursInfoResp getWorkHoursInfoByEmployeeId(WorkHoursInfoReq workHoursInfoReq) {
@@ -1032,7 +1062,6 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		System.out.println("跑到最底囉");
 		return new WorkHoursInfoResp("資料修改成功",true);
 	}
-
 	
 	//如果案件號碼改了 要抓原案件的表 原案件的表減掉修改的工時表時長 = 0就整個砍掉
 	//若滿足上面也表示這工時表就是生成案件表的初表 , 所以更改的內容 = 新增新的案件表
