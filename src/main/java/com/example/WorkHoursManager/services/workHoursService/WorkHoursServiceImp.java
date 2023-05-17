@@ -202,6 +202,10 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			return new WorkHoursInfoResp("開始時間不得在結束時間之後",false);
 		}
 		
+		if(startTimeMinutes == endTimeMinutes) {
+			return new WorkHoursInfoResp("開始時間不得與結束時間相同",false);
+		}
+		
 		newWorkHoursInfo.setEmployeeInfo(employeeInfo);
 		newWorkHoursInfo.setCaseNo(caseNoReq);
 		newWorkHoursInfo.setDate(dateReq);
@@ -675,6 +679,10 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		
 		if(newStartTimeMinutes > newEndTimeMinutes) {
 			return new WorkHoursInfoResp("開始時間不得在結束時間之後",false);
+		}
+		
+		if(newStartTimeMinutes == newEndTimeMinutes) {
+			return new WorkHoursInfoResp("開始時間不得與結束時間相同",false);
 		}
 		
 		//判斷是否為同一日期
