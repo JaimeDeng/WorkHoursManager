@@ -2,6 +2,7 @@ package com.example.WorkHoursManager.vo.workDayInfoVo;
 
 import java.util.List;
 
+import com.example.WorkHoursManager.Dto.WorkDayInfoDto;
 import com.example.WorkHoursManager.entity.*;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -16,6 +17,9 @@ public class WorkDayInfoResp extends WorkDayInfo {
 	
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	private List<WorkDayInfo>workDayInfoList;
+	
+	@JsonInclude(JsonInclude.Include.ALWAYS)
+	private List<WorkDayInfoDto>pendingApprovalWorkDayInfoList;
 	
 	//Getter & Setter
 	
@@ -41,6 +45,14 @@ public class WorkDayInfoResp extends WorkDayInfo {
 
 	public void setWorkDayInfoList(List<WorkDayInfo> workDayInfoList) {
 		this.workDayInfoList = workDayInfoList;
+	}
+
+	public List<WorkDayInfoDto> getPendingApprovalWorkDayInfoList() {
+		return pendingApprovalWorkDayInfoList;
+	}
+
+	public void setPendingApprovalWorkDayInfoList(List<WorkDayInfoDto> pendingApprovalWorkDayInfoList) {
+		this.pendingApprovalWorkDayInfoList = pendingApprovalWorkDayInfoList;
 	}
 
 }

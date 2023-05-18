@@ -668,7 +668,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		//把小時轉成分鐘加上分鐘數
 		int endTimeMinutes = endTime.getHour() * 60 + endTime.getMinute();
 		
-		//取得修改後的開始與結束時間的分鐘數
+		//取得修改後的開始與結束時間的分鐘
 		LocalTime newStartTime = LocalTime.parse(startTimeReq);
 		//把小時轉成分鐘加上分鐘數
 		int newStartTimeMinutes = newStartTime.getHour() * 60 + newStartTime.getMinute();

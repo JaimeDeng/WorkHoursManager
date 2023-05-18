@@ -193,6 +193,14 @@ public class WorkHoursManagerController {
 		workDayInfoResp = workDayInfoService.editWorkDayInfo(workDayInfoReq);
 		return workDayInfoResp;
 	}
+
+	//獲取指定主管ID的待審核日報表
+	@PutMapping(value = "/getPendingApprovalWorkDayInfoBySupervisorId" , produces = "application/json;charset=UTF-8")
+	public WorkDayInfoResp getPendingApprovalWorkDayInfoBySupervisorId(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.getPendingApprovalWorkDayInfoBySupervisorId(workDayInfoReq);
+		return workDayInfoResp;
+	}
 	
 	//---------------------------------------WorkHoursInfo API-------------------------------------------
 	

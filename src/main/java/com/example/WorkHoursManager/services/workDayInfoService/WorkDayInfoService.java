@@ -11,5 +11,6 @@ public interface WorkDayInfoService {
 	public WorkDayInfoResp getAllWorkDayInfo();
 	public WorkDayInfoResp getWorkDayInfoByDate(WorkDayInfoReq workDayInfoReq);
 	public WorkDayInfoResp getWorkDayInfoByEmployeeId(WorkDayInfoReq workDayInfoReq);
+	public WorkDayInfoResp getPendingApprovalWorkDayInfoBySupervisorId(WorkDayInfoReq workDayInfoReq);
 	
 }

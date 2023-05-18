@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.example.WorkHoursManager.Dto.WorkDayInfoDto;
 import com.example.WorkHoursManager.entity.EmployeeInfo;
 import com.example.WorkHoursManager.entity.WorkDayInfo;
 import com.example.WorkHoursManager.repository.EmployeeInfoDao;
@@ -157,6 +158,30 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		List<WorkDayInfo>workDayInfoList = workDayInfoDao.findAll();
 		workDayInfoResp.setWorkDayInfoList(workDayInfoList);
 		workDayInfoResp.message = "工作日資料獲取成功";
+		workDayInfoResp.success = true;
+		return workDayInfoResp;
+	}
+	
+	//獲取指定主管ID其尚未審核的表單
+	@Override
+	public WorkDayInfoResp getPendingApprovalWorkDayInfoBySupervisorId(WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		
+		String supervisorIdReq = workDayInfoReq.getSupervisorId();
+		if(!StringUtils.hasText(supervisorIdReq)) {
+			workDayInfoResp.message = "請輸入主管ID";
+			workDayInfoResp.success = false;
+			return workDayInfoResp;
+		}
+		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(supervisorIdReq);
+		if(employeeInfo == null) {
+			workDayInfoResp.message = "無此主管ID的員工存在";
+			workDayInfoResp.success = false;
+			return workDayInfoResp;
+		}
+		List<WorkDayInfoDto>workDayInfoList = workDayInfoDao.getPendingApprovalWorkDayInfoBySupervisorId(supervisorIdReq);
+		workDayInfoResp.setPendingApprovalWorkDayInfoList(workDayInfoList);
+		workDayInfoResp.message = "資料獲取成功";
 		workDayInfoResp.success = true;
 		return workDayInfoResp;
 	}
