@@ -312,4 +312,27 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		return workDayInfoResp;
 	}
 
+	//獲取指定主管的下屬日工時表
+	@Override
+	public WorkDayInfoResp getWorkDayInfoBySupervisorId(WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		String supervisorIdReq = workDayInfoReq.getSupervisorId();
+		if(!StringUtils.hasText(supervisorIdReq)) {
+			workDayInfoResp.message = "請輸入主管ID";
+			workDayInfoResp.success = false;
+			return workDayInfoResp;
+		}
+		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(supervisorIdReq);
+		if(employeeInfo == null) {
+			workDayInfoResp.message = "無此主管ID的員工存在";
+			workDayInfoResp.success = false;
+			return workDayInfoResp;
+		}
+		List<WorkDayInfoDto>workDayInfoList = workDayInfoDao.getWorkDayInfoBySupervisorId(supervisorIdReq);
+		workDayInfoResp.setSubordinatesWorkDayInfoList(workDayInfoList);
+		workDayInfoResp.message = "資料獲取成功";
+		workDayInfoResp.success = true;
+		return workDayInfoResp;
+	}
+
 }

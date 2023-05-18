@@ -202,6 +202,14 @@ public class WorkHoursManagerController {
 		return workDayInfoResp;
 	}
 	
+	//獲取指定主管下屬的日報表
+	@PutMapping(value = "/getWorkDayInfoBySupervisorId" , produces = "application/json;charset=UTF-8")
+	public WorkDayInfoResp getWorkDayInfoBySupervisorId(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.getWorkDayInfoBySupervisorId(workDayInfoReq);
+		return workDayInfoResp;
+	}
+	
 	//---------------------------------------WorkHoursInfo API-------------------------------------------
 	
 	//讀取所有工時表

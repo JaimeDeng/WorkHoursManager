@@ -21,6 +21,9 @@ public class WorkDayInfoResp extends WorkDayInfo {
 	@JsonInclude(JsonInclude.Include.ALWAYS)
 	private List<WorkDayInfoDto>pendingApprovalWorkDayInfoList;
 	
+	@JsonInclude(JsonInclude.Include.ALWAYS)
+	private List<WorkDayInfoDto>subordinatesWorkDayInfoList;
+	
 	//Getter & Setter
 	
 	public String getMessage() {
@@ -53,6 +56,14 @@ public class WorkDayInfoResp extends WorkDayInfo {
 
 	public void setPendingApprovalWorkDayInfoList(List<WorkDayInfoDto> pendingApprovalWorkDayInfoList) {
 		this.pendingApprovalWorkDayInfoList = pendingApprovalWorkDayInfoList;
+	}
+
+	public List<WorkDayInfoDto> getSubordinatesWorkDayInfoList() {
+		return subordinatesWorkDayInfoList;
+	}
+
+	public void setSubordinatesWorkDayInfoList(List<WorkDayInfoDto> subordinatesWorkDayInfoList) {
+		this.subordinatesWorkDayInfoList = subordinatesWorkDayInfoList;
 	}
 
 }

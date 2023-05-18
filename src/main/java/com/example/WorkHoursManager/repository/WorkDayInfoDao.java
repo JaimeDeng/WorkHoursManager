@@ -24,9 +24,17 @@ public interface WorkDayInfoDao extends JpaRepository<WorkDayInfo, String> {
 	
 	//獲取指定主管ID的未審核日工時表
 	@Transactional
-	@Query("SELECT new com.example.WorkHoursManager.Dto.WorkDayInfoDto(w.workInfoId, w.date, w.employeeInfo.employeeId, w.status, w.workingHours, w.approved, w.employeeInfo.supervisor)" +
+	@Query("SELECT new com.example.WorkHoursManager.Dto.WorkDayInfoDto(w.workInfoId, w.date, "
+			+ "w.employeeInfo.employeeId, w.status, w.workingHours, w.approved, w.employeeInfo.supervisor) " +
 	        "FROM WorkDayInfo w JOIN w.employeeInfo e " +
 	        "WHERE w.approved = '0' AND w.employeeInfo.supervisor = :supervisorReq")
 	List<WorkDayInfoDto> getPendingApprovalWorkDayInfoBySupervisorId(@Param(value = "supervisorReq")String supervisorReq);
 	
+	//獲取指定主管ID的下屬日工時表
+		@Transactional
+		@Query("SELECT new com.example.WorkHoursManager.Dto.WorkDayInfoDto(w.workInfoId, w.date, "
+				+ "w.employeeInfo.employeeId, w.status, w.workingHours, w.approved, w.employeeInfo.supervisor) " +
+		        "FROM WorkDayInfo w JOIN w.employeeInfo e " +
+		        "WHERE w.employeeInfo.supervisor = :supervisorReq")
+		List<WorkDayInfoDto> getWorkDayInfoBySupervisorId(@Param(value = "supervisorReq")String supervisorReq);
 }
