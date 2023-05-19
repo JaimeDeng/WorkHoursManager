@@ -20,6 +20,7 @@ import com.example.WorkHoursManager.entity.WorkDayInfo;
 public interface WorkDayInfoDao extends JpaRepository<WorkDayInfo, String> {
 
 	List<WorkDayInfo> getWorkDayInfoByDate(String date);
+	WorkDayInfo getWorkDayInfoByWorkInfoId(Integer workInfoId);
 	List<WorkDayInfo> getWorkDayInfoByEmployeeInfo(EmployeeInfo employeeInfo);
 	
 	//獲取指定主管ID的未審核日工時表

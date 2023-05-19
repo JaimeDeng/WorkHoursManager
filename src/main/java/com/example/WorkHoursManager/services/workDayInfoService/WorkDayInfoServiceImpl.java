@@ -3,6 +3,7 @@ package com.example.WorkHoursManager.services.workDayInfoService;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -331,6 +332,35 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		List<WorkDayInfoDto>workDayInfoList = workDayInfoDao.getWorkDayInfoBySupervisorId(supervisorIdReq);
 		workDayInfoResp.setSubordinatesWorkDayInfoList(workDayInfoList);
 		workDayInfoResp.message = "資料獲取成功";
+		workDayInfoResp.success = true;
+		return workDayInfoResp;
+	}
+
+	@Override
+	public WorkDayInfoResp editWorkDayInfoApproved(WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		Integer workInfoId = workDayInfoReq.getWorkInfoId();
+		boolean approvedReq = workDayInfoReq.isApproved();
+
+        //檢查有無填寫表單ID
+        if(workInfoId == null) {
+        	workDayInfoResp.message = "表單ID不得空白";
+        	workDayInfoResp.success = false;
+			return workDayInfoResp;
+		}
+        
+        //檢查有無此ID表單存在
+        WorkDayInfo workDayInfo = workDayInfoDao.getWorkDayInfoByWorkInfoId(workInfoId);
+        if(workDayInfo == null) {
+        	workDayInfoResp.message = "無此表單ID存在";
+        	workDayInfoResp.success = false;
+			return workDayInfoResp;
+        }
+		
+        workDayInfo.setApproved(approvedReq);
+		
+		workDayInfoDao.save(workDayInfo);
+		workDayInfoResp.message = "審核狀態修改成功";
 		workDayInfoResp.success = true;
 		return workDayInfoResp;
 	}

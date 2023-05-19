@@ -193,6 +193,14 @@ public class WorkHoursManagerController {
 		workDayInfoResp = workDayInfoService.editWorkDayInfo(workDayInfoReq);
 		return workDayInfoResp;
 	}
+	
+	//修改指定ID日報表審核狀態
+	@PostMapping(value = "/editWorkDayInfoApproved" , produces = "application/json;charset=UTF-8")
+	public WorkDayInfoResp editWorkDayInfoApproved(@RequestBody WorkDayInfoReq workDayInfoReq) {
+		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
+		workDayInfoResp = workDayInfoService.editWorkDayInfoApproved(workDayInfoReq);
+		return workDayInfoResp;
+	}
 
 	//獲取指定主管ID的待審核日報表
 	@PutMapping(value = "/getPendingApprovalWorkDayInfoBySupervisorId" , produces = "application/json;charset=UTF-8")

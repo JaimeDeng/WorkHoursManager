@@ -7,6 +7,7 @@ public interface WorkDayInfoService {
 
 	public WorkDayInfoResp setWorkDayInfo(WorkDayInfoReq workDayInfoReq);
 	public WorkDayInfoResp editWorkDayInfo(WorkDayInfoReq workDayInfoReq);
+	public WorkDayInfoResp editWorkDayInfoApproved(WorkDayInfoReq workDayInfoReq);
 	public WorkDayInfoResp deleteWorkDayInfo(WorkDayInfoReq workDayInfoReq);
 	public WorkDayInfoResp getAllWorkDayInfo();
 	public WorkDayInfoResp getWorkDayInfoByDate(WorkDayInfoReq workDayInfoReq);
