@@ -9,6 +9,6 @@ public interface AccountService {
 	public AccountResp deleteAccount(AccountReq accountReq);
 	public AccountResp getAccountByEmployeeId(AccountReq accountReq);
 	public AccountResp getAllAccount();
-	public AccountResp changPassword(AccountReq accountReq);
+	public AccountResp changePassword(AccountReq accountReq);
 	
 }

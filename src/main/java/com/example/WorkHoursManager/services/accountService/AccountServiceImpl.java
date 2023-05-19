@@ -145,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
 
 	//-----------------------修改密碼-----------------------
 	@Override
-	public AccountResp changPassword(AccountReq accountReq) {
+	public AccountResp changePassword(AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
 		String account = accountReq.getAccountId();
 		String newPassword = accountReq.getNewPassword();

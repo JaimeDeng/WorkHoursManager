@@ -95,10 +95,10 @@ public class WorkHoursManagerController {
 	}
 	
 	//修改指定帳號的密碼
-	@PutMapping(value = "/changPassword" , produces = "application/json;charset=UTF-8")
-	public AccountResp changPassword(@RequestBody AccountReq accountReq) {
+	@PutMapping(value = "/changePassword" , produces = "application/json;charset=UTF-8")
+	public AccountResp changePassword(@RequestBody AccountReq accountReq) {
 		AccountResp accountResp = new AccountResp();
-		accountResp = accountService.changPassword(accountReq);
+		accountResp = accountService.changePassword(accountReq);
 		return accountResp;
 	}
 	
