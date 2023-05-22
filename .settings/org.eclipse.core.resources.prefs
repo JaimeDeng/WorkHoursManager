@@ -1,4 +1,5 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/example/WorkHoursManager/Dto/AccountDto.java=UTF-8
 encoding//src/main/java/com/example/WorkHoursManager/Dto/WorkDayInfoDto.java=UTF-8
 encoding//src/main/java/com/example/WorkHoursManager/controller/WorkHoursManagerController.java=UTF-8
 encoding//src/main/java/com/example/WorkHoursManager/entity/EmployeeInfo.java=UTF-8

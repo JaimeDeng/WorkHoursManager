@@ -10,5 +10,6 @@ public interface AccountService {
 	public AccountResp getAccountByEmployeeId(AccountReq accountReq);
 	public AccountResp getAllAccount();
 	public AccountResp changePassword(AccountReq accountReq);
+	public AccountResp getAllAccountInfoForVerify();
 	
 }

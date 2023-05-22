@@ -168,10 +168,15 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		dateFormat.setLenient(false);	//設定日期檢驗模式為嚴格 , 不可有寬鬆模式容忍2月30這樣的狀況
         try {
-            Date date = dateFormat.parse(dateReq);
+        	Date date = dateFormat.parse(dateReq);
         } catch (java.text.ParseException e) {	//字串轉換Date格式失敗視為無效日期
         	return new WorkHoursInfoResp("日期格式錯誤",false);
         }
+        
+//        Date now = new Date();
+//        if(date.after(now)) {
+//        	return new WorkHoursInfoResp("不可新增非目前時間之後的表單",false);
+//        }
         
 		if(!StringUtils.hasText(detailReq)){
 			return new WorkHoursInfoResp("工作內容不可為空",false);
@@ -765,7 +770,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					boolean attendance = false;
 				    for(WorkHoursInfo existsWorkHoursInfo : workHoursInfoList) {
 				    	if(existsWorkHoursInfo.getDate().equals(workDayInfo.getDate())){
-				    		if(existsWorkHoursInfo.getStatus() == "出勤") {
+				    		if(existsWorkHoursInfo.getStatus().equals("出勤")) {
 				    			attendance = true;
 				    			workDayInfoReq.setStatus("出勤");
 				    		}

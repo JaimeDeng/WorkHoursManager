@@ -2,6 +2,7 @@ package com.example.WorkHoursManager.vo.accountVo;
 
 import java.util.List;
 
+import com.example.WorkHoursManager.Dto.AccountDto;
 import com.example.WorkHoursManager.entity.*;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -13,6 +14,8 @@ public class AccountResp extends Account {
 	public boolean success;
 	
 	private List<Account> accounts;
+	
+	private List<AccountDto> accountsForVerify;
 	
 	//Getter & Setter
 	
@@ -39,5 +42,14 @@ public class AccountResp extends Account {
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
 	}
+
+	public List<AccountDto> getAccountsForVerify() {
+		return accountsForVerify;
+	}
+
+	public void setAccountsForVerify(List<AccountDto> accountsForVerify) {
+		this.accountsForVerify = accountsForVerify;
+	}
+	
 
 }

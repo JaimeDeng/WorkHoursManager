@@ -78,6 +78,14 @@ public class WorkHoursManagerController {
 		return accountResp;
 	}
 	
+	//獲取全部帳號用於驗證的資訊
+	@GetMapping(value = "/getAllAccountInfoForVerify" , produces = "application/json;charset=UTF-8")
+	public AccountResp getAllAccountInfoForVerify() {
+		AccountResp accountResp = new AccountResp();
+		accountResp = accountService.getAllAccountInfoForVerify();
+		return accountResp;
+	}
+	
 	//以員工ID獲取帳號資訊
 	@PutMapping(value = "/getAccountByEmployeeId" , produces = "application/json;charset=UTF-8")
 	public AccountResp getAccountByEmployeeId(@RequestBody AccountReq accountReq) {
@@ -299,6 +307,14 @@ public class WorkHoursManagerController {
 	public CaseInfoResp getCaseInfoByCaseNo(@RequestBody CaseInfoReq caseInfoReq){
 		CaseInfoResp caseInfoResp = new CaseInfoResp();
 		caseInfoResp = caseInfoService.getCaseInfoById(caseInfoReq);
+		return caseInfoResp;
+	}
+	
+	//以員工ID查詢caseInfo
+	@PutMapping(value = "getCaseInfoByEmployeeId" , produces = "application/json;charset=UTF-8")
+	public CaseInfoResp getCaseInfoByEmployeeId(@RequestBody CaseInfoReq caseInfoReq){
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		caseInfoResp = caseInfoService.getCaseInfoByEmployeeId(caseInfoReq);
 		return caseInfoResp;
 	}
 	

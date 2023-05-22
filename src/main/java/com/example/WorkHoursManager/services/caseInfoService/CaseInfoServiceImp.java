@@ -168,4 +168,25 @@ public class CaseInfoServiceImp implements CaseInfoService{
 		return caseInfoResp;
 	}
 
+	@Override
+	public CaseInfoResp getCaseInfoByEmployeeId(CaseInfoReq caseInfoReq) {
+		CaseInfoResp caseInfoResp = new CaseInfoResp();
+		if(!StringUtils.hasText(caseInfoReq.getEmployeeId())) {
+			caseInfoResp.message = "請輸入員工ID";
+			caseInfoResp.success = false;
+			return caseInfoResp;
+		}
+		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(caseInfoReq.getEmployeeId());
+		if(employeeInfo == null){
+			caseInfoResp.message = "無此員工資料";
+			caseInfoResp.success = false;
+			return caseInfoResp;
+		}
+		List<CaseInfo>caseInfoList = caseInfoDao.getCaseInfoByEmployeeInfo(employeeInfo);
+		caseInfoResp.setCaseInfoList(caseInfoList);
+		caseInfoResp.message = "資料獲取成功";
+		caseInfoResp.success = true;
+		return caseInfoResp;
+	}
+
 }

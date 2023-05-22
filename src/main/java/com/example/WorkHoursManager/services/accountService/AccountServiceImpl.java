@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.example.WorkHoursManager.Dto.AccountDto;
 import com.example.WorkHoursManager.entity.Account;
 import com.example.WorkHoursManager.entity.EmployeeInfo;
 import com.example.WorkHoursManager.repository.AccountDao;
@@ -41,6 +42,7 @@ public class AccountServiceImpl implements AccountService {
 		Account newAccount = new Account();
 		String employeeId = accountReq.getEmployeeId();
 		EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeId);
+		List<EmployeeInfo> employeeInfoList = employeeInfoDao.findAll();
 		
 		//check area
 		Account thisAccount = accountDao.getAccountByAccountId(accountReq.getAccountId());
@@ -59,6 +61,13 @@ public class AccountServiceImpl implements AccountService {
 			accountResp.message = "請輸入帳號,不得為空白";
 			accountResp.success = false;
 			return accountResp;
+		}
+		for(EmployeeInfo element : employeeInfoList) {
+			if(element.getEmployeeId().equals(accountReq.getAccountId())) {
+				accountResp.message = "帳號不得為員工ID";
+				accountResp.success = false;
+				return accountResp;
+			}
 		}
 		if(!StringUtils.hasText(accountReq.getPassword())){
 			accountResp.message = "請輸入密碼,不得為空白";
@@ -90,6 +99,17 @@ public class AccountServiceImpl implements AccountService {
 		AccountResp accountResp = new AccountResp();
 		List<Account > accounts = accountDao.findAll();
 		accountResp.setAccounts(accounts);
+		accountResp.message = "資料獲取成功";
+		accountResp.success = true;
+		return accountResp;
+	}
+	
+	//-----------------------獲取全部帳號及其對應驗證資訊-----------------------
+	@Override
+	public AccountResp getAllAccountInfoForVerify() {
+		AccountResp accountResp = new AccountResp();
+		List<AccountDto > accounts = accountDao.getAllAccountInfoForVerify();
+		accountResp.setAccountsForVerify(accounts);
 		accountResp.message = "資料獲取成功";
 		accountResp.success = true;
 		return accountResp;
