@@ -21,8 +21,8 @@ public interface AccountDao extends JpaRepository<Account, String> {
 	
 	//獲取指定主管ID的未審核日工時表
 	@Transactional
-	@Query("SELECT new com.example.WorkHoursManager.Dto.AccountDto(a.accountId, e.phone, "
-			+ "e.email, e.employeeId) FROM Account a JOIN a.employeeInfo e ")
+	@Query("SELECT new com.example.WorkHoursManager.Dto.AccountDto(a.accountId, e.email, "
+			+ "e.phone, e.employeeId) FROM Account a JOIN a.employeeInfo e ")
 	List<AccountDto> getAllAccountInfoForVerify();
 	
 }
