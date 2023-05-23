@@ -49,7 +49,7 @@ public class AccountServiceImpl implements AccountService {
 		if(thisAccount != null){
 			accountResp.message = "此帳號已被使用!";
 			accountResp.success = false;
-			return accountResp;
+			return new AccountResp();
 		}
 		thisAccount = accountDao.getAccountByEmployeeInfo(employeeInfo);
 		if(thisAccount != null){

@@ -39,25 +39,19 @@ public class PerformanceReferenceServiceImp implements PerformanceReferenceServi
 	public PerformanceReferenceResp setPerformanceReference(PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		PerformanceReference performanceReference = new PerformanceReference();
-		if(!StringUtils.hasText(performanceReferenceReq.getCaseNo())){
-			performanceReferenceResp.message = "請輸入caseNo";
-			performanceReferenceResp.success = false;
-		}
-		PerformanceReference existsPerformanceReference = performanceReferenceDao.
-				getPerformanceReferenceByCaseNo(performanceReferenceReq.getCaseNo());
-		if(existsPerformanceReference != null) {
-			performanceReferenceResp.message = "此caseNo已經有資料存在";
-			performanceReferenceResp.success = false;
-		}
+
 		if(!StringUtils.hasText(performanceReferenceReq.getModel())) {
 			performanceReferenceResp.message = "請輸入機型";
+			performanceReferenceResp.success = false;
+		}
+		if(performanceReferenceDao.getPerformanceReferenceByModel(performanceReferenceReq.getModel()) != null) {
+			performanceReferenceResp.message = "已有此model的PR資料存在";
 			performanceReferenceResp.success = false;
 		}
 		if(StringUtils.hasText(performanceReferenceReq.getRating())) {
 			performanceReferenceResp.message = "新增PR評價預設為NULL,不可輸入資料!";
 			performanceReferenceResp.success = false;
 		}
-		performanceReference.setCaseNo(performanceReferenceReq.getCaseNo());
 		performanceReference.setModel(performanceReferenceReq.getModel());
 		performanceReferenceDao.save(performanceReference);
 		performanceReferenceResp.message = "資料儲存成功";
@@ -65,21 +59,19 @@ public class PerformanceReferenceServiceImp implements PerformanceReferenceServi
 		return performanceReferenceResp;
 	}
 
-	//以caseNo獲取PR資料
+	//以model獲取PR資料
 	@Override
-	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(PerformanceReferenceReq performanceReferenceReq) {
+	public PerformanceReferenceResp getPerformanceReferenceByModel(PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
-		if(!StringUtils.hasText(performanceReferenceReq.getCaseNo())){
-			performanceReferenceResp.message = "請輸入caseNo";
+		if(!StringUtils.hasText(performanceReferenceReq.getModel())){
+			performanceReferenceResp.message = "請輸入model";
 			performanceReferenceResp.success = false;
 		}
-		
-		PerformanceReference performanceReference = performanceReferenceDao.getPerformanceReferenceByCaseNo(performanceReferenceReq.getCaseNo());
+		PerformanceReference performanceReference = performanceReferenceDao.getPerformanceReferenceByModel(performanceReferenceReq.getModel());
 		if(performanceReference == null) {
-			performanceReferenceResp.message = "無此caseNo的效率參考指標資料存在";
+			performanceReferenceResp.message = "無此model的效率參考指標資料存在";
 			performanceReferenceResp.success = false;
 		}
-		performanceReferenceResp.setCaseNo(performanceReference.getCaseNo());
 		performanceReferenceResp.setModel(performanceReference.getModel());
 		performanceReferenceResp.setRating(performanceReference.getRating());
 		performanceReferenceResp.message = "資料獲取成功";
@@ -92,44 +84,46 @@ public class PerformanceReferenceServiceImp implements PerformanceReferenceServi
 	public PerformanceReferenceResp editPerformanceReference(PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		PerformanceReference newPerformanceReference = new PerformanceReference();
-		if(!StringUtils.hasText(performanceReferenceReq.getCaseNo())){
-			performanceReferenceResp.message = "請輸入caseNo";
+		if(!StringUtils.hasText(performanceReferenceReq.getModel())){
+			performanceReferenceResp.message = "請輸入model";
 			performanceReferenceResp.success = false;
 		}
-		PerformanceReference existsPerformanceReference = performanceReferenceDao.
-				getPerformanceReferenceByCaseNo(performanceReferenceReq.getCaseNo());
-		if(existsPerformanceReference == null) {
-			performanceReferenceResp.message = "沒有找到此caseNo的資料存在";
+		if(!StringUtils.hasText(performanceReferenceReq.getRating())){
+			performanceReferenceResp.message = "請輸入目標時數";
 			performanceReferenceResp.success = false;
 		}
-		if(!StringUtils.hasText(performanceReferenceReq.getModel())) {
-			performanceReferenceResp.message = "請輸入機型";
+		PerformanceReference performanceReference = performanceReferenceDao.getPerformanceReferenceByModel(performanceReferenceReq.getModel());
+		if(performanceReference == null) {
+			performanceReferenceResp.message = "無此model的效率參考指標資料存在";
 			performanceReferenceResp.success = false;
 		}
 		
-		newPerformanceReference.setCaseNo(performanceReferenceReq.getCaseNo());
-		newPerformanceReference.setRating(performanceReferenceReq.getRating());
-		newPerformanceReference.setModel(performanceReferenceReq.getModel());
+		if(performanceReferenceReq.getRating().equals("0H")){
+			newPerformanceReference.setRating(null);
+		}else {
+			newPerformanceReference.setRating(performanceReferenceReq.getRating());
+		}
+		System.out.println(performanceReference.getModel());
+		newPerformanceReference.setModel(performanceReference.getModel());
 		performanceReferenceDao.save(newPerformanceReference);
 		performanceReferenceResp.message = "資料修改成功";
 		performanceReferenceResp.success = true;
 		return performanceReferenceResp;
 	}
 
-
+	//刪除PR資料
 	@Override
 	public PerformanceReferenceResp deletePerformanceReference(PerformanceReferenceReq performanceReferenceReq) {
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
 		
-		if(!StringUtils.hasText(performanceReferenceReq.getCaseNo())){
-			performanceReferenceResp.message = "請輸入caseNo";
+		if(!StringUtils.hasText(performanceReferenceReq.getModel())){
+			performanceReferenceResp.message = "請輸入model";
 			performanceReferenceResp.success = false;
 		}
 
-		PerformanceReference existsPerformanceReference = performanceReferenceDao.
-				getPerformanceReferenceByCaseNo(performanceReferenceReq.getCaseNo());
+		PerformanceReference existsPerformanceReference = performanceReferenceDao.getPerformanceReferenceByModel(performanceReferenceReq.getModel());
 		if(existsPerformanceReference == null) {
-			performanceReferenceResp.message = "沒有找到此caseNo的資料存在";
+			performanceReferenceResp.message = "無此model的效率參考指標資料存在";
 			performanceReferenceResp.success = false;
 		}
 

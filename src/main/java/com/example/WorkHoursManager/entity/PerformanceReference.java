@@ -7,9 +7,6 @@ import javax.persistence.*;
 public class PerformanceReference {
 	
 	@Id
-	@Column(name = "case_no")
-	private String caseNo;
-	
 	@Column(name = "model")
 	private String model;
 	
@@ -25,14 +22,6 @@ public class PerformanceReference {
 
 	public void setModel(String model) {
 		this.model = model;
-	}
-
-	public String getCaseNo() {
-		return caseNo;
-	}
-
-	public void setCaseNo(String caseNo) {
-		this.caseNo = caseNo;
 	}
 
 	public String getRating() {

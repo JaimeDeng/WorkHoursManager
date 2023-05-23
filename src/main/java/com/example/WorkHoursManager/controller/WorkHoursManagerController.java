@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.WorkHoursManager.services.accountService.AccountService;
 import com.example.WorkHoursManager.services.caseInfoService.CaseInfoService;
 import com.example.WorkHoursManager.services.employeeInfoService.EmployeeInfoService;
+import com.example.WorkHoursManager.services.mailService.MailService;
 import com.example.WorkHoursManager.services.performanceReferenceService.PerformanceReferenceService;
 import com.example.WorkHoursManager.services.workDayInfoService.WorkDayInfoService;
 import com.example.WorkHoursManager.vo.accountVo.AccountReq;
@@ -42,6 +43,7 @@ public class WorkHoursManagerController {
 	private final WorkHoursService workHoursService;
 	private final CaseInfoService caseInfoService;
 	private final PerformanceReferenceService performanceReferenceService;
+	private final MailService mailService;
 	
 	@Autowired
 	public WorkHoursManagerController(
@@ -50,13 +52,15 @@ public class WorkHoursManagerController {
 			@Qualifier("workDayInfoService")WorkDayInfoService workDayInfoService,
 			@Qualifier("workHoursService")WorkHoursService workHoursService,
 			@Qualifier("caseInfoService")CaseInfoService caseInfoService,
-			@Qualifier("performanceReferenceService")PerformanceReferenceService performanceReferenceService) {
+			@Qualifier("performanceReferenceService")PerformanceReferenceService performanceReferenceService,
+			@Qualifier("mailService")MailService mailService) {
 				this.accountService = accountService;
 				this.employeeInfoService = employeeInfoService;
 				this.workDayInfoService = workDayInfoService;
 				this.workHoursService = workHoursService;
 				this.caseInfoService = caseInfoService;
 				this.performanceReferenceService = performanceReferenceService;
+				this.mailService = mailService;
 	}
 	//-----------------------Constructor Injection---------------------------
 	
@@ -337,10 +341,10 @@ public class WorkHoursManagerController {
 	}
 	
 	//以caseNo獲取PR資料
-	@PutMapping(value = "getPerformanceReferenceByCaseNo" , produces = "application/json;charset=UTF-8")
-	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(@RequestBody PerformanceReferenceReq performanceReferenceReq){
+	@PutMapping(value = "getPerformanceReferenceByModel" , produces = "application/json;charset=UTF-8")
+	public PerformanceReferenceResp getPerformanceReferenceByModel(@RequestBody PerformanceReferenceReq performanceReferenceReq){
 		PerformanceReferenceResp performanceReferenceResp = new PerformanceReferenceResp();
-		performanceReferenceResp = performanceReferenceService.getPerformanceReferenceByCaseNo(performanceReferenceReq);
+		performanceReferenceResp = performanceReferenceService.getPerformanceReferenceByModel(performanceReferenceReq);
 		return performanceReferenceResp;
 	}
 	
@@ -367,5 +371,14 @@ public class WorkHoursManagerController {
 		performanceReferenceResp = performanceReferenceService.editPerformanceReference(performanceReferenceReq);
 		return performanceReferenceResp;
 	}
+	
+	//--------------------------------------------SendMail-----------------------------------------------
+	
+	//reminder測試用
+	 @GetMapping("/sendMail")
+	 @ResponseBody
+	 public String sendNotifyMail(){
+		  return workDayInfoService.sendNotifyMail();
+	 }
 
 }

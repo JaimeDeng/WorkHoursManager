@@ -10,6 +10,6 @@ import com.example.WorkHoursManager.entity.PerformanceReference;
 @Qualifier("performanceReferenceDao")
 public interface PerformanceReferenceDao extends JpaRepository<PerformanceReference , Integer> {
 
-	public PerformanceReference getPerformanceReferenceByCaseNo(String caseNo);
+	public PerformanceReference getPerformanceReferenceByModel(String model);
 
 }

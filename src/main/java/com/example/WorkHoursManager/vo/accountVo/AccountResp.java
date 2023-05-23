@@ -11,6 +11,8 @@ public class AccountResp extends Account {
 	
 	public String message;
 	
+	public String code;
+	
 	public boolean success;
 	
 	private List<Account> accounts;
@@ -51,5 +53,16 @@ public class AccountResp extends Account {
 		this.accountsForVerify = accountsForVerify;
 	}
 	
+	public AccountResp() {
+	}
+
+	public AccountResp(String message) {
+		this.message = message;
+	}
+	
+	public AccountResp(String code , String message) {
+		this.message = message;
+		this.code = code;
+	}
 
 }

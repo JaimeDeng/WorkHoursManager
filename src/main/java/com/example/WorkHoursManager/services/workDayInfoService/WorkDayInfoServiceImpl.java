@@ -1,12 +1,15 @@
 package com.example.WorkHoursManager.services.workDayInfoService;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -15,6 +18,7 @@ import com.example.WorkHoursManager.entity.EmployeeInfo;
 import com.example.WorkHoursManager.entity.WorkDayInfo;
 import com.example.WorkHoursManager.repository.EmployeeInfoDao;
 import com.example.WorkHoursManager.repository.WorkDayInfoDao;
+import com.example.WorkHoursManager.services.mailService.MailService;
 import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoReq;
 import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoResp;
 
@@ -25,12 +29,15 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 	//-----------------------Constructor Injection---------------------------
 	private final EmployeeInfoDao employeeInfoDao;
 	private final WorkDayInfoDao workDayInfoDao;
+	private final MailService mailService;
 	
 	@Autowired
 	public WorkDayInfoServiceImpl(@Qualifier("employeeInfoDao")EmployeeInfoDao employeeInfoDao , 
-			@Qualifier("workDayInfoDao")WorkDayInfoDao workDayInfoDao) {
+			@Qualifier("workDayInfoDao")WorkDayInfoDao workDayInfoDao,
+			@Qualifier("mailService")MailService mailService) {
 				this.employeeInfoDao = employeeInfoDao;
 				this.workDayInfoDao = workDayInfoDao;
+				this.mailService = mailService;
 	}
 	//-----------------------Constructor Injection---------------------------
 
@@ -363,6 +370,49 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		workDayInfoResp.message = "審核狀態修改成功";
 		workDayInfoResp.success = true;
 		return workDayInfoResp;
+	}
+
+	//每天固定時間寄送提醒email給尚未登錄今日工時表的員工
+	@Override
+	//從左到右分別代表秒、分、小時、日期、月份、星期幾(格式是英文星期簡寫) , *則是任意
+	@Scheduled(cron = "0 0 23 * * MON-FRI")
+	public String sendNotifyMail() {
+		
+		//取得今天的所有日工時表
+		LocalDate currentDate = LocalDate.now();
+		String currentDateStr = currentDate.toString();
+		System.out.println("今天日期" + currentDateStr);
+		List<String>hasInfoEmployeeIdList = new ArrayList<>();
+		List<WorkDayInfo>workDayInfoList = workDayInfoDao.getWorkDayInfoByDate(currentDateStr);
+		for(WorkDayInfo workDayInfo : workDayInfoList) {
+			hasInfoEmployeeIdList.add(workDayInfo.getEmployeeInfo().getEmployeeId());
+		}
+		
+		//或取全部員工ID
+		List<String>employeeIdList = new ArrayList<>();
+		List<EmployeeInfo>employeeInfoList = employeeInfoDao.findAll();
+		for(EmployeeInfo employeeInfo : employeeInfoList) {
+			employeeIdList.add(employeeInfo.getEmployeeId());
+		}
+		
+		//把沒有打日工時表的員工ID列出
+		List<String>hasntInfoEmployeeIdList = new ArrayList<>();
+		for(String employeeId : employeeIdList) {
+			if(!hasInfoEmployeeIdList.contains(employeeId)) {
+				hasntInfoEmployeeIdList.add(employeeId);
+			}
+		}
+		
+		System.out.println(hasntInfoEmployeeIdList.toString());
+		String subject = currentDateStr + " 工時表尚未登錄提醒";
+		for(String employeeId : hasntInfoEmployeeIdList) {
+			EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeId);
+			String content = employeeInfo.getName() + " 同仁晚上好 , " + 
+			"通知您 " + currentDateStr + " 工時表尚未登錄 , 請記得按時登錄以利審核作業進行 , 謝謝!";
+			mailService.prepareAndSend(employeeInfo.getEmail(),subject,content);
+		}
+		
+		return "Mail sent";
 	}
 
 }

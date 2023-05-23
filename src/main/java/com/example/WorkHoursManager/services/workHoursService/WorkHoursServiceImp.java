@@ -244,10 +244,9 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			workDayInfoReq.setWorkingHours(durationHours);
 			workDayInfoService.setWorkDayInfo(workDayInfoReq);
 			
-			//連動新增PR(先看沒有此CaseNo的PR存在才新增)
-			if(performanceReferenceDao.getPerformanceReferenceByCaseNo(caseNoReq) == null){
+			//連動新增PR(先看沒有此model的PR存在才新增)
+			if(performanceReferenceDao.getPerformanceReferenceByModel(modelReq) == null){
 				PerformanceReferenceReq performanceReferenceReq = new PerformanceReferenceReq();
-				performanceReferenceReq.setCaseNo(caseNoReq);
 				performanceReferenceReq.setModel(modelReq);
 				performanceReferenceService.setPerformanceReference(performanceReferenceReq);
 			}
@@ -388,10 +387,9 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					" " + workDayInfoReq.getWorkInfoId());
 			workDayInfoService.editWorkDayInfo(workDayInfoReq);
 			
-			//連動新增PR(先看沒有此CaseNo的PR存在才新增)
-			if(performanceReferenceDao.getPerformanceReferenceByCaseNo(caseNoReq) == null){
+			//連動新增PR(先看沒有此model的PR存在才新增)
+			if(performanceReferenceDao.getPerformanceReferenceByModel(modelReq) == null){
 				PerformanceReferenceReq performanceReferenceReq = new PerformanceReferenceReq();
-				performanceReferenceReq.setCaseNo(caseNoReq);
 				performanceReferenceReq.setModel(modelReq);
 				performanceReferenceService.setPerformanceReference(performanceReferenceReq);
 			}
@@ -816,12 +814,6 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				workDayInfoService.editWorkDayInfo(workDayInfoReq);
 			}
 		}
-		
-		//連動更新PR
-		PerformanceReferenceReq performanceReferenceReq = new PerformanceReferenceReq();
-		performanceReferenceReq.setCaseNo(caseNoReq);
-		performanceReferenceReq.setModel(modelReq);
-		performanceReferenceService.editPerformanceReference(performanceReferenceReq);
 		
 		//連動更新caseInfo(先看沒有此CaseNo的caseInfo存在決定新增或更新)
 		CaseInfoReq caseInfoReq = new CaseInfoReq();

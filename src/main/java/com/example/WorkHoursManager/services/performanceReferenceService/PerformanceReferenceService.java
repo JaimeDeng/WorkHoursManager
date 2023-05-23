@@ -7,7 +7,7 @@ public interface PerformanceReferenceService {
 	
 	public PerformanceReferenceResp setPerformanceReference(PerformanceReferenceReq performanceReferenceReq);
 	public PerformanceReferenceResp getAllPerformanceReferences();
-	public PerformanceReferenceResp getPerformanceReferenceByCaseNo(PerformanceReferenceReq performanceReferenceReq);
+	public PerformanceReferenceResp getPerformanceReferenceByModel(PerformanceReferenceReq performanceReferenceReq);
 	public PerformanceReferenceResp editPerformanceReference(PerformanceReferenceReq performanceReferenceReq);
 	public PerformanceReferenceResp deletePerformanceReference(PerformanceReferenceReq performanceReferenceReq);
 	
