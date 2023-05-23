@@ -414,5 +414,5 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		
 		return "Mail sent";
 	}
-
+	
 }
