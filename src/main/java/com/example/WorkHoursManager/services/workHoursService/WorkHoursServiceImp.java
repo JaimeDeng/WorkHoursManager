@@ -251,12 +251,12 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				performanceReferenceService.setPerformanceReference(performanceReferenceReq);
 			}
 			
-			//連動新增caseInfo(先看沒有此員工該CaseNo的caseInfo存在決定新增或更新)
+			//連動新增caseInfo(先看沒有此員工該Model的caseInfo存在決定新增或更新)
 			CaseInfoReq caseInfoReq = new CaseInfoReq();
-			List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByCaseNo(caseNoReq);
+			List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByModel(modelReq);
 			if(existsCaseInfoList.size() == 0){
-				System.out.println("沒有此caseNo , 直接存新的");
-				//完全沒有此caseNo的資料存在就直接存
+				System.out.println("沒有此model , 直接存新的");
+				//完全沒有此model的資料存在就直接存
 				caseInfoReq.setCaseNo(caseNoReq);
 				caseInfoReq.setDate(dateReq);
 				caseInfoReq.setEmployeeId(employeeIdReq);
@@ -267,36 +267,67 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 				}
 			}else{
-				//已有該caseNo存在就檢查有屬於無此員工的
-				System.out.println("有此caseNo");
+				//已有該model存在就檢查有屬於無此員工的
+				System.out.println("有此model");
 				boolean thisEmployeeHasThisCaseNoInfo = false;
+				boolean isThisCaseNo = false;
+				boolean hasThisCaseNo = false;
+				int index = 0;
+				int target = 0;
 				for(CaseInfo existsCaseInfo : existsCaseInfoList) {
-					if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
+					if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq) 
+							&& existsCaseInfo.getCaseNo().equals(caseNoReq)) {
 						
-						//如果有該員工此caseNo存在就用修改的
+						//如果有該員工此model存在且caseNo一樣就用修改的
 						thisEmployeeHasThisCaseNoInfo = true;
-						caseInfoReq.setCaseInfoId(existsCaseInfo.getCaseInfoId());
+						hasThisCaseNo = true;
+						target = index;
 						
-						//檢查最新日期
-						try {
-							Date date = dateFormat.parse(dateReq);
-							Date existsDate = dateFormat.parse(existsCaseInfo.getDate());
-							if(date.after(existsDate)) {
-								caseInfoReq.setDate(dateReq);	//新日期覆寫
-							}else {
-								caseInfoReq.setDate(existsCaseInfo.getDate());	//輸入日期較舊 , 日期維持
-							}
-						} catch (ParseException e) {
-							return new WorkHoursInfoResp("日期格式錯誤",false);
+					}else if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)
+							&& !existsCaseInfo.getCaseNo().equals(caseNoReq)) {
+						thisEmployeeHasThisCaseNoInfo = true;
+						hasThisCaseNo = false;
+					}
+					if(isThisCaseNo == true) {
+						hasThisCaseNo = true;
+					}
+					index++;
+				}
+				if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == true) {
+					caseInfoReq.setCaseInfoId(existsCaseInfoList.get(target).getCaseInfoId());
+					
+					//檢查最新日期
+					try {
+						Date date = dateFormat.parse(dateReq);
+						Date existsDate = dateFormat.parse(existsCaseInfoList.get(target).getDate());
+						if(date.after(existsDate)) {
+							caseInfoReq.setDate(dateReq);	//新日期覆寫
+						}else {
+							caseInfoReq.setDate(existsCaseInfoList.get(target).getDate());	//輸入日期較舊 , 日期維持
 						}
-						caseInfoReq.setCaseNo(caseNoReq);
-						caseInfoReq.setEmployeeId(employeeIdReq);
-						caseInfoReq.setModel(modelReq);
-						caseInfoReq.setDuration(existsCaseInfo.getDuration() + durationHours);	//時間疊加			
-						caseInfoService.editCaseInfo(caseInfoReq);
-						if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-							return new WorkHoursInfoResp("CaseInfo新增失敗",false);
-						}
+					} catch (ParseException e) {
+						return new WorkHoursInfoResp("日期格式錯誤",false);
+					}
+					caseInfoReq.setCaseNo(caseNoReq);
+					caseInfoReq.setEmployeeId(employeeIdReq);
+					caseInfoReq.setModel(modelReq);
+					caseInfoReq.setDuration(existsCaseInfoList.get(target).getDuration() + durationHours);	//時間疊加			
+					caseInfoService.editCaseInfo(caseInfoReq);
+					if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+						return new WorkHoursInfoResp("CaseInfo新增失敗",false);
+					}
+				}
+				if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == false) {
+					System.out.println("caseNo不同 , 直接存新的");
+					//caseNo不同的資料也直接存
+					caseInfoReq.setCaseNo(caseNoReq);
+					caseInfoReq.setDate(dateReq);
+					caseInfoReq.setEmployeeId(employeeIdReq);
+					caseInfoReq.setModel(modelReq);
+					caseInfoReq.setDuration(durationHours);
+					caseInfoService.setCaseInfo(caseInfoReq);
+					if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+						return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 					}
 				}
 				//有該caseNo存在但不是此員工的也直接存新的
@@ -394,11 +425,11 @@ public class WorkHoursServiceImp implements WorkHoursService {
 				performanceReferenceService.setPerformanceReference(performanceReferenceReq);
 			}
 			
-			//連動新增caseInfo(先看沒有此員工該CaseNo的caseInfo存在決定新增或更新)
+			//連動新增caseInfo(先看沒有此員工該CaseNo的model存在決定新增或更新)
 			CaseInfoReq caseInfoReq = new CaseInfoReq();
-			List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByCaseNo(caseNoReq);
+			List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByModel(modelReq);
 			if(existsCaseInfoList.size() == 0){
-				//完全沒有此caseNo的資料存在就直接存
+				//完全沒有此model的資料存在就直接存
 				caseInfoReq.setCaseNo(caseNoReq);
 				caseInfoReq.setDate(dateReq);
 				caseInfoReq.setEmployeeId(employeeIdReq);
@@ -409,36 +440,65 @@ public class WorkHoursServiceImp implements WorkHoursService {
 					return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 				}
 			}else{
-				//已有該caseNo存在就檢查有屬於無此員工的
 				boolean thisEmployeeHasThisCaseNoInfo = false;
+				boolean isThisCaseNo = false;
+				boolean hasThisCaseNo = false;
+				int index = 0;
+				int target = 0;
 				for(CaseInfo existsCaseInfo : existsCaseInfoList) {
-					if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
+					if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq) 
+							&& existsCaseInfo.getCaseNo().equals(caseNoReq)) {
 						
-						//如果該員工有此caseNo存在就用修改的
+						//如果有該員工此model存在且caseNo一樣就用修改的
 						thisEmployeeHasThisCaseNoInfo = true;
-						caseInfoReq.setCaseInfoId(existsCaseInfo.getCaseInfoId());
+						hasThisCaseNo = true;
+						target = index;
 						
-						//檢查最新日期
-						try {
-							Date date = dateFormat.parse(dateReq);
-							Date existsDate = dateFormat.parse(existsCaseInfo.getDate());
-							if(date.after(existsDate)) {
-								caseInfoReq.setDate(dateReq);	//新日期覆寫
-							}else {
-								caseInfoReq.setDate(existsCaseInfo.getDate());	//輸入日期較舊 , 日期維持
-							}
-						} catch (ParseException e) {
-							return new WorkHoursInfoResp("日期格式錯誤",false);
+					}else if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)
+							&& !existsCaseInfo.getCaseNo().equals(caseNoReq)) {
+						thisEmployeeHasThisCaseNoInfo = true;
+						hasThisCaseNo = false;
+					}
+					if(isThisCaseNo == true) {
+						hasThisCaseNo = true;
+					}
+					index++;
+				}
+				if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == true) {
+					caseInfoReq.setCaseInfoId(existsCaseInfoList.get(target).getCaseInfoId());
+					
+					//檢查最新日期
+					try {
+						Date date = dateFormat.parse(dateReq);
+						Date existsDate = dateFormat.parse(existsCaseInfoList.get(target).getDate());
+						if(date.after(existsDate)) {
+							caseInfoReq.setDate(dateReq);	//新日期覆寫
+						}else {
+							caseInfoReq.setDate(existsCaseInfoList.get(target).getDate());	//輸入日期較舊 , 日期維持
 						}
-						caseInfoReq.setCaseNo(caseNoReq);
-						caseInfoReq.setDate(dateReq);
-						caseInfoReq.setEmployeeId(employeeIdReq);
-						caseInfoReq.setModel(modelReq);
-						caseInfoReq.setDuration(existsCaseInfo.getDuration() + durationHours);	//時間疊加		
-						caseInfoService.editCaseInfo(caseInfoReq);
-						if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-							return new WorkHoursInfoResp("CaseInfo新增失敗",false);
-						}
+					} catch (ParseException e) {
+						return new WorkHoursInfoResp("日期格式錯誤",false);
+					}
+					caseInfoReq.setCaseNo(caseNoReq);
+					caseInfoReq.setEmployeeId(employeeIdReq);
+					caseInfoReq.setModel(modelReq);
+					caseInfoReq.setDuration(existsCaseInfoList.get(target).getDuration() + durationHours);	//時間疊加			
+					caseInfoService.editCaseInfo(caseInfoReq);
+					if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+						return new WorkHoursInfoResp("CaseInfo新增失敗",false);
+					}
+				}
+				if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == false) {
+					System.out.println("caseNo不同 , 直接存新的");
+					//caseNo不同的資料也直接存
+					caseInfoReq.setCaseNo(caseNoReq);
+					caseInfoReq.setDate(dateReq);
+					caseInfoReq.setEmployeeId(employeeIdReq);
+					caseInfoReq.setModel(modelReq);
+					caseInfoReq.setDuration(durationHours);
+					caseInfoService.setCaseInfo(caseInfoReq);
+					if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+						return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 					}
 				}
 				//有該caseNo存在但不是此員工的也直接存新的
@@ -628,7 +688,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 		}
 		Optional<WorkHoursInfo>newWorkHoursInfoOpt = workHoursInfoDao.findById(workInfoIdReq);
 		WorkHoursInfo newWorkHoursInfo = newWorkHoursInfoOpt.get();
-		String oldCaseNo = newWorkHoursInfo.getCaseNo();
+		String oldModel = newWorkHoursInfo.getModel();
 		String oldStartTime = newWorkHoursInfo.getStartTime();
 		String oldEndTime = newWorkHoursInfo.getEndTime();
 		if(newWorkHoursInfoOpt.isEmpty()) {
@@ -739,11 +799,11 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			//有更動
 			timeHasBeenChange = true;
 		}
-		//檢查案件號碼有無更動
-		boolean caseNoHasBeenChange = false;
-		if(!newWorkHoursInfo.getCaseNo().equals(oldCaseNo)) {
+		//檢查機型有無更動
+		boolean modelHasBeenChange = false;
+		if(!newWorkHoursInfo.getModel().equals(oldModel)) {
 			//有更動
-			caseNoHasBeenChange = true;
+			modelHasBeenChange = true;
 		}
 		
 		//連動更新WorkDayInfo
@@ -815,14 +875,14 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			}
 		}
 		
-		//連動更新caseInfo(先看沒有此CaseNo的caseInfo存在決定新增或更新)
+		//連動更新caseInfo(先看沒有此model的caseInfo存在決定新增或更新)
 		CaseInfoReq caseInfoReq = new CaseInfoReq();
-		List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByCaseNo(caseNoReq);
+		List<CaseInfo> existsCaseInfoList = caseInfoDao.getCaseInfoByModel(modelReq);
 		System.out.println("抓到caseNo資料了 , 有" + existsCaseInfoList.size() + "筆");
 		
 //-----------------------有改caseNo , 沒有修改後的案件號碼在資料庫內,新增案件號碼資訊 & 修改舊案件資訊----------------------
 		if(existsCaseInfoList.size() == 0) {
-			System.out.println("案件號碼修改後是新的案件號碼");
+			System.out.println("機型修改後是新的機型");
 			
 			//計算舊的工時表總時數
 			float durationMinutes = endTimeMinutes - startTimeMinutes;
@@ -831,8 +891,8 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			float newDurationMinutes = newEndTimeMinutes - newStartTimeMinutes;
 			float newDurationHours = newDurationMinutes / 60;
 			
-			//檢查原本caseNo扣掉工時表時間後還有沒有剩餘的資料
-			List<CaseInfo> oldCaseNoCaseInfoList = caseInfoDao.getCaseInfoByCaseNo(oldCaseNo);
+			//檢查原本model扣掉工時表時間後還有沒有剩餘的資料
+			List<CaseInfo> oldCaseNoCaseInfoList = caseInfoDao.getCaseInfoByModel(modelReq);
 			for(CaseInfo oldCaseNoCaseInfo : oldCaseNoCaseInfoList) {
 				if(oldCaseNoCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
 					//扣掉原本的工時表時間後時間歸零了 , 直接砍掉這個caseInfo
@@ -863,21 +923,22 @@ public class WorkHoursServiceImp implements WorkHoursService {
 			return new WorkHoursInfoResp("資料修改成功",true);
 			
 
-//-----------------------有修改後的案件號碼在資料庫內 或 沒有改caseNo----------------------			
+//-----------------------有修改後的案件號碼在資料庫內 或 沒有改model----------------------			
 		}else {
 			System.out.println("案件號碼沒改 或 修改後有舊有的此案件號碼存在");
 			
 			CaseInfo caseInfo = new CaseInfo();
 			for(CaseInfo existsCaseInfo : existsCaseInfoList) {
-				if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
-					System.out.println("進到此員工的此caseNo案件內了");
+				if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)
+						&& existsCaseInfo.getCaseNo().equals(caseNoReq)) {
+					System.out.println("進到此員工的此model案件內了");
 					//抓出此員工的這個caseNo的案件資訊
 					caseInfo = existsCaseInfo;
 					
-					//-----------------------------------沒改caseNo--------------------------------------
-					if(caseNoHasBeenChange == false) {
+					//-----------------------------------沒改model--------------------------------------
+					if(modelHasBeenChange == false) {
 						//如果案件號碼沒有更改 , 只要再檢查時間有無更改
-						System.out.println(workInfoIdReq + "進到案件號碼沒有改囉");
+						System.out.println(workInfoIdReq + "進到model沒有改囉");
 						caseInfoReq.setCaseInfoId(existsCaseInfo.getCaseInfoId());
 						caseInfoReq.setCaseNo(existsCaseInfo.getCaseNo());
 						caseInfoReq.setDate(existsCaseInfo.getDate());	//日期不會改
@@ -890,7 +951,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 							caseInfoService.editCaseInfo(caseInfoReq);
 							return new WorkHoursInfoResp("資料修改成功",true);
 						}else {
-							System.out.println(workInfoIdReq + "進到案件沒改但時間有更改囉");
+							System.out.println(workInfoIdReq + "進到model沒改但時間有更改囉");
 							//時間有更改 , 該case總時數隨著更改
 							//計算舊的工時表總時數
 							float durationMinutes = endTimeMinutes - startTimeMinutes;
@@ -916,17 +977,17 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								caseInfoService.editCaseInfo(caseInfoReq);
 							}
 						}
-						if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+						if(caseInfoDao.getCaseInfoByModel(modelReq) == null) {
 							return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 						}
 						return new WorkHoursInfoResp("資料修改成功",true);
 					}
-					//-----------------------------------沒改caseNo--------------------------------------
+					//-----------------------------------沒改model--------------------------------------
 					
 					
-					//-----------------------------------有改caseNo--------------------------------------
-					if(caseNoHasBeenChange) {
-						System.out.println(workInfoIdReq + "進到案件號碼有更改囉");
+					//-----------------------------------有改model--------------------------------------
+					if(modelHasBeenChange) {
+						System.out.println(workInfoIdReq + "進到機型有更改囉");
 						//計算舊的工時表總時數
 						float durationMinutes = endTimeMinutes - startTimeMinutes;
 						float durationHours = durationMinutes / 60;
@@ -936,7 +997,7 @@ public class WorkHoursServiceImp implements WorkHoursService {
 						
 						//如果扣掉這張工時表的時數 , 案件表時數為0 , 就直接砍掉案件表 , 並新增案件表
 						CaseInfo originCaseInfo = null;
-						List<CaseInfo> originCaseInfoList = caseInfoDao.getCaseInfoByCaseNo(oldCaseNo);
+						List<CaseInfo> originCaseInfoList = caseInfoDao.getCaseInfoByModel(oldModel);
 						for(CaseInfo thisEmployeeIdoriginCaseInfo : originCaseInfoList) {
 							if(thisEmployeeIdoriginCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq));
 							originCaseInfo = thisEmployeeIdoriginCaseInfo;
@@ -963,28 +1024,59 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								}
 								return new WorkHoursInfoResp("資料修改成功",true);
 							}else{
-								//已有該caseNo存在就檢查有屬於無此員工的
-								System.out.println(workInfoIdReq + "進到有caseNo檢查員工囉");
+								//已有該model存在就檢查有屬於無此員工的
+								System.out.println(workInfoIdReq + "進到有model檢查員工囉");
 								boolean thisEmployeeHasThisCaseNoInfo = false;
+								boolean isThisCaseNo = false;
+								boolean hasThisCaseNo = false;
+								int index = 0;
+								int target = 0;
 								for(CaseInfo existsCaseInfoInEdit : existsCaseInfoList) {
-									if(existsCaseInfoInEdit.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
+									if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq) 
+											&& existsCaseInfo.getCaseNo().equals(caseNoReq)) {
 										
-										//如果有該員工此caseNo存在就用修改的
+										//如果有該員工此model存在且caseNo一樣就用修改的
 										thisEmployeeHasThisCaseNoInfo = true;
-										caseInfoReqInEdit.setCaseInfoId(existsCaseInfoInEdit.getCaseInfoId());									
-										caseInfoReqInEdit.setDate(existsCaseInfoInEdit.getDate());	//輸入日期較舊 , 日期維持
-										caseInfoReqInEdit.setCaseNo(caseNoReq);
-										caseInfoReqInEdit.setEmployeeId(employeeIdReq);
-										caseInfoReqInEdit.setModel(modelReq);
-										caseInfoReqInEdit.setDuration(existsCaseInfoInEdit.getDuration() + newDurationHours);	//時間疊加		
-										caseInfoService.editCaseInfo(caseInfoReqInEdit);
-										if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
-											return new WorkHoursInfoResp("CaseInfo新增失敗",false);
-										}
-										return new WorkHoursInfoResp("資料修改成功",true);
+										hasThisCaseNo = true;
+										target = index;
+										
+									}else if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)
+											&& !existsCaseInfo.getCaseNo().equals(caseNoReq)) {
+										thisEmployeeHasThisCaseNoInfo = true;
+										hasThisCaseNo = false;
+									}
+									if(isThisCaseNo == true) {
+										hasThisCaseNo = true;
+									}
+									index++;
+								}
+								
+								if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == true) {
+									caseInfoReq.setCaseInfoId(existsCaseInfoList.get(target).getCaseInfoId());
+									
+									caseInfoReqInEdit.setCaseNo(caseNoReq);
+									caseInfoReqInEdit.setCaseInfoId(existsCaseInfoList.get(target).getCaseInfoId());
+									caseInfoReqInEdit.setDate(existsCaseInfoList.get(target).getDate());	//輸入日期較舊 , 日期維持
+									caseInfoReqInEdit.setEmployeeId(employeeIdReq);
+									caseInfoReqInEdit.setModel(modelReq);
+									caseInfoReqInEdit.setDuration(existsCaseInfoList.get(target).getDuration() + newDurationHours);	//時間疊加
+									System.out.println(existsCaseInfoList.get(target).getDuration() +"舊時間加上新時間"+ newDurationHours);
+									caseInfoService.editCaseInfo(caseInfoReqInEdit);
+								}
+								if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == false) {
+									System.out.println("caseNo不同 , 直接存新的");
+									//caseNo不同的資料也直接存
+									caseInfoReq.setCaseNo(caseNoReq);
+									caseInfoReq.setDate(dateReq);
+									caseInfoReq.setEmployeeId(employeeIdReq);
+									caseInfoReq.setModel(modelReq);
+									caseInfoReq.setDuration(durationHours);
+									caseInfoService.setCaseInfo(caseInfoReq);
+									if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+										return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 									}
 								}
-								//有該caseNo存在但不是此員工的也直接存新的
+								//有該model存在但不是此員工的也直接存新的
 								if(thisEmployeeHasThisCaseNoInfo == false) {
 									caseInfoReqInEdit.setCaseNo(caseNoReq);
 									caseInfoReqInEdit.setDate(dateReq);
@@ -999,10 +1091,10 @@ public class WorkHoursServiceImp implements WorkHoursService {
 								}			
 							}
 						}else {
-							//新增caseInfo(先看沒有此員工該CaseNo的caseInfo存在決定新增或更新)
+							//新增caseInfo(先看沒有此員工該model的caseInfo存在決定新增或更新)
 							System.out.println(workInfoIdReq + "還有剩餘的工時表是舊caseInfo的");
 							CaseInfoReq caseInfoReqInEdit = new CaseInfoReq();
-							List<CaseInfo> existsCaseInfoListInEdit = caseInfoDao.getCaseInfoByCaseNo(caseNoReq);
+							List<CaseInfo> existsCaseInfoListInEdit = caseInfoDao.getCaseInfoByModel(modelReq);
 							if(existsCaseInfoListInEdit.size() == 0){
 								System.out.println(workInfoIdReq + "沒有新caseNo的案件資料存在");
 								//完全沒有此caseNo的資料存在就直接存
@@ -1016,28 +1108,61 @@ public class WorkHoursServiceImp implements WorkHoursService {
 									return new WorkHoursInfoResp("CaseInfo新增失敗",false);
 								}
 							}else{
-								//已有該caseNo存在就檢查有屬於無此員工的
-								System.out.println(workInfoIdReq + "有新caseNo的案件資料存在");
+								//已有該model存在就檢查有屬於無此員工的
+								System.out.println(workInfoIdReq + "進到有model檢查員工囉");
 								boolean thisEmployeeHasThisCaseNoInfo = false;
+								boolean isThisCaseNo = false;
+								boolean hasThisCaseNo = false;
+								int index = 0;
+								int target = 0;
 								for(CaseInfo existsCaseInfoInEdit : existsCaseInfoList) {
-									if(existsCaseInfoInEdit.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)) {
+									if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq) 
+											&& existsCaseInfo.getCaseNo().equals(caseNoReq)) {
 										
-										//如果有該員工此caseNo存在就用修改的
-										System.out.println(workInfoIdReq + "有新caseNo的案件且是該員工的資料存在");
-										System.out.println("新的caseNo為" + existsCaseInfoInEdit.getCaseNo());
+										//如果有該員工此model存在且caseNo一樣就用修改的
 										thisEmployeeHasThisCaseNoInfo = true;
-										caseInfoReqInEdit.setCaseNo(caseNoReq);
-										caseInfoReqInEdit.setCaseInfoId(existsCaseInfoInEdit.getCaseInfoId());
-										caseInfoReqInEdit.setDate(existsCaseInfoInEdit.getDate());	//輸入日期較舊 , 日期維持
-										caseInfoReqInEdit.setEmployeeId(employeeIdReq);
-										caseInfoReqInEdit.setModel(modelReq);
-										caseInfoReqInEdit.setDuration(existsCaseInfoInEdit.getDuration() + newDurationHours);	//時間疊加
-										System.out.println(existsCaseInfoInEdit.getDuration() +"舊時間加上新時間"+ newDurationHours);
-										caseInfoService.editCaseInfo(caseInfoReqInEdit);
+										hasThisCaseNo = true;
+										target = index;
 										
+									}else if(existsCaseInfo.getEmployeeInfo().getEmployeeId().equals(employeeIdReq)
+											&& !existsCaseInfo.getCaseNo().equals(caseNoReq)) {
+										thisEmployeeHasThisCaseNoInfo = true;
+										hasThisCaseNo = false;
+									}
+									if(isThisCaseNo == true) {
+										hasThisCaseNo = true;
+									}
+									index++;
+								}
+								
+								if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == true) {
+									caseInfoReq.setCaseInfoId(existsCaseInfoList.get(target).getCaseInfoId());
+									
+									caseInfoReqInEdit.setCaseNo(caseNoReq);
+									caseInfoReqInEdit.setCaseInfoId(existsCaseInfoList.get(target).getCaseInfoId());
+									caseInfoReqInEdit.setDate(existsCaseInfoList.get(target).getDate());	//輸入日期較舊 , 日期維持
+									caseInfoReqInEdit.setEmployeeId(employeeIdReq);
+									caseInfoReqInEdit.setModel(modelReq);
+									caseInfoReqInEdit.setDuration(existsCaseInfoList.get(target).getDuration() + newDurationHours);	//時間疊加
+									System.out.println(existsCaseInfoList.get(target).getDuration() +"舊時間加上新時間"+ newDurationHours);
+									caseInfoService.editCaseInfo(caseInfoReqInEdit);
+								}
+								if(thisEmployeeHasThisCaseNoInfo == true && hasThisCaseNo == false) {
+									System.out.println("caseNo不同 , 直接存新的");
+									//caseNo不同的資料也直接存
+									caseInfoReq.setCaseNo(caseNoReq);
+									caseInfoReq.setDate(dateReq);
+									caseInfoReq.setEmployeeId(employeeIdReq);
+									caseInfoReq.setModel(modelReq);
+									caseInfoReq.setDuration(durationHours);
+									caseInfoService.setCaseInfo(caseInfoReq);
+									if(caseInfoDao.getCaseInfoByCaseNo(caseNoReq) == null) {
+										return new WorkHoursInfoResp("CaseInfo新增失敗",false);
+									}else {
+										return new WorkHoursInfoResp("資料修改成功",true);
 									}
 								}
-								//有該caseNo存在但不是此員工的也直接存新的
+								//有該model存在但不是此員工的也直接存新的
 								if(thisEmployeeHasThisCaseNoInfo == false) {
 									System.out.println(workInfoIdReq + "有新caseNo的案件但不是該員工的資料存在");
 									caseInfoReqInEdit.setCaseNo(caseNoReq);
@@ -1058,11 +1183,11 @@ public class WorkHoursServiceImp implements WorkHoursService {
 							return new WorkHoursInfoResp("資料修改成功",true);
 						}	//判斷該工時表是否為caseInfo的初始表
 					}
-					//-----------------------------------有改caseNo--------------------------------------
+					//-----------------------------------有改model--------------------------------------
 					
 					
-				}	//此員工的此caseNo案件內
-			}	//此caseNo遍歷內
+				}	//此員工的此model案件內
+			}	//此model遍歷內
 		}	//有修改後的案件號碼在資料庫內,修改既有資訊 & 修改或刪除舊案件資訊
 		System.out.println("跑到最底囉");
 		return new WorkHoursInfoResp("資料修改成功",true);

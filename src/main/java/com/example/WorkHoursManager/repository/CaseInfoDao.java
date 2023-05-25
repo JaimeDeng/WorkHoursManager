@@ -14,6 +14,7 @@ import com.example.WorkHoursManager.entity.EmployeeInfo;
 public interface CaseInfoDao extends JpaRepository<CaseInfo, Integer> {
 	
 	 List<CaseInfo> getCaseInfoByCaseNo(String caseNo);
+	 List<CaseInfo> getCaseInfoByModel(String model);
 	 List<CaseInfo> getCaseInfoByEmployeeInfo(EmployeeInfo employeeInfo);
 	 
 }

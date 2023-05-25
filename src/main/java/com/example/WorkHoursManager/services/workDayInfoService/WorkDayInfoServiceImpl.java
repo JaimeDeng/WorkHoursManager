@@ -375,7 +375,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 	//每天固定時間寄送提醒email給尚未登錄今日工時表的員工
 	@Override
 	//從左到右分別代表秒、分、小時、日期、月份、星期幾(格式是英文星期簡寫) , *則是任意
-	@Scheduled(cron = "0 0 23 * * MON-FRI")
+	@Scheduled(cron = "0 40 14 * * MON-FRI")
 	public String sendNotifyMail() {
 		
 		//取得今天的所有日工時表
@@ -388,7 +388,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 			hasInfoEmployeeIdList.add(workDayInfo.getEmployeeInfo().getEmployeeId());
 		}
 		
-		//或取全部員工ID
+		//獲取全部員工ID
 		List<String>employeeIdList = new ArrayList<>();
 		List<EmployeeInfo>employeeInfoList = employeeInfoDao.findAll();
 		for(EmployeeInfo employeeInfo : employeeInfoList) {
@@ -404,7 +404,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 		}
 		
 		System.out.println(hasntInfoEmployeeIdList.toString());
-		String subject = currentDateStr + " 工時表尚未登錄提醒";
+		String subject = "【 WorkHoursManager - Reminder 】" + currentDateStr + " 工時表尚未登錄提醒";
 		for(String employeeId : hasntInfoEmployeeIdList) {
 			EmployeeInfo employeeInfo = employeeInfoDao.getEmployeeInfoByEmployeeId(employeeId);
 			String content = employeeInfo.getName() + " 同仁晚上好 , " + 
