@@ -257,12 +257,6 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 			return employeeInfoResp;
 		}
 		
-		//把員工的主管.工時資料(員工離職但工作資料保留)關聯清空,防止關聯同步而刪除主管的資料
-		employeeInfo.setSupervisor(null);
-		employeeInfo.setWorkDayInfo(null);
-		employeeInfo.setWorkHoursInfo(null);
-		//Account則會隨員工資料一併被刪除
-		
 		employeeInfoDao.delete(employeeInfo);
 		if(employeeInfoDao.getEmployeeInfoByEmployeeId(employeeInfoReq.getEmployeeId()) == null) {
 			employeeInfoResp.message = "員工資訊刪除成功";
