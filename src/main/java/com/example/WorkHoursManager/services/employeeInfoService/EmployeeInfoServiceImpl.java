@@ -105,6 +105,13 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		}
 		employeeInfo.setSupervisor(employeeInfoReq.getSupervisor());
 		
+		if(StringUtils.hasText(employeeInfoReq.getStatus())) {
+			employeeInfoResp.message = "在職狀態預設為在職 , 新增時不可更動";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setStatus("incumbent");
+		
 		employeeInfoDao.save(employeeInfo);
 		employeeInfoResp.message = "員工資訊新增成功";
 		employeeInfoResp.success = true;
@@ -147,6 +154,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 		employeeInfoResp.setPhone(employeeInfo.getPhone());
 		employeeInfoResp.setPosition(employeeInfo.getPosition());
 		employeeInfoResp.setSupervisor(employeeInfo.getSupervisor());
+		employeeInfoResp.setStatus(employeeInfo.getStatus());
 		employeeInfoResp.message = "資料獲取成功";
 		employeeInfoResp.success = true;
 		return employeeInfoResp;
@@ -217,6 +225,13 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 			return employeeInfoResp;
 		}
 		employeeInfo.setPosition(employeeInfoReq.getPosition());
+		
+		if(!StringUtils.hasText(employeeInfoReq.getStatus())) {
+			employeeInfoResp.message = "在職狀態不可空白";
+			employeeInfoResp.success = false;
+			return employeeInfoResp;
+		}
+		employeeInfo.setStatus(employeeInfoReq.getStatus());
 		
 		//有輸入主管ID才檢查
 		if(StringUtils.hasText(employeeInfoReq.getSupervisor())) {

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -25,6 +27,8 @@ import com.example.WorkHoursManager.vo.workDayInfoVo.WorkDayInfoResp;
 @Service
 @Qualifier("workDayInfoService")
 public class WorkDayInfoServiceImpl implements WorkDayInfoService {
+	
+	private Logger logger = LoggerFactory.getLogger(getClass());
 	
 	//-----------------------Constructor Injection---------------------------
 	private final EmployeeInfoDao employeeInfoDao;
@@ -162,6 +166,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 
 	@Override
 	public WorkDayInfoResp getAllWorkDayInfo() {
+		logger.info("get work day info");
 		WorkDayInfoResp workDayInfoResp = new WorkDayInfoResp();
 		List<WorkDayInfo>workDayInfoList = workDayInfoDao.findAll();
 		workDayInfoResp.setWorkDayInfoList(workDayInfoList);
@@ -375,7 +380,7 @@ public class WorkDayInfoServiceImpl implements WorkDayInfoService {
 	//每天固定時間寄送提醒email給尚未登錄今日工時表的員工
 	@Override
 	//從左到右分別代表秒、分、小時、日期、月份、星期幾(格式是英文星期簡寫) , *則是任意
-	@Scheduled(cron = "0 40 14 * * MON-FRI")
+	@Scheduled(cron = "0 23 12 * * MON-FRI")
 	public String sendNotifyMail() {
 		
 		//取得今天的所有日工時表

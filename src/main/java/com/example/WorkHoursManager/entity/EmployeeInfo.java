@@ -41,6 +41,9 @@ public class EmployeeInfo {
 	
 	@Column(name = "supervisor")
 	private String supervisor;
+	
+	@Column(name = "status")
+	private String status;
 
 //==============================================================
 	//WorkHoursInfo的mployee_id外鍵關聯
@@ -169,6 +172,14 @@ public class EmployeeInfo {
 
 	public void setSupervisor(String supervisor) {
 		this.supervisor = supervisor;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }
